@@ -21,6 +21,7 @@ placeBrickDynamic = function(width, height, depth, x, y, z, color, rotated = fal
     if (count < 1) {
         //console.log(`No base brick [${width}, 1, ${depth}] with color ${color} exists, creating...`);
         var newBaseBrick = new Brick("Brick" + width + "x" + depth + "_" + color, width, height, depth, new BABYLON.Vector3(10, -999, 0), color, scene);
+        newBaseBrick._mesh.position.y = -999;
         baseBrick = newBaseBrick;
         baseBricks.push(newBaseBrick);
     }
@@ -53,18 +54,42 @@ placeBrickDynamic = function(width, height, depth, x, y, z, color, rotated = fal
             console.log("ERROR: Invalid brick dimensions!");
         }
     }
-    // After normal rotations are done, it will not rotate again, so just do this now
+    // After normal rotations are done, it will never rotate again, so just do this now
     dupRef.setPivotPoint(dupRef.getBoundingInfo().boundingBox.centerWorld, BABYLON.Space.WORLD);
-    // Fix overlapping, not noticable
+    // Shrink slightly to fix adjacent mesh overlap
     dupRef.scaling = new BABYLON.Vector3(0.9999, 0.9999, 0.9999);
-    
     dupRef.computeWorldMatrix(true);
     dupRef.freezeWorldMatrix();
+
+    if (!canPlaceBrick(dupRef)) {
+        dupRef.active = false;
+        dupRef.enabled = false;
+        dupRef.dispose();
+        dupRef = null;
+        return null;
+    }
+    
+    baseBrick.duplicates.push(dupRef);
+
     return dupRef;
 }
 
 canPlaceBrick = function(brick) {
     // TODO: Placement checks
+    // First go through base blocks
+    for (let i = 0; i < baseBricks.length; i++) {
+        // Then their lists
+        if (!baseBricks[i].duplicates) {
+            break;
+        }
+        var dups = baseBricks[i].duplicates;
+        for (let j = 0; j < dups.length; j++) {
+            if (brick !== dups[j] && brick.intersectsMesh(dups[j], false)) {
+                console.log("Intersection! Cannot place brick.");
+                return false;
+            }
+        }
+    }
     return true;
 }
 

@@ -68,7 +68,7 @@ class Brick {
         brickInstance.checkCollisions = true;
         brickInstance.showBoundingBox = debug;
         brickInstance.material.freeze();
-        this.duplicates.push(brickInstance);
+        // this.duplicates.push(brickInstance);
         return brickInstance;
     }
 }

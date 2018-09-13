@@ -44,8 +44,6 @@
         brick1 = placeBrickDynamic(1,1,1, 1,0,0, COLORGREEN);
         brick2 = placeBrickDynamic(1,1,1, 1,1,0, COLORRED);
 
-        console.log("Intersects: " + brick1.intersectsMesh(brick2, true));
-
         console.log("Brick count: " + countAllBricks(baseBricks));
 
         var renderLoop = function() {
