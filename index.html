@@ -15,6 +15,7 @@
     <script src="./components/Constants.js"></script>
     <script src="./components/Player.js"></script>
     <script src="./components/Brick.js"></script>
+    <script src="./components/BrickPlace.js"></script>
     <script src="./components/Debug.js"></script>
     <canvas id="render-canvas"></canvas>
     <script>
@@ -32,6 +33,41 @@
         
         // debugDrawGrid();
 
+        // Make bricks for GPU copying
+        var brick1x1red = new Brick("Brick1", 1, 1, 1, new BABYLON.Vector3(0,1,0), COLORRED, scene);
+        var brick1x1green = new Brick("Brick1", 1, 1, 1, new BABYLON.Vector3(0,1,0), COLORGREEN, scene);
+        var brick1x1blue = new Brick("Brick1", 1, 1, 1, new BABYLON.Vector3(0,1,0), COLORBLUE, scene);
+        var brick1x1default = new Brick("Brick1", 1, 1, 1, new BABYLON.Vector3(0,1,0), COLORDEFAULT, scene);
+
+        function canPlaceBrick(brick) {
+            return true;
+        }
+        function placeBrick(width, height, depth, x, y, z, color) {
+            var newBrick; // A Mesh
+            color = color.trim().toLowerCase();
+            if(width == 1 && height == 1 && depth == 1) {
+                if(color === "red") {
+                    newBrick = brick1x1red.makeDuplicate(new BABYLON.Vector3(x, y, z));
+                }
+                else if (color === "green") {
+                    newBrick = newBrick = brick1x1green.makeDuplicate(new BABYLON.Vector3(x, y, z));
+                }
+                else if (color === "blue") {
+                    newBrick = newBrick = brick1x1blue.makeDuplicate(new BABYLON.Vector3(x, y, z));
+                }
+                else {
+                    newBrick = brick1x1default.makeDuplicate(new BABYLON.Vector3(x, y, z));
+                }
+            }
+            else {
+                console.log("Invalid brick specified!");
+                return;
+            }
+            if(!canPlaceBrick()) {
+                return;
+            }
+        }
+
         var ground = BABYLON.MeshBuilder.CreateGround("Ground", {height: FLOOR_WIDTH, width: FLOOR_WIDTH, subdivision: FLOOR_WIDTH / 2}, scene);
             ground.checkCollisions = true;
             ground.position = new BABYLON.Vector3(0, 0, 0);
@@ -40,22 +76,7 @@
         var player1 = new Player("Player1", {}, scene);
             player1.root.position = new BABYLON.Vector3(0, 15, -20);
         
-        var x = 0;
-        var brick1x1 = new Brick("Brick1", 1, 1, 1, new BABYLON.Vector3(0,1,0), COLORDEFAULT, scene);
-
-        function placeBrick(width, height, depth, x, y, z, color) {
-            var newBrick; // A Mesh
-            if(width == 1, height == 1, depth == 1) {
-                newBrick = brick1x1.makeDuplicate();
-            }
-            if(!canPlaceBrick()) {
-                return;
-            }
-        }
-        function canPlaceBrick(brick) {
-            return true;
-        }
-        brick1x1.makeDuplicate(new BABYLON.Vector3(1,1,0));
+        placeBrick(1,1,1, 1,1,0, "red");
 
         var renderLoop = function() {
             scene.render();
