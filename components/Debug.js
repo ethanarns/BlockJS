@@ -8,22 +8,21 @@ function drawGrid() {
         console.log("Debug grid already rendered.");
         return;
     }
-    console.log("Drawing grid...");
     // Main 3 colored lines
     const MAINLENGTH = FLOOR_WIDTH/2;
 
     var xLinePts = [new BABYLON.Vector3(0, 0, 0), new BABYLON.Vector3(MAINLENGTH, 0, 0)];
-    var xColors = [COLORRED4, COLORRED4];
+    var xColors = [COLOR_RED4, COLOR_RED4];
     var xLine = BABYLON.MeshBuilder.CreateLines("xLine", {points: xLinePts, colors: xColors}, scene);
     xLine.isPickable = false;
 
     var yLinePts = [new BABYLON.Vector3(0, 0, 0), new BABYLON.Vector3(0, MAINLENGTH, 0)];
-    var yColors = [COLORGREEN4, COLORGREEN4];
+    var yColors = [COLOR_GREEN4, COLOR_GREEN4];
     var yLine = BABYLON.MeshBuilder.CreateLines("yLine", {points: yLinePts, colors: yColors}, scene);
     yLine.isPickable = false;
 
     var zLinePts = [new BABYLON.Vector3(0, 0, 0), new BABYLON.Vector3(0, 0, MAINLENGTH)];
-    var zColors = [COLORBLUE4, COLORBLUE4];
+    var zColors = [COLOR_BLUE4, COLOR_BLUE4];
     var zLine = BABYLON.MeshBuilder.CreateLines("zLine", {points: zLinePts, colors: zColors}, scene);
     zLine.isPickable = false;
     

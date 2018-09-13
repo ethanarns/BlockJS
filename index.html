@@ -23,17 +23,15 @@
         var canvas = document.getElementById("render-canvas");
         var engine = new BABYLON.Engine(canvas);
         var scene = Utils.generateScene(engine);
-        
         var light = new BABYLON.PointLight("light", new BABYLON.Vector3(10, 10, 0), scene);
-        
         var ground = Utils.generateGround();
 
         var player1 = new Player("Player1", {}, scene);
-        player1.moveTo(0, 15, -20);
+            player1.moveTo(0, 15, -20);
 
-        brick1 = placeBrickDynamic(1,1,1, 1,0,0, COLORGREEN);
-        brick2 = placeBrickDynamic(1,1,1, 1,1,0, COLORRED);
-        brick2 = placeBrickDynamic(1,1,1, 1,2,0, COLORRED);
+        brick1 = placeBrickDynamic(1,1,1, 1,0,0, COLOR_GREEN);
+        brick2 = placeBrickDynamic(1,1,1, 1,1,0, COLOR_RED);
+        brick2 = placeBrickDynamic(1,1,1, 1,2,0, COLOR_RED);
 
         console.log("Brick count: " + countAllBricks(baseBricks));
 

@@ -10,7 +10,7 @@ class Utils {
 
     static generateScene(engine) {
         var scene = new BABYLON.Scene(engine);
-        scene.clearColor = BGCLEARCOLOR;
+        scene.clearColor = COLOR_BGCLEAR;
         scene.gravity = GRAVITY;
         scene.collisionsEnabled = false;
         lastId = 0;
