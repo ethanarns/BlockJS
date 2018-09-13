@@ -1,6 +1,7 @@
 var placeBrick;
 var canPlaceBrick;
 var countAllBricks;
+var makeBrickDynamic;
 var baseBricks = [];
 
 function initBricks() {
@@ -27,12 +28,52 @@ function initBricks() {
     var brick2x2red = new Brick("Brick2x2_red", 2, 1, 2, new BABYLON.Vector3(10, -999, 0), COLORRED, scene);
     var brick2x2green = new Brick("Brick2x2_green", 2, 1, 2, new BABYLON.Vector3(10, -998, 0), COLORGREEN, scene);
     var brick2x2blue = new Brick("Brick2x2_blue", 2, 1, 2, new BABYLON.Vector3(10, -997, 0), COLORBLUE, scene);
-    var brick2x2default = new Brick("Brick2x2_default", 2, 1, 2, new BABYLON.Vector3(10, -996, 0), COLORDEFAULT, scene);
+    //var brick2x2default = new Brick("Brick2x2_default", 2, 1, 2, new BABYLON.Vector3(10, -996, 0), COLORDEFAULT, scene);
     baseBricks.push(brick2x2red);
     baseBricks.push(brick2x2green);
     baseBricks.push(brick2x2blue);
-    baseBricks.push(brick2x2default);
-    // input x and z equalling 2,
+    //baseBricks.push(brick2x2default);
+
+    placeBrickDynamic = function(width, height, depth, x, y, z, color, rotated = false) {
+        // color input must be a COLOR constant
+        var color = color;
+        let count = 0;
+        var baseBrick = null;
+        for(let i = 0; i < baseBricks.length; i++) {
+            bm = baseBricks[i].getMesh();
+            if(bm.name.indexOf("" + width + "x" + depth) != -1 &&
+            bm.material.emissiveColor == color) {
+                console.log(bm.name);
+                baseBrick = baseBricks[i];
+                count++;
+            }
+        }
+        // Should only be one, issue if more
+        if (count < 1) {
+            console.log("No base brick with this definition exists, creating...");
+            var newBaseBrick = new Brick("Brick2x2_default", 2, 1, 2, new BABYLON.Vector3(10, -999, 0), color, scene);
+            baseBrick = newBaseBrick;
+            baseBricks.push(newBaseBrick);
+        }
+        else if (count >= 2) {
+            console.log("Something is wrong, should not be " + count + " instances of a base mesh...");
+        }
+        else {
+            console.log("Base brick already exists!");
+        }
+        // Is a square
+        if (width === depth) {
+            if (width === 1) {
+                baseBrick.makeDuplicate(new BABYLON.Vector3(x, y, z));
+            }
+            else if (width === 2) {
+                
+            }
+        }
+        else {
+
+        }
+    }
 
     canPlaceBrick = function(brick) {
         // TODO: Placement checks

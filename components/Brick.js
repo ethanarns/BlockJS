@@ -20,6 +20,9 @@ class Brick {
     getName() {
         return this._mesh.name;
     }
+    getMesh() {
+        return this._mesh;
+    }
     setX(xVal) {
         xVal += this._mesh.scaling.x / 2;
         this._mesh.position.x = xVal;
