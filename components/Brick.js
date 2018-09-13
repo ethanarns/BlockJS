@@ -66,7 +66,7 @@ class Brick {
         brickInstance.isVisible = true;
         brickInstance.isPickable = true;
         brickInstance.checkCollisions = true;
-        brickInstance.showBoundingBox = true;
+        brickInstance.showBoundingBox = debug;
         brickInstance.material.freeze();
         this.duplicates.push(brickInstance);
         return brickInstance;

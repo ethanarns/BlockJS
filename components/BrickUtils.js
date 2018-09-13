@@ -54,7 +54,12 @@ placeBrickDynamic = function(width, height, depth, x, y, z, color, rotated = fal
         }
     }
     // After normal rotations are done, it will not rotate again, so just do this now
-    centerPivot(dupRef);
+    dupRef.setPivotPoint(dupRef.getBoundingInfo().boundingBox.centerWorld, BABYLON.Space.WORLD);
+    // Fix overlapping, not noticable
+    dupRef.scaling = new BABYLON.Vector3(0.9999, 0.9999, 0.9999);
+    
+    dupRef.computeWorldMatrix(true);
+    dupRef.freezeWorldMatrix();
     return dupRef;
 }
 
@@ -71,9 +76,4 @@ countAllBricks = function(baseList) {
         }
     }
     return count;
-}
-
-function centerPivot(mesh) {
-    var centerPointWorld = mesh.getBoundingInfo().boundingBox.centerWorld;
-    mesh.setPivotPoint(centerPointWorld, BABYLON.Space.WORLD);
 }
