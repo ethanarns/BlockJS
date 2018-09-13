@@ -1,6 +1,10 @@
-var gridDrawn = false;
+var debug = false;
+function activateDebug() {
+    drawGrid();
+    debug = true;
+}
 function drawGrid() {
-    if (gridDrawn) {
+    if (debug) {
         console.log("Debug grid already rendered.");
         return;
     }
@@ -50,5 +54,5 @@ function drawGrid() {
             line.isPickable = false;
         }
     }
-    gridDrawn = true;
+    debug = true;
 }
