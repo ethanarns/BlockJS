@@ -93,7 +93,8 @@ canPlaceBrick = function(brick) {
     return true;
 }
 
-countAllBricks = function(baseList) {
+countAllBricks = function() {
+    var baseList = baseBricks;
     var count = 0;
     for (let i = 0; i < baseList.length; i++) {
         if(baseList[i].duplicates) {
