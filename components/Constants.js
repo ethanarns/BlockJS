@@ -6,6 +6,7 @@ const COLORRED4 = new BABYLON.Color4(1,0,0,1);
 const COLORBLUE = new BABYLON.Color3(0,0,1);
 const COLORGREEN = new BABYLON.Color3(0,1,0);
 const COLORRED = new BABYLON.Color3(1,0,0);
+const EMISSDARKERBY = 3;
 
 // Physics/movement
 const GRAVITY = new BABYLON.Vector3(0, -9.8, 0);

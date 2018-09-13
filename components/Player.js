@@ -23,13 +23,14 @@ class Player {
             }
         }
         this.root = BABYLON.MeshBuilder.CreateSphere("PlayerRoot", {height: this.height, width:this.width, depth:this.width}, this.scene);
+        this.root.isVisible = false;
         this.root.checkCollisions = true;
         this.root.applyGravity = false;
         this.root.isPickable = false;
         this.root.ellipsoid = new BABYLON.Vector3(this.width, this.height, this.width);
         this.root.alwaysSelectAsActiveMesh = true;
 
-        this.camera = new BABYLON.UniversalCamera("PlayerCamera", new BABYLON.Vector3(0, this.height - 1.0, 0), this.scene);
+        this.camera = new BABYLON.UniversalCamera("PlayerCamera", new BABYLON.Vector3(0, 0, 0), this.scene);
         this.camera.checkCollisions = false;
         this.camera.applyGravity = false;
         this.camera.isPickable = false;
