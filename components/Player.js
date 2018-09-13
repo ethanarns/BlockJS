@@ -239,4 +239,8 @@ class Player {
         return !hit.hit;
         //return !this.root.collider.collisionFound;
     }
+
+    moveTo(x, y, z) {
+        this.root.position = new BABYLON.Vector3(x, y, z)
+    }
 }

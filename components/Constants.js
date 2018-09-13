@@ -1,11 +1,11 @@
-// Colors
+// Colors/materials
 const COLORDEFAULT = new BABYLON.Vector3(0, 0.58, 0.86);
-const COLORBLUE4 = new BABYLON.Color4(0,0,1,1);
-const COLORGREEN4 = new BABYLON.Color4(0,1,0,1);
-const COLORRED4 = new BABYLON.Color4(1,0,0,1);
-const COLORBLUE = new BABYLON.Color3(0,0,1);
-const COLORGREEN = new BABYLON.Color3(0,1,0);
 const COLORRED = new BABYLON.Color3(1,0,0);
+const COLORRED4 = new BABYLON.Color4(1,0,0,1);
+const COLORGREEN = new BABYLON.Color3(0,1,0);
+const COLORGREEN4 = new BABYLON.Color4(0,1,0,1);
+const COLORBLUE = new BABYLON.Color3(0,0,1);
+const COLORBLUE4 = new BABYLON.Color4(0,0,1,1);
 const EMISSDARKERBY = 3;
 
 // Physics/movement
@@ -18,4 +18,7 @@ const DEFAULT_PLAYERVELOCITY = 0.1;
 const DEFAULT_PLAYERMAXVELOCITY = 1.5;
 const DEFAULT_PLAYERJUMPSTRENGTH = 0.5;
 const DEFAULT_INERTIA = 0.5;
+
+// Other
 const FLOOR_WIDTH = 100;
+const MAX_BRICKS = 5000;

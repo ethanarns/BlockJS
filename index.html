@@ -39,7 +39,8 @@
             ground.isPickable = true;
 
         var player1 = new Player("Player1", {}, scene);
-            player1.root.position = new BABYLON.Vector3(0, 15, -20);
+        player1.moveTo(0, 15, -20);
+        //player1.root.position = new BABYLON.Vector3(0, 15, -20);
 
         brick1 = placeBrickDynamic(1,1,1, 1,0,0, COLORGREEN);
         brick2 = placeBrickDynamic(1,1,1, 1,1,0, COLORRED);
