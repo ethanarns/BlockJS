@@ -5,16 +5,14 @@ var makeBrickDynamic;
 var baseBricks = [];
 
 function initBricks() {
-    // Store these in memory for quickly duplicating to GPU. Don't render by default.
-    // Making a new one for each duplicate would make it moot, plus colors can't be changed on GPU copies
-    var brick1x1red = new Brick("Brick1x1_red", 1, 1, 1, new BABYLON.Vector3(0,-999,0), COLORRED, scene);
+    /*var brick1x1red = new Brick("Brick1x1_red", 1, 1, 1, new BABYLON.Vector3(0,-999,0), COLORRED, scene);
     var brick1x1green = new Brick("Brick1x1_green", 1, 1, 1, new BABYLON.Vector3(0,-998,0), COLORGREEN, scene);
     var brick1x1blue = new Brick("Brick1x1_blue", 1, 1, 1, new BABYLON.Vector3(0,-997,0), COLORBLUE, scene);
     var brick1x1default = new Brick("Brick1x1_default", 1, 1, 1, new BABYLON.Vector3(0,-996,0), COLORDEFAULT, scene);
     baseBricks.push(brick1x1red);
     baseBricks.push(brick1x1green);
     baseBricks.push(brick1x1blue);
-    baseBricks.push(brick1x1default);
+    baseBricks.push(brick1x1default);*/
 
     var brick1x2red = new Brick("Brick1x2_red", 1, 1, 2, new BABYLON.Vector3(10, -999, 0), COLORRED, scene);
     var brick1x2green = new Brick("Brick1x2_green", 1, 1, 2, new BABYLON.Vector3(10, -998, 0), COLORGREEN, scene);
@@ -35,6 +33,7 @@ function initBricks() {
     //baseBricks.push(brick2x2default);
 
     placeBrickDynamic = function(width, height, depth, x, y, z, color, rotated = false) {
+        console.log("Width: " + width + ", depth: " + depth);
         //console.log(color);
         // color input must be a COLOR constant
         let count = 0;
@@ -51,7 +50,7 @@ function initBricks() {
         // Should only be one, issue if more
         if (count < 1) {
             console.log("No base brick with this definition exists, creating...");
-            var newBaseBrick = new Brick("Brick2x2_" + color, 2, 1, 2, new BABYLON.Vector3(10, -999, 0), color, scene);
+            var newBaseBrick = new Brick("Brick2x2_" + color, width, height, depth, new BABYLON.Vector3(10, -999, 0), color, scene);
             baseBrick = newBaseBrick;
             baseBricks.push(newBaseBrick);
         }
@@ -69,9 +68,19 @@ function initBricks() {
             else if (width === 2) {
                 baseBrick.makeDuplicate(new BABYLON.Vector3(x, y, z), 0.5, 0.5);
             }
+            else {
+                console.log("ERROR: Invalid brick dimensions!");
+            }
         }
         else {
-
+            if(width == 1 && depth === 2) {
+                baseBrick.setRotation(rotated ? 90 * Math.PI / 180 : 0).
+                    makeDuplicate(new BABYLON.Vector3(x, y, z), 0,
+                    rotated ? 1.5 : 0.5);
+            }
+            else {
+                console.log("ERROR: Invalid brick dimensions!");
+            }
         }
     }
 
