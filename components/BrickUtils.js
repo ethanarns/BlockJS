@@ -49,16 +49,23 @@ function initBricks() {
         else if (width == 1 && height == 1 && depth == 2) {
             if(color === "red") {
                 newBrick = brick1x2red.setRotation(rotated ? 90 * Math.PI / 180 : 0).
-                    makeDuplicate(new BABYLON.Vector3(x, y, z), 0.5);
+                    makeDuplicate(new BABYLON.Vector3(x, y, z),
+                    rotated ? 1.5 : 0.5);
             }
             else if (color === "green") {
-                newBrick = brick1x2green.makeDuplicate(new BABYLON.Vector3(x, y, z));
+                newBrick = brick1x2green.setRotation(rotated ? 90 * Math.PI / 180 : 0).
+                    makeDuplicate(new BABYLON.Vector3(x, y, z),
+                    rotated ? 1.5 : 0.5);
             }
             else if (color === "blue") {
-                newBrick = brick1x2blue.makeDuplicate(new BABYLON.Vector3(x, y, z));
+                newBrick = brick1x2blue.setRotation(rotated ? 90 * Math.PI / 180 : 0).
+                    makeDuplicate(new BABYLON.Vector3(x, y, z),
+                    rotated ? 1.5 : 0.5);
             }
             else {
-                newBrick = brick1x2default.makeDuplicate(new BABYLON.Vector3(x, y, z));
+                newBrick = brick1x2default.setRotation(rotated ? 90 * Math.PI / 180 : 0).
+                    makeDuplicate(new BABYLON.Vector3(x, y, z),
+                    rotated ? 1.5 : 0.5);
             }
         }
         else {
