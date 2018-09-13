@@ -1,4 +1,5 @@
 var lastId;
+//var jumpSound;
 class Utils {
     static generateGround() {
         let ground = BABYLON.MeshBuilder.CreateGround("Ground", {height: FLOOR_WIDTH, width: FLOOR_WIDTH, subdivision: FLOOR_WIDTH / 2}, scene);
@@ -14,6 +15,7 @@ class Utils {
         scene.gravity = GRAVITY;
         scene.collisionsEnabled = false;
         lastId = 0;
+        
         return scene; // Return reference to it
     }
 }

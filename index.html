@@ -13,6 +13,7 @@
     <!-- Version 3.2.0 -->
     <script src="./babylon.js"></script>
     <script src="./components/Constants.js"></script>
+    <script src="./components/Audio.js"></script>
     <script src="./components/Player.js"></script>
     <script src="./components/Brick.js"></script>
     <script src="./components/BrickUtils.js"></script>
@@ -41,6 +42,8 @@
         }
         engine.runRenderLoop(renderLoop);
         activateDebug();
+
+        var jumpSound = new BABYLON.Sound("gunshot", "./jump.wav", scene);
     </script>
 </body>
 </html>

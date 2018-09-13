@@ -61,6 +61,7 @@ class Player {
                 if (player1.jumpPressed) {
                     //console.log("Jump pressed!");
                     player1.vertVel = -player1.jumpStrength;
+                    jumpSound.play();
                 }
             }
         }, 100);
