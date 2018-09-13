@@ -33,8 +33,6 @@
         
         // drawGrid(); Can just do it in console during runtime
 
-        initBricks();
-
         var ground = BABYLON.MeshBuilder.CreateGround("Ground", {height: FLOOR_WIDTH, width: FLOOR_WIDTH, subdivision: FLOOR_WIDTH / 2}, scene);
             ground.checkCollisions = true;
             ground.position = new BABYLON.Vector3(0, 0, 0);
@@ -42,26 +40,16 @@
 
         var player1 = new Player("Player1", {}, scene);
             player1.root.position = new BABYLON.Vector3(0, 15, -20);
-        
-        /*placeBrick(1,1,1, 0,0,0, "red");
-        placeBrick(1,1,1, 1,0,0, "green");
-        placeBrick(1,1,1, 2,0,0, "blue");
-        placeBrick(1,1,1, 3,0,0, "mistyped a color!");
 
-        placeBrick(1,1,2, 4,0,4, "green");
-        placeBrick(1,1,2, 5,0,5, "red", true);
-        placeBrick(1,1,2, 0,1,0, "blue", true);
-        placeBrick(1,1,2, 0,2,0, "green");
-
-        placeBrick(2,1,2, 0,3,0, "red");*/
-        //placeBrickDynamic(2,1,2, 0,0,0, COLORGREEN);
-        //placeBrickDynamic(2,1,2, 0,1,0, COLORRED);
-        //placeBrickDynamic(2,1,2, 0,2,1, COLORBLUE);
-        //drawGrid();
+        placeBrickDynamic(2,1,2, 0,0,0, COLORGREEN);
+        placeBrickDynamic(2,1,2, 0,1,0, COLORRED);
+        placeBrickDynamic(2,1,2, 0,2,1, COLORBLUE);
         placeBrickDynamic(1,1,1, 1,0,-1, COLORRED);
-        //placeBrickDynamic(1,1,1, 1,0,-2, COLORBLUE);
+        placeBrickDynamic(1,1,1, 1,0,-2, COLORBLUE);
         placeBrickDynamic(1,1,1, 1,0,-3, COLORRED);
         placeBrickDynamic(1,1,1, 1,1,-1, COLORRED);
+        placeBrickDynamic(1,1,2, 0,3,0, COLORGREEN);
+        placeBrickDynamic(1,1,2, 1,3,0, COLORRED, true);
 
         console.log("Brick count: " + countAllBricks(baseBricks));
 

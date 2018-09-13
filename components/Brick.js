@@ -1,7 +1,11 @@
 class Brick {
     constructor (name, x, y, z, locVec, color, scene) {
+        var darkerBy = 3;
         var material = new BABYLON.StandardMaterial(name + " Material", scene);
-            material.emissiveColor = color;
+            material.emissiveColor = new BABYLON.Color3(
+                color.r / darkerBy, color.g / darkerBy, color.b / darkerBy
+            );
+            material.diffuseColor = color;
         this._mesh = BABYLON.MeshBuilder.CreateBox(name, {width: x, height:y, depth:z}, scene);
         locVec.x += x / 2;
         locVec.y += y / 2;
