@@ -32,6 +32,7 @@ function initBricks() {
     baseBricks.push(brick2x2green);
     baseBricks.push(brick2x2blue);
     baseBricks.push(brick2x2default);
+    // input x and z equalling 2,
 
     canPlaceBrick = function(brick) {
         // TODO: Placement checks

@@ -1,8 +1,10 @@
 var gridDrawn = false;
 function drawGrid() {
     if (gridDrawn) {
+        console.log("Debug grid already rendered.");
         return;
     }
+    console.log("Drawing grid...");
     // Main 3 colored lines
     const MAINLENGTH = FLOOR_WIDTH/2;
 

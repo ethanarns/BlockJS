@@ -1,5 +1,5 @@
 class Brick {
-    constructor (name, x, y, z, locVec, color, scene, rotated = false) {
+    constructor (name, x, y, z, locVec, color, scene) {
         var material = new BABYLON.StandardMaterial(name + " Material", scene);
             material.emissiveColor = color;
         this._mesh = BABYLON.MeshBuilder.CreateBox(name, {width: x, height:y, depth:z}, scene);
@@ -7,9 +7,6 @@ class Brick {
         locVec.y += y / 2;
         locVec.z += z / 2;
         this._mesh.setPivotMatrix(BABYLON.Matrix.Translation(x/2, y/2, z/2));
-        if (rotated) {
-            this._mesh.rotation.y = 90 * Math.PI / 180;
-        }
         this._mesh.position = locVec;
         this._mesh.material = material;
         this._mesh.material.freeze();
