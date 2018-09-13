@@ -16,6 +16,7 @@
     <script src="./components/Player.js"></script>
     <script src="./components/Brick.js"></script>
     <script src="./components/BrickUtils.js"></script>
+    <script src="./components/Utils.js"></script>
     <script src="./components/Debug.js"></script>
     <canvas id="render-canvas"></canvas>
     <script>
@@ -24,23 +25,14 @@
 
         var canvas = document.getElementById("render-canvas");
         var engine = new BABYLON.Engine(canvas);
-        var scene = new BABYLON.Scene(engine);
-            scene.clearColor = new BABYLON.Color3(0.8, 0.8, 0.8);
-            scene.gravity = GRAVITY;
-            scene.collisionsEnabled = false;
+        var scene = Utils.generateScene();
         
         var light = new BABYLON.PointLight("light", new BABYLON.Vector3(10, 10, 0), scene);
         
-        // drawGrid(); Can just do it in console during runtime
-
-        var ground = BABYLON.MeshBuilder.CreateGround("Ground", {height: FLOOR_WIDTH, width: FLOOR_WIDTH, subdivision: FLOOR_WIDTH / 2}, scene);
-            ground.checkCollisions = true;
-            ground.position = new BABYLON.Vector3(0, 0, 0);
-            ground.isPickable = true;
+        var ground = Utils.generateGround();
 
         var player1 = new Player("Player1", {}, scene);
         player1.moveTo(0, 15, -20);
-        //player1.root.position = new BABYLON.Vector3(0, 15, -20);
 
         brick1 = placeBrickDynamic(1,1,1, 1,0,0, COLORGREEN);
         brick2 = placeBrickDynamic(1,1,1, 1,1,0, COLORRED);

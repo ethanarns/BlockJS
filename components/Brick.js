@@ -16,7 +16,7 @@ class Brick {
         this._mesh.isPickable = false;
         this._mesh.checkCollisions = false;
         //this._mesh.freezeWorldMatrix();
-        this.id = ++lastId;
+        this.id = ++lastId; // Increment THEN return
         this.duplicates = [];
         this._mesh.isVisible = false; // Since this will be a reference for the GPU bricks
     }
