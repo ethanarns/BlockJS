@@ -41,15 +41,15 @@
         var player1 = new Player("Player1", {}, scene);
             player1.root.position = new BABYLON.Vector3(0, 15, -20);
 
-        placeBrickDynamic(2,1,2, 0,0,0, COLORGREEN);
-        placeBrickDynamic(2,1,2, 0,1,0, COLORRED);
-        placeBrickDynamic(2,1,2, 0,2,1, COLORBLUE);
-        placeBrickDynamic(1,1,1, 1,0,-1, COLORRED);
-        placeBrickDynamic(1,1,1, 1,0,-2, COLORBLUE);
-        placeBrickDynamic(1,1,1, 1,0,-3, COLORRED);
-        placeBrickDynamic(1,1,1, 1,1,-1, COLORRED);
-        placeBrickDynamic(1,1,2, 0,3,0, COLORGREEN);
-        placeBrickDynamic(1,1,2, 1,3,0, COLORRED, true);
+        brick1 = placeBrickDynamic(1,1,1, 1,0,0, COLORGREEN);
+        brick2 = placeBrickDynamic(1,1,1, 1,1,0, COLORRED);
+        brick1.scaling = new BABYLON.Vector3(0.5, 0.5, 0.5);
+        // Force recompute matrix
+        brick1.computeWorldMatrix(true);
+        brick2.computeWorldMatrix(true)
+        console.log(brick1.intersectsMesh(brick2, true));
+        console.log(brick1);
+        console.log(getCenter(brick1));
 
         console.log("Brick count: " + countAllBricks(baseBricks));
 
@@ -58,6 +58,7 @@
             player1.movement();
         }
         engine.runRenderLoop(renderLoop);
+        activateDebug();
     </script>
 </body>
 </html>

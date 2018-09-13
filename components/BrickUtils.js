@@ -8,6 +8,7 @@ placeBrickDynamic = function(width, height, depth, x, y, z, color, rotated = fal
     // color input must be a COLOR constant
     let count = 0;
     var baseBrick = null;
+    var dupRef = null;
     for(let i = 0; i < baseBricks.length; i++) {
         bm = baseBricks[i].getMesh();
         if(bm.name.indexOf("" + width + "x" + depth) != -1 &&
@@ -18,13 +19,14 @@ placeBrickDynamic = function(width, height, depth, x, y, z, color, rotated = fal
     }
     // Should only be one, issue if more
     if (count < 1) {
-        console.log(`No base brick [${width}, 1, ${depth}] with color ${color} exists, creating...`);
+        //console.log(`No base brick [${width}, 1, ${depth}] with color ${color} exists, creating...`);
         var newBaseBrick = new Brick("Brick" + width + "x" + depth + "_" + color, width, height, depth, new BABYLON.Vector3(10, -999, 0), color, scene);
         baseBrick = newBaseBrick;
         baseBricks.push(newBaseBrick);
     }
     else if (count >= 2) {
         console.log("Something is wrong, should not be " + count + " instances of a base mesh...");
+        return null;
     }
     else {
         // console.log("Base brick already exists!");
@@ -32,10 +34,10 @@ placeBrickDynamic = function(width, height, depth, x, y, z, color, rotated = fal
     // Is a square
     if (width === depth) {
         if (width === 1) {
-            baseBrick.makeDuplicate(new BABYLON.Vector3(x, y, z));
+            dupRef = baseBrick.makeDuplicate(new BABYLON.Vector3(x, y, z));
         }
         else if (width === 2) {
-            baseBrick.makeDuplicate(new BABYLON.Vector3(x, y, z), 0.5, 0.5);
+            dupRef = baseBrick.makeDuplicate(new BABYLON.Vector3(x, y, z), 0.5, 0.5);
         }
         else {
             console.log("ERROR: Invalid brick dimensions!");
@@ -43,7 +45,7 @@ placeBrickDynamic = function(width, height, depth, x, y, z, color, rotated = fal
     }
     else {
         if(width == 1 && depth === 2) {
-            baseBrick.setRotation(rotated ? 90 * Math.PI / 180 : 0).
+            dupRef = baseBrick.setRotation(rotated ? 90 * Math.PI / 180 : 0).
                 makeDuplicate(new BABYLON.Vector3(x, y, z), 0,
                 rotated ? 1.5 : 0.5);
         }
@@ -51,6 +53,8 @@ placeBrickDynamic = function(width, height, depth, x, y, z, color, rotated = fal
             console.log("ERROR: Invalid brick dimensions!");
         }
     }
+    // console.log(dupRef);
+    return dupRef;
 }
 
 canPlaceBrick = function(brick) {
@@ -66,4 +70,8 @@ countAllBricks = function(baseList) {
         }
     }
     return count;
+}
+
+function getMeshCenterWorld(mesh) {
+    return mesh.getBoundingInfo().boundingBox.centerWorld;
 }
