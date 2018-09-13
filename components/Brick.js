@@ -1,5 +1,5 @@
 class Brick {
-    constructor (name, x, y, z, locVec, color, scene) {
+    constructor (name, x, y, z, locVec, color, scene, rotated = false) {
         var material = new BABYLON.StandardMaterial(name + " Material", scene);
             material.emissiveColor = color;
         this._mesh = BABYLON.MeshBuilder.CreateBox(name, {width: x, height:y, depth:z}, scene);
@@ -7,6 +7,9 @@ class Brick {
         locVec.y += y / 2;
         locVec.z += z / 2;
         this._mesh.setPivotMatrix(BABYLON.Matrix.Translation(x/2, y/2, z/2));
+        if (rotated) {
+            this._mesh.rotation.y = 90 * Math.PI / 180;
+        }
         this._mesh.position = locVec;
         this._mesh.material = material;
         this._mesh.material.freeze();
@@ -35,21 +38,27 @@ class Brick {
     getPosition() {
         return this._mesh.position;
     }
-    setRotation(rVal) {
+    setRotation(rVal, slide = 0) {
+        this._mesh.unfreezeWorldMatrix();
         this._mesh.rotation.y = rVal;
+        if (slide !== 0) {
+            console.log("Sliding " + slide);
+            this._mesh.position.y -= slide;
+        }
+        this._mesh.freezeWorldMatrix();
+        return this;
     }
 
-    makeDuplicate(pos) {
+    makeDuplicate(pos, slide = 0) {
         var brickInstance = this._mesh.createInstance("Brick");
         pos.x += this._mesh.scaling.x / 2;
         pos.y += this._mesh.scaling.y / 2;
-        pos.z += this._mesh.scaling.z / 2;
+        pos.z += this._mesh.scaling.z / 2 + slide;
         brickInstance.position = pos;
         brickInstance.isVisible = true;
         brickInstance.isPickable = true;
         brickInstance.checkCollisions = true;
         brickInstance.material.freeze();
-        brickInstance.freezeWorldMatrix();
         this.duplicates.push(brickInstance);
     }
 }

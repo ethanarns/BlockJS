@@ -31,9 +31,8 @@
         
         var light = new BABYLON.PointLight("light", new BABYLON.Vector3(10, 10, 0), scene);
         
-        // debugDrawGrid();
+        debugDrawGrid();
 
-        // Make bricks for GPU copying
         initBricks();
 
         var ground = BABYLON.MeshBuilder.CreateGround("Ground", {height: FLOOR_WIDTH, width: FLOOR_WIDTH, subdivision: FLOOR_WIDTH / 2}, scene);
@@ -44,10 +43,18 @@
         var player1 = new Player("Player1", {}, scene);
             player1.root.position = new BABYLON.Vector3(0, 15, -20);
         
-        placeBrick(1,1,1, 1,1,0, "red");
-        setTimeout(function() {
-            console.log("Brick count: " + countAllBricks(baseBricks));
-        },1000);
+        placeBrick(1,1,1, 0,0,0, "red");
+        placeBrick(1,1,1, 1,0,0, "green");
+        placeBrick(1,1,1, 2,0,0, "blue");
+        placeBrick(1,1,1, 3,0,0, "mistyped a color!");
+
+        //var brick1x2red = new Brick("Brick1x2_red", 1, 1, 2, new BABYLON.Vector3(4, 0, 4), COLORRED, scene);
+        //brick1x2red._mesh.isVisible = true;
+
+        placeBrick(1,1,2, 4,0,4, "red");
+        placeBrick(1,1,2, 5,0,5, "red", true);
+
+        console.log("Brick count: " + countAllBricks(baseBricks));
 
         var renderLoop = function() {
             scene.render();
