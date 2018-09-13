@@ -14,14 +14,14 @@ function initBricks() {
     baseBricks.push(brick1x1blue);
     baseBricks.push(brick1x1default);*/
 
-    var brick1x2red = new Brick("Brick1x2_red", 1, 1, 2, new BABYLON.Vector3(10, -999, 0), COLORRED, scene);
+    /*var brick1x2red = new Brick("Brick1x2_red", 1, 1, 2, new BABYLON.Vector3(10, -999, 0), COLORRED, scene);
     var brick1x2green = new Brick("Brick1x2_green", 1, 1, 2, new BABYLON.Vector3(10, -998, 0), COLORGREEN, scene);
     var brick1x2blue = new Brick("Brick1x2_blue", 1, 1, 2, new BABYLON.Vector3(10, -997, 0), COLORBLUE, scene);
     var brick1x2default = new Brick("Brick1x2_default", 1, 1, 2, new BABYLON.Vector3(10, -996, 0), COLORDEFAULT, scene);
     baseBricks.push(brick1x2red);
     baseBricks.push(brick1x2green);
     baseBricks.push(brick1x2blue);
-    baseBricks.push(brick1x2default);
+    baseBricks.push(brick1x2default);*/
 
     //var brick2x2red = new Brick("Brick2x2_red", 2, 1, 2, new BABYLON.Vector3(10, -999, 0), COLORRED, scene);
     //var brick2x2green = new Brick("Brick2x2_green", 2, 1, 2, new BABYLON.Vector3(10, -998, 0), COLORGREEN, scene);
@@ -40,6 +40,7 @@ function initBricks() {
         var baseBrick = null;
         for(let i = 0; i < baseBricks.length; i++) {
             bm = baseBricks[i].getMesh();
+            console.log(bm.material.emissiveColor);
             if(bm.name.indexOf("" + width + "x" + depth) != -1 &&
             bm.material.emissiveColor == color) {
                 console.log(bm.name);
@@ -50,7 +51,7 @@ function initBricks() {
         // Should only be one, issue if more
         if (count < 1) {
             console.log("No base brick with this definition exists, creating...");
-            var newBaseBrick = new Brick("Brick2x2_" + color, width, height, depth, new BABYLON.Vector3(10, -999, 0), color, scene);
+            var newBaseBrick = new Brick("Brick" + width + "x" + depth + "_" + color, width, height, depth, new BABYLON.Vector3(10, -999, 0), color, scene);
             baseBrick = newBaseBrick;
             baseBricks.push(newBaseBrick);
         }
