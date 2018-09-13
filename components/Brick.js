@@ -52,6 +52,11 @@ class Brick {
         return this;
     }
 
+    centerPivot() {
+        var centerPointWorld = _mesh.getBoundingInfo().boundingBox.centerWorld;
+        this.setPivotPoint(centerPointWorld, BABYLON.Space.WORLD);
+    }
+
     makeDuplicate(pos, slideX = 0, slideZ = 0) {
         var brickInstance = this._mesh.createInstance("Brick");
         pos.x += this._mesh.scaling.x / 2 + slideX;

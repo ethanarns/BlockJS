@@ -53,7 +53,8 @@ placeBrickDynamic = function(width, height, depth, x, y, z, color, rotated = fal
             console.log("ERROR: Invalid brick dimensions!");
         }
     }
-    // console.log(dupRef);
+    // After normal rotations are done, it will not rotate again, so just do this now
+    centerPivot(dupRef);
     return dupRef;
 }
 
@@ -72,6 +73,7 @@ countAllBricks = function(baseList) {
     return count;
 }
 
-function getMeshCenterWorld(mesh) {
-    return mesh.getBoundingInfo().boundingBox.centerWorld;
+function centerPivot(mesh) {
+    var centerPointWorld = mesh.getBoundingInfo().boundingBox.centerWorld;
+    mesh.setPivotPoint(centerPointWorld, BABYLON.Space.WORLD);
 }
