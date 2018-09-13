@@ -1,0 +1,20 @@
+// Colors
+const COLORDEFAULT = new BABYLON.Vector3(0, 0.58, 0.86);
+const COLORBLUE4 = new BABYLON.Color4(0,0,1,1);
+const COLORGREEN4 = new BABYLON.Color4(0,1,0,1);
+const COLORRED4 = new BABYLON.Color4(1,0,0,1);
+const COLORBLUE = new BABYLON.Color3(0,0,1);
+const COLORGREEN = new BABYLON.Color3(0,1,0);
+const COLORRED = new BABYLON.Color3(1,0,0);
+
+// Physics/movement
+const GRAVITY = new BABYLON.Vector3(0, -9.8, 0);
+const DEFAULT_SENSITIVITY = 0.005;
+const DEFAULT_PLAYERHEIGHT = 5 / 2;
+const DEFAULT_PLAYERWIDTH = 1;
+const DEFAULT_PLAYERSPEED = 0.15;
+const DEFAULT_PLAYERVELOCITY = 0.1;
+const DEFAULT_PLAYERMAXVELOCITY = 1.5;
+const DEFAULT_PLAYERJUMPSTRENGTH = 0.5;
+const DEFAULT_INERTIA = 0.5;
+const FLOOR_WIDTH = 100;

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Block.js</title>
+    <style>
+        html,body,canvas { margin: 0; padding: 0; width: 100%; height: 100%; font-size: 0; }
+    </style>
+</head>
+<body>
+    <!-- Version 0.6.2 -->
+    <script src="./cannon.js"></script>
+    <!-- Version 3.2.0 -->
+    <script src="./babylon.js"></script>
+    <script src="./components/Constants.js"></script>
+    <script src="./components/Player.js"></script>
+    <script src="./components/Block.js"></script>
+    <script src="./components/Debug.js"></script>
+    <canvas id="render-canvas"></canvas>
+    <script>
+        var lastId = 0;
+        var yVel = 0;
+
+        var canvas = document.getElementById("render-canvas");
+        var engine = new BABYLON.Engine(canvas);
+        var scene = new BABYLON.Scene(engine);
+            scene.clearColor = new BABYLON.Color3(0.8, 0.8, 0.8);
+            scene.gravity = GRAVITY;
+            scene.collisionsEnabled = false;
+        
+        var light = new BABYLON.PointLight("light", new BABYLON.Vector3(10, 10, 0), scene);
+        
+        // debugDrawGrid();
+
+        var ground = BABYLON.MeshBuilder.CreateGround("Ground", {height: FLOOR_WIDTH, width: FLOOR_WIDTH, subdivision: FLOOR_WIDTH / 2}, scene);
+            ground.checkCollisions = true;
+            ground.position = new BABYLON.Vector3(0, 0, 0);
+            ground.isPickable = true;
+
+        var player1 = new Player("Player1", {}, scene);
+            player1.root.position = new BABYLON.Vector3(0, 15, -20);
+        
+        var x = 0;
+        var brick1 = new Block("Brick1", 1, 1, 1, new BABYLON.Vector3(0,1,0), COLORDEFAULT, scene);
+        brick1.makeDuplicate(new BABYLON.Vector3(1,1,0));
+
+        brick1.makeDuplicate(new BABYLON.Vector3(0,3,2));
+        brick1.makeDuplicate(new BABYLON.Vector3(0,2,1));
+        brick1.makeDuplicate(new BABYLON.Vector3(1,3,2));
+        brick1.makeDuplicate(new BABYLON.Vector3(1,2,1));
+        brick1.makeDuplicate(new BABYLON.Vector3(0,5,4));
+        brick1.makeDuplicate(new BABYLON.Vector3(0,4,3));
+        brick1.makeDuplicate(new BABYLON.Vector3(1,5,4));
+        brick1.makeDuplicate(new BABYLON.Vector3(1,4,3));
+
+        /*brick1.makeDuplicate(new BABYLON.Vector3(0,1,-1));
+        brick1.makeDuplicate(new BABYLON.Vector3(1,1,-1));
+        brick1.makeDuplicate(new BABYLON.Vector3(0,1,-2));
+        brick1.makeDuplicate(new BABYLON.Vector3(1,1,-2));
+        brick1.makeDuplicate(new BABYLON.Vector3(0,1,-3));
+        brick1.makeDuplicate(new BABYLON.Vector3(1,1,-3));*/
+        var testWidth = 35;
+        for (let i = -testWidth; i < testWidth; i++) {
+            for (let j = -testWidth; j < testWidth; j++) {
+                brick1.makeDuplicate(new BABYLON.Vector3(i, 1, j));
+                x++;
+            }
+        }
+        console.log("Count: " + x);
+
+        var renderLoop = function() {
+            scene.render();
+            player1.movement();
+        }
+        engine.runRenderLoop(renderLoop);
+    </script>
+</body>
+</html>
