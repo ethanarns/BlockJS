@@ -56,8 +56,8 @@ placeBrickDynamic = function(width, height, depth, x, y, z, color, rotated = fal
     }
     // After normal rotations are done, it will never rotate again, so just do this now
     dupRef.setPivotPoint(dupRef.getBoundingInfo().boundingBox.centerWorld, BABYLON.Space.WORLD);
-    // Shrink slightly to fix adjacent mesh overlap
-    dupRef.scaling = new BABYLON.Vector3(0.9999, 0.9999, 0.9999);
+    // Shrink slightly to fix adjacent mesh overlap, just barely noticable (helps tell apart)
+    dupRef.scaling = new BABYLON.Vector3(0.999, 0.999, 0.999);
     dupRef.computeWorldMatrix(true);
     dupRef.freezeWorldMatrix();
 
@@ -68,7 +68,7 @@ placeBrickDynamic = function(width, height, depth, x, y, z, color, rotated = fal
         dupRef = null;
         return null;
     }
-    
+
     baseBrick.duplicates.push(dupRef);
 
     return dupRef;

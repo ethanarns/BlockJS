@@ -1,8 +1,5 @@
+var lastId;
 class Utils {
-    constructor() {
-
-    }
-
     static generateGround() {
         let ground = BABYLON.MeshBuilder.CreateGround("Ground", {height: FLOOR_WIDTH, width: FLOOR_WIDTH, subdivision: FLOOR_WIDTH / 2}, scene);
         ground.checkCollisions = true;
@@ -11,11 +8,12 @@ class Utils {
         return ground; // Return reference to it
     }
 
-    static generateScene() {
+    static generateScene(engine) {
         var scene = new BABYLON.Scene(engine);
         scene.clearColor = BGCLEARCOLOR;
         scene.gravity = GRAVITY;
         scene.collisionsEnabled = false;
-        return scene;
+        lastId = 0;
+        return scene; // Return reference to it
     }
 }

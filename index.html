@@ -20,12 +20,9 @@
     <script src="./components/Debug.js"></script>
     <canvas id="render-canvas"></canvas>
     <script>
-        var lastId = 0;
-        var yVel = 0;
-
         var canvas = document.getElementById("render-canvas");
         var engine = new BABYLON.Engine(canvas);
-        var scene = Utils.generateScene();
+        var scene = Utils.generateScene(engine);
         
         var light = new BABYLON.PointLight("light", new BABYLON.Vector3(10, 10, 0), scene);
         
@@ -36,6 +33,7 @@
 
         brick1 = placeBrickDynamic(1,1,1, 1,0,0, COLORGREEN);
         brick2 = placeBrickDynamic(1,1,1, 1,1,0, COLORRED);
+        brick2 = placeBrickDynamic(1,1,1, 1,2,0, COLORRED);
 
         console.log("Brick count: " + countAllBricks(baseBricks));
 
