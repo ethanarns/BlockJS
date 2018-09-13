@@ -41,9 +41,8 @@
             player1.movement();
         }
         engine.runRenderLoop(renderLoop);
+        enableAudio(scene);
         activateDebug();
-
-        var jumpSound = new BABYLON.Sound("gunshot", "./jump.wav", scene);
     </script>
 </body>
 </html>
