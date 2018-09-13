@@ -49,11 +49,11 @@ class Brick {
         return this;
     }
 
-    makeDuplicate(pos, slide = 0) {
+    makeDuplicate(pos, slideX = 0, slideZ = 0) {
         var brickInstance = this._mesh.createInstance("Brick");
-        pos.x += this._mesh.scaling.x / 2;
+        pos.x += this._mesh.scaling.x / 2 + slideX;
         pos.y += this._mesh.scaling.y / 2;
-        pos.z += this._mesh.scaling.z / 2 + slide;
+        pos.z += this._mesh.scaling.z / 2 + slideZ;
         brickInstance.position = pos;
         brickInstance.isVisible = true;
         brickInstance.isPickable = true;
