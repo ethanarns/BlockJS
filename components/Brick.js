@@ -10,11 +10,12 @@ class Brick {
         this._mesh.position = locVec;
         this._mesh.material = material;
         this._mesh.material.freeze();
-        this._mesh.isPickable = true;
-        this._mesh.checkCollisions = true;
+        this._mesh.isPickable = false;
+        this._mesh.checkCollisions = false;
         //this._mesh.freezeWorldMatrix();
         this.id = ++lastId;
         this.duplicates = [];
+        this._mesh.isVisible = false; // Since this will be a reference for the GPU bricks
     }
     getName() {
         return this._mesh.name;
@@ -44,6 +45,7 @@ class Brick {
         pos.y += this._mesh.scaling.y / 2;
         pos.z += this._mesh.scaling.z / 2;
         brickInstance.position = pos;
+        brickInstance.isVisible = true;
         brickInstance.isPickable = true;
         brickInstance.checkCollisions = true;
         brickInstance.material.freeze();
