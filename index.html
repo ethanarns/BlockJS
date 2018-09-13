@@ -14,7 +14,7 @@
     <script src="./babylon.js"></script>
     <script src="./components/Constants.js"></script>
     <script src="./components/Player.js"></script>
-    <script src="./components/Block.js"></script>
+    <script src="./components/Brick.js"></script>
     <script src="./components/Debug.js"></script>
     <canvas id="render-canvas"></canvas>
     <script>
@@ -41,32 +41,21 @@
             player1.root.position = new BABYLON.Vector3(0, 15, -20);
         
         var x = 0;
-        var brick1 = new Block("Brick1", 1, 1, 1, new BABYLON.Vector3(0,1,0), COLORDEFAULT, scene);
-        brick1.makeDuplicate(new BABYLON.Vector3(1,1,0));
+        var brick1x1 = new Brick("Brick1", 1, 1, 1, new BABYLON.Vector3(0,1,0), COLORDEFAULT, scene);
 
-        brick1.makeDuplicate(new BABYLON.Vector3(0,3,2));
-        brick1.makeDuplicate(new BABYLON.Vector3(0,2,1));
-        brick1.makeDuplicate(new BABYLON.Vector3(1,3,2));
-        brick1.makeDuplicate(new BABYLON.Vector3(1,2,1));
-        brick1.makeDuplicate(new BABYLON.Vector3(0,5,4));
-        brick1.makeDuplicate(new BABYLON.Vector3(0,4,3));
-        brick1.makeDuplicate(new BABYLON.Vector3(1,5,4));
-        brick1.makeDuplicate(new BABYLON.Vector3(1,4,3));
-
-        /*brick1.makeDuplicate(new BABYLON.Vector3(0,1,-1));
-        brick1.makeDuplicate(new BABYLON.Vector3(1,1,-1));
-        brick1.makeDuplicate(new BABYLON.Vector3(0,1,-2));
-        brick1.makeDuplicate(new BABYLON.Vector3(1,1,-2));
-        brick1.makeDuplicate(new BABYLON.Vector3(0,1,-3));
-        brick1.makeDuplicate(new BABYLON.Vector3(1,1,-3));*/
-        var testWidth = 35;
-        for (let i = -testWidth; i < testWidth; i++) {
-            for (let j = -testWidth; j < testWidth; j++) {
-                brick1.makeDuplicate(new BABYLON.Vector3(i, 1, j));
-                x++;
+        function placeBrick(width, height, depth, x, y, z, color) {
+            var newBrick; // A Mesh
+            if(width == 1, height == 1, depth == 1) {
+                newBrick = brick1x1.makeDuplicate();
+            }
+            if(!canPlaceBrick()) {
+                return;
             }
         }
-        console.log("Count: " + x);
+        function canPlaceBrick(brick) {
+            return true;
+        }
+        brick1x1.makeDuplicate(new BABYLON.Vector3(1,1,0));
 
         var renderLoop = function() {
             scene.render();

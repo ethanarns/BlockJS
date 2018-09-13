@@ -1,4 +1,4 @@
-class Block {
+class Brick {
     constructor (name, x, y, z, locVec, color, scene) {
         var material = new BABYLON.StandardMaterial(name + " Material", scene);
             material.emissiveColor = color;
