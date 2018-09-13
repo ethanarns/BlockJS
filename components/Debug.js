@@ -1,4 +1,8 @@
-function debugDrawGrid() {
+var gridDrawn = false;
+function drawGrid() {
+    if (gridDrawn) {
+        return;
+    }
     // Main 3 colored lines
     const MAINLENGTH = FLOOR_WIDTH/2;
 
@@ -44,4 +48,5 @@ function debugDrawGrid() {
             line.isPickable = false;
         }
     }
+    gridDrawn = true;
 }
