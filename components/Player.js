@@ -47,7 +47,7 @@ class Player {
         this._initPointerLock();
         this._setupLook();
         this._setupMovement();
-
+        var _this = this;
         setInterval(function() {
             if (player1.floating) {
                 player1.vertVel -= GRAVITY.y / 100;
@@ -62,6 +62,7 @@ class Player {
                     //console.log("Jump pressed!");
                     player1.vertVel = -player1.jumpStrength;
                     jumpSound.play();
+                    _this.fireRaycastFromCamera();
                 }
             }
         }, 100);
@@ -243,5 +244,21 @@ class Player {
 
     moveTo(x, y, z) {
         this.root.position = new BABYLON.Vector3(x, y, z)
+    }
+
+    fireRaycastFromCamera() {
+        var ray = new BABYLON.Ray();
+        var rayHelper = new BABYLON.RayHelper(ray);
+        var direction = new BABYLON.Vector3(0,0,1);
+        rayHelper.attachToMesh(this.camera, direction, new BABYLON.Vector3(0,0,0), 100);
+        rayHelper.show(this.scene);
+        //ray = new BABYLON.Ray(origin, direction, 100);
+        //BABYLON.RayHelper.CreateAndShow(ray, this.scene, new BABYLON.Color3(1, 0, 0));
+    }
+
+    vecToLocal(vector, mesh){
+        var m = mesh.getWorldMatrix();
+        var v = BABYLON.Vector3.TransformCoordinates(vector, m);
+		return v;		 
     }
 }
