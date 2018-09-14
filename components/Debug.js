@@ -1,3 +1,7 @@
+const COLOR_RED4 = new BABYLON.Color4(1,0,0,1);
+const COLOR_GREEN4 = new BABYLON.Color4(0,1,0,1);
+const COLOR_BLUE4 = new BABYLON.Color4(0,0,1,1);
+
 var debug = false;
 function activateDebug() {
     drawGrid();

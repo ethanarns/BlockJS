@@ -1,11 +1,9 @@
 // Colors/materials
-const COLOR_DEFAULT = new BABYLON.Vector3(0, 0.58, 0.86);
 const COLOR_RED = new BABYLON.Color3(1,0,0);
-const COLOR_RED4 = new BABYLON.Color4(1,0,0,1);
 const COLOR_GREEN = new BABYLON.Color3(0,1,0);
-const COLOR_GREEN4 = new BABYLON.Color4(0,1,0,1);
 const COLOR_BLUE = new BABYLON.Color3(0,0,1);
-const COLOR_BLUE4 = new BABYLON.Color4(0,0,1,1);
+
+const COLOR_DEFAULT = new BABYLON.Vector3(0, 0.58, 0.86);
 const COLOR_BGCLEAR = new BABYLON.Color3(0.8, 0.8, 0.8);
 const EMISSDARKERBY = 3;
 
