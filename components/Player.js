@@ -66,6 +66,9 @@ class Player {
                 }
             }
         }, 100);
+
+        this.rayHelper = new BABYLON.RayHelper(new BABYLON.Ray());
+        this.rayHelper.attachToMesh(this.camera, new BABYLON.Vector3(0,0,1), new BABYLON.Vector3(0, 0, 0), 100);
     }
 
     _setupLook() {
@@ -247,18 +250,8 @@ class Player {
     }
 
     fireRaycastFromCamera() {
-        var ray = new BABYLON.Ray();
-        var rayHelper = new BABYLON.RayHelper(ray);
-        var direction = new BABYLON.Vector3(0,0,1);
-        rayHelper.attachToMesh(this.camera, direction, new BABYLON.Vector3(0,0,0), 100);
-        rayHelper.show(this.scene);
-        //ray = new BABYLON.Ray(origin, direction, 100);
-        //BABYLON.RayHelper.CreateAndShow(ray, this.scene, new BABYLON.Color3(1, 0, 0));
-    }
-
-    vecToLocal(vector, mesh){
-        var m = mesh.getWorldMatrix();
-        var v = BABYLON.Vector3.TransformCoordinates(vector, m);
-		return v;		 
+        var rayHit = scene.pickWithRay(this.rayHelper.ray).pickedMesh;
+        console.log(rayHit);
+        rayHit.isVisible = false;
     }
 }

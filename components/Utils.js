@@ -17,4 +17,10 @@ class Utils {
         lastId = 0;
         return scene; // Return reference to it
     }
+
+    static vecToLocal(vector, mesh){
+        var m = mesh.getWorldMatrix();
+        var v = BABYLON.Vector3.TransformCoordinates(vector, m);
+		return v;		 
+    }
 }
