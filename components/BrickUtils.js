@@ -103,4 +103,8 @@ class BrickUtils {
         }
         return count;
     }
+
+    static handlePlayerPick() {
+        
+    }
 }

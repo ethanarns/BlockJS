@@ -95,13 +95,7 @@ class Player {
 
         var onAnyClick = function(event) {
             event.preventDefault();
-            var pickedMesh = _this.getMeshRaycastFromCamera();
-            if (pickedMesh == null) {
-                console.log("Nothing picked with click.");
-            }
-            else {
-                console.log(pickedMesh);
-            }
+            _this.rayFromCamera();
         }
         document.addEventListener('click', onAnyClick, false);
     }
@@ -258,13 +252,15 @@ class Player {
         this.root.position = new BABYLON.Vector3(x, y, z)
     }
 
-    getMeshRaycastFromCamera() {
+    rayFromCamera() {
         var hit = scene.pickWithRay(this.rayHelper.ray);
-        if (!hit) {
-            return null;
+        if (!hit.pickedMesh) {
+            console.log("No mesh hit by ray");
+            return;
         }
         else {
-            return hit.pickedMesh;
+            var hitPoint = hit.pickedPoint;
+            var hitMesh = hit.pickedMesh;
         }
     }
 }
