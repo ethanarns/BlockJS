@@ -15,7 +15,6 @@ class Utils {
         scene.gravity = GRAVITY;
         scene.collisionsEnabled = false;
         lastId = 0;
-        
         return scene; // Return reference to it
     }
 }
