@@ -1,7 +1,7 @@
 var advancedTexture;
 var guiCircle;
 function createGui() {
-    advancedTexture = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("myUI", true);
+    advancedTexture = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("myUI");
     guiCircle = new BABYLON.GUI.Ellipse();
     guiCircle.height = "10px";
     guiCircle.width = "10px";
