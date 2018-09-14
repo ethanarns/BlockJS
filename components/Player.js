@@ -47,7 +47,6 @@ class Player {
         this._initPointerLock();
         this._setupLook();
         this._setupMovement();
-        var _this = this;
         setInterval(function() {
             if (player1.floating) {
                 player1.vertVel -= GRAVITY.y / 100;
@@ -62,7 +61,6 @@ class Player {
                     //console.log("Jump pressed!");
                     player1.vertVel = -player1.jumpStrength;
                     jumpSound.play();
-                    _this.fireRaycastFromCamera();
                 }
             }
         }, 100);
@@ -70,7 +68,7 @@ class Player {
         this.rayHelper = new BABYLON.RayHelper(new BABYLON.Ray());
         this.rayHelper.attachToMesh(this.camera, new BABYLON.Vector3(0,0,1), new BABYLON.Vector3(0, 0, 0), 100);
     }
-
+    // TODO: Fix this dumb thing not being able to hold down mouse and turn at same time
     _setupLook() {
         var _this = this;
         const PI_2 = Math.PI / 2;
@@ -94,6 +92,18 @@ class Player {
             }
         }
         document.addEventListener('mousemove', onMouseMove, false);
+
+        var onAnyClick = function(event) {
+            event.preventDefault();
+            var pickedMesh = _this.getMeshRaycastFromCamera();
+            if (pickedMesh == null) {
+                console.log("Nothing picked with click.");
+            }
+            else {
+                console.log(pickedMesh);
+            }
+        }
+        document.addEventListener('click', onAnyClick, false);
     }
 
     _initPointerLock() {
@@ -130,7 +140,7 @@ class Player {
                 },
                 function() { _this.forwards = _this.speed; }
             )
-        )
+        );
         this.scene.actionManager.registerAction(
             new BABYLON.ExecuteCodeAction(
                 {
@@ -139,7 +149,7 @@ class Player {
                 },
                 function() { _this.forwards = -_this.speed; }
             )
-        )
+        );
         this.scene.actionManager.registerAction(
             new BABYLON.ExecuteCodeAction(
                 {
@@ -148,7 +158,7 @@ class Player {
                 },
                 function() { _this.sideways = -_this.speed; }
             )
-        )
+        );
         this.scene.actionManager.registerAction(
             new BABYLON.ExecuteCodeAction(
                 {
@@ -157,7 +167,7 @@ class Player {
                 },
                 function() { _this.sideways = _this.speed; }
             )
-        )
+        );
 
         // Key ups
         this.scene.actionManager.registerAction(
@@ -242,16 +252,19 @@ class Player {
         var hit = scene.pickWithRay(ray);
 
         return !hit.hit;
-        //return !this.root.collider.collisionFound;
     }
 
     moveTo(x, y, z) {
         this.root.position = new BABYLON.Vector3(x, y, z)
     }
 
-    fireRaycastFromCamera() {
-        var rayHit = scene.pickWithRay(this.rayHelper.ray).pickedMesh;
-        console.log(rayHit);
-        rayHit.isVisible = false;
+    getMeshRaycastFromCamera() {
+        var hit = scene.pickWithRay(this.rayHelper.ray);
+        if (!hit) {
+            return null;
+        }
+        else {
+            return hit.pickedMesh;
+        }
     }
 }

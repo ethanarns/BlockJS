@@ -29,11 +29,11 @@
         var player1 = new Player("Player1", {}, scene);
             player1.moveTo(0, 15, -20);
 
-        brick1 = placeBrickDynamic(1,1,1, 1,0,0, COLOR_GREEN);
-        brick2 = placeBrickDynamic(1,1,1, 1,1,0, COLOR_RED);
-        brick2 = placeBrickDynamic(1,1,1, 1,2,0, COLOR_RED);
+        brick1 = BrickUtils.placeBrickDynamic(1,1,1, 1,0,0, COLOR_GREEN);
+        brick2 = BrickUtils.placeBrickDynamic(1,1,1, 1,1,0, COLOR_RED);
+        brick2 = BrickUtils.placeBrickDynamic(1,1,1, 1,2,0, COLOR_RED);
 
-        console.log("Brick count: " + countAllBricks());
+        console.log("Brick count: " + BrickUtils.countAllBricks());
 
         var renderLoop = function() {
             scene.render();

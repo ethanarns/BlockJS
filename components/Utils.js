@@ -15,6 +15,7 @@ class Utils {
         scene.gravity = GRAVITY;
         scene.collisionsEnabled = false;
         lastId = 0;
+        scene.preventDefaultOnPointerDown = true;
         return scene; // Return reference to it
     }
 
