@@ -24,15 +24,20 @@ class Utils {
     /**
      * Creates and then returns the engine to run the game
      * @param {BABYLON.Engine} engine Engine to run the game
+     * @param {boolean} debug Should the game start in debug mode?
      * @public
      * @static
      */
-    static generateScene(engine) {
+    static generateScene(engine, debug = true) {
         var scene = new BABYLON.Scene(engine);
             scene.clearColor = COLOR_BGCLEAR;
             scene.gravity = GRAVITY;
             scene.collisionsEnabled = false;
             scene.preventDefaultOnPointerDown = true;
+        if (debug) {
+            scene.debugLayer.show();
+            Utils.drawGrid();
+        }
         return scene; // Return reference to it
     }
 
