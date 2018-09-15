@@ -1,8 +1,8 @@
-const BABYLON = require('babylonjs');
+/*const BABYLON = require('babylonjs');
 // Global variables
 var brickList = [];
 var lastId = 0;
-var isDebugMode = false;
+var isDebugMode = false;*/
 
 // Colors/material constants
 const COLORS = {

@@ -1,4 +1,4 @@
-const BABYLON = require('babylonjs');
+/*const BABYLON = require('babylonjs');
 // Import globals for testing
 const MISCSETTINGS = require('./Globals').MISCSETTINGS;
 const PLAYERDEFAULTS = require('./Globals').PLAYERDEFAULTS;
@@ -7,7 +7,7 @@ var brickList = require('./Globals').brickList;
 var lastId = require('./Globals').lastId;
 var isDebugMode = require('./Globals').isDebugMode;
 var Brick = require('./Brick');
-var Player = require('./Player');
+var Player = require('./Player');*/
 
 /**
  * Utility class, provides handy helper methods
