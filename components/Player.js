@@ -43,10 +43,14 @@ class Player {
         this.pitch.parent = this.root;
         this.camera.parent = this.pitch;
 
+        // Player Audio
+        this.jumpSound = new BABYLON.Sound("gunshot", "./audio/jump.wav", scene);
+
         this.scene.actionManager = new BABYLON.ActionManager(scene);
         this._initPointerLock();
         this._setupLook();
         this._setupMovement();
+        var _this = this;
         setInterval(function() {
             if (player1.floating) {
                 player1.vertVel -= GRAVITY.y / 100;
@@ -60,7 +64,7 @@ class Player {
                 if (player1.jumpPressed) {
                     //console.log("Jump pressed!");
                     player1.vertVel = -player1.jumpStrength;
-                    jumpSound.play();
+                    _this.jumpSound.play();
                 }
             }
         }, 100);
