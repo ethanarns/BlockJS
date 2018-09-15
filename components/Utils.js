@@ -39,6 +39,7 @@ class Utils {
             scene.debugLayer.show();
             Utils.drawGrid();
         }
+        isDebugMode = debug;
         return scene; // Return reference to it
     }
 

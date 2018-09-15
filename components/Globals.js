@@ -1,6 +1,7 @@
 // Global variables
 var brickList = [];
 var lastId = 0;
+var isDebugMode = false;
 
 // Colors/material constants
 const COLOR_RED =    new BABYLON.Color3(1.0, 0.0, 0.0);

@@ -46,7 +46,8 @@ class Brick {
      */
     setColor(color) {
         if (!color.r) {
-            console.log("ERROR: specify a color constant, not string");
+            if (isDebugMode)
+                console.log("ERROR: specify a color constant, not string");
             return;
         }
         this._mesh.material.unfreeze();
@@ -139,7 +140,8 @@ class Brick {
         this._mesh.unfreezeWorldMatrix();
         this._mesh.rotation.y = rVal;
         if (slide !== 0) {
-            console.log("Sliding " + slide);
+            if (isDebugMode)
+                console.log("Sliding: " + slide);
             this._mesh.position.y -= slide;
         }
         this._mesh.freezeWorldMatrix();
