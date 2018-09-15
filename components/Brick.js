@@ -1,4 +1,3 @@
-var brickList = [];
 /**
  * Class representing a Block with an attached mesh, as well as static helper methods
  * @author Ethan Arns <contact@ethanarns.com>

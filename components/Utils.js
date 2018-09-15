@@ -1,5 +1,3 @@
-var lastId;
-
 /**
  * Utility class, provides handy helper methods
  * @author Ethan Arns <contact@ethanarns.com>
@@ -34,7 +32,6 @@ class Utils {
         scene.clearColor = COLOR_BGCLEAR;
         scene.gravity = GRAVITY;
         scene.collisionsEnabled = false;
-        lastId = 0;
         scene.preventDefaultOnPointerDown = true;
         return scene; // Return reference to it
     }
