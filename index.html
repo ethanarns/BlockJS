@@ -9,12 +9,12 @@
 </head>
 <body>
     <script>
-        // Throwaways to allow Node unit testing
+        // Throwaways to allow Node unit testing and running at same time
         var module = {
             exports: {}
         };
         function require(string) {
-            // do nothing
+            // do nothing, removes browser errors if require() used
         }
     </script>
     <script src="./babylon.custom.js"></script>
@@ -29,7 +29,7 @@
         var canvas = document.getElementById("render-canvas");
         var engine = new BABYLON.Engine(canvas);
         var scene = Utils.generateScene(engine, true);
-        var world = Utils.generateWorld();
+        var World = Utils.generateWorld();
         var UI = Utils.generateUI();
         engine.runRenderLoop(function() {
             scene.render();
@@ -38,6 +38,8 @@
 
         var player1 = new Player("Player1", {}, scene);
         player1.moveTo(0, 15, -20);
+        var brick1 = new Brick("Brick1", 1, 1, 1,
+            new BABYLON.Vector3(0, 0, 0), COLORS.RED, World);
     </script>
 </body>
 </html>

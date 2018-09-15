@@ -21,17 +21,19 @@ class Brick {
      * @param {number} z Depth
      * @param {BABYLON.Vector3} locVec Vector3 representing placement location
      * @param {BABYLON.Color3} color Color3 representing Material color, usually a constant
-     * @param {BABYLON.Scene} scene Scene Brick will be placed into
+     * @param {object} World World container holding scene and SPS
      * @constructs
      * @public
      */
-    constructor (name, x, y, z, locVec, color, scene) {
-        var material = new BABYLON.StandardMaterial(name + " Material", scene);
+    constructor (name, x, y, z, locVec, color, World) {
+        var material = new BABYLON.StandardMaterial(name + " Material", World.scene);
             material.emissiveColor = new BABYLON.Color3(
-                color.r / COLORS.EMISSDARKERBY, color.g / COLORS.EMISSDARKERBY, color.b / COLORS.EMISSDARKERBY
+                color.r / COLORS.EMISSDARKERBY,
+                color.g / COLORS.EMISSDARKERBY,
+                color.b / COLORS.EMISSDARKERBY
             );
             material.diffuseColor = color;
-        this._mesh = BABYLON.MeshBuilder.CreateBox(name, {width: x, height:y, depth:z}, scene);
+        this._mesh = BABYLON.MeshBuilder.CreateBox(name, {width: x, height:y, depth:z}, World.scene);
         locVec.x += x / 2;
         locVec.y += y / 2;
         locVec.z += z / 2;
@@ -39,14 +41,14 @@ class Brick {
         this._mesh.setPivotMatrix(BABYLON.Matrix.Translation(x/2, y/2, z/2));
         this._mesh.position = locVec;
         this._mesh.material = material;
+        this._mesh.checkCollisions = true;
         // Remember to undo these before duplicating
-        this._mesh.material.freeze();
-        this._mesh.isPickable = false;
-        this._mesh.checkCollisions = false;
-        this._mesh.freezeWorldMatrix();
+        //this._mesh.material.freeze();
+        //this._mesh.isPickable = false;
+        //this._mesh.checkCollisions = false;
+        //this._mesh.freezeWorldMatrix();
         this.id = ++lastId; // Increment THEN return
-        this.duplicates = [];
-        this._mesh.isVisible = false; // Since this will be a reference for the GPU bricks
+        //this._mesh.isVisible = false;
     }
 
     /**
@@ -212,6 +214,7 @@ class Brick {
      * @returns {Brick} The created brick
      * @static
      * @public
+     * @deprecated
      */
     static placeBrick(width, height, depth, x, y, z, color = COLOR_DEFAULT, rotated = false) {
         var brick;

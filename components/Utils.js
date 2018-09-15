@@ -27,12 +27,15 @@ class Utils {
             height: MISCSETTINGS.FLOOR_WIDTH,
             width: MISCSETTINGS.FLOOR_WIDTH,
             subdivision: MISCSETTINGS.FLOOR_WIDTH / 2
-        },scene);
+        }, scene);
         ground.checkCollisions = true;
         ground.position = new BABYLON.Vector3(0, 0, 0);
         ground.isPickable = true;
         world.ground = ground;
         world.mainLight = new BABYLON.PointLight("light", new BABYLON.Vector3(10, 10, 0), scene);
+        // Now to add the brick-building system
+        world.SPS = new BABYLON.SolidParticleSystem("SPS", scene);
+        world.scene = scene; // Might look good in references
         return world; // Return reference to it
     }
 
