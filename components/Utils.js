@@ -129,5 +129,5 @@ class Utils {
 }
 
 // See if running under node to avoid exception
-if (!window)
+if (typeof window == undefined)
     module.exports = Utils;

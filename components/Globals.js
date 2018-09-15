@@ -32,7 +32,7 @@ const MISCSETTINGS = {
     GRAVITY: new BABYLON.Vector3(0, -9.8, 0)
 }
 
-if (!window)
+if (typeof window == undefined)
     module.exports = {
         MISCSETTINGS,
         PLAYERDEFAULTS,
