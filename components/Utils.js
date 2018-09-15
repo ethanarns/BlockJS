@@ -6,12 +6,12 @@
 class Utils {
     /**
      * Create the world space, returns container object
-     * @returns {object} Zero vector, with world properties
+     * @returns {object} Container object with world properties
      * @public
      * @static
      */
     static generateWorld() {
-        var world = new BABYLON.Vector3(0, 0, 0);
+        var world = {};
         var ground = BABYLON.MeshBuilder.CreateGround("Ground", {height: FLOOR_WIDTH, width: FLOOR_WIDTH, subdivision: FLOOR_WIDTH / 2}, scene);
             ground.checkCollisions = true;
             ground.position = new BABYLON.Vector3(0, 0, 0);
@@ -29,23 +29,23 @@ class Utils {
      */
     static generateScene(engine) {
         var scene = new BABYLON.Scene(engine);
-        scene.clearColor = COLOR_BGCLEAR;
-        scene.gravity = GRAVITY;
-        scene.collisionsEnabled = false;
-        scene.preventDefaultOnPointerDown = true;
+            scene.clearColor = COLOR_BGCLEAR;
+            scene.gravity = GRAVITY;
+            scene.collisionsEnabled = false;
+            scene.preventDefaultOnPointerDown = true;
         return scene; // Return reference to it
     }
 
     /**
-     * Creates the user interface and audio, returns container object
+     * Creates the user interface, returns container object
      * @public
      * @static
-     * @returns {BABYLON.GUI.AdvancedDynamicTexture} Base texture object
+     * @returns {object} Container object with UI properties
      */
     static generateUI() {
         var UI = {};
+        // Graphics
         UI.advancedTexture = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("myUI");
-        // Crosshair
         UI.crosshair = new BABYLON.GUI.Ellipse();
         UI.crosshair.height = "10px";
         UI.crosshair.name = "Crosshairs";
@@ -53,25 +53,11 @@ class Utils {
         UI.crosshair.color = "White";
         UI.crosshair.thickness = 2;
         UI.advancedTexture.addControl(UI.crosshair);
-        // Sound
+        // Audio
         UI.Audio = {};
         UI.Audio.jumpSound = new BABYLON.Sound("gunshot", "./audio/jump.wav", scene);
 
         return UI;
-    }
-
-    /**
-     * Helper utility for transforming a local Node's position to global coordinates
-     * @param {BABYLON.Vector3} vector Local vector to transform
-     * @param {BABYLON.Mesh} mesh Mesh to use as base for transformation
-     * @returns {BABYLON.Vector3} Transformed vector
-     * @public
-     * @static
-     */
-    static vecToLocal(vector, mesh){
-        var m = mesh.getWorldMatrix();
-        var v = BABYLON.Vector3.TransformCoordinates(vector, m);
-		return v;		 
     }
 
     /**
