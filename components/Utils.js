@@ -5,7 +5,7 @@
  */
 class Utils {
     /**
-     * Create the world space, returns container for world features
+     * Create the world space, returns container object
      * @returns {object} Zero vector, with world properties
      * @public
      * @static
@@ -37,22 +37,27 @@ class Utils {
     }
 
     /**
-     * Creates the user interface, returns the interface base object
+     * Creates the user interface and audio, returns container object
      * @public
      * @static
      * @returns {BABYLON.GUI.AdvancedDynamicTexture} Base texture object
      */
     static generateUI() {
-        var advancedTexture = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("myUI");
+        var UI = {};
+        UI.advancedTexture = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("myUI");
         // Crosshair
-        var guiCircle = new BABYLON.GUI.Ellipse();
-            guiCircle.height = "10px";
-            guiCircle.width = "10px";
-            guiCircle.color = "White";
-            guiCircle.thickness = 2;
-        advancedTexture.addControl(guiCircle);
-        console.log(typeof advancedTexture);
-        return advancedTexture;
+        UI.crosshair = new BABYLON.GUI.Ellipse();
+        UI.crosshair.height = "10px";
+        UI.crosshair.name = "Crosshairs";
+        UI.crosshair.width = "10px";
+        UI.crosshair.color = "White";
+        UI.crosshair.thickness = 2;
+        UI.advancedTexture.addControl(UI.crosshair);
+        // Sound
+        UI.Audio = {};
+        UI.Audio.jumpSound = new BABYLON.Sound("gunshot", "./audio/jump.wav", scene);
+
+        return UI;
     }
 
     /**
