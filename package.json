@@ -1,0 +1,36 @@
+{
+  "name": "blockjs",
+  "version": "1.0.0",
+  "description": "Offline and unit testing for BlockJS",
+  "main": "unit.js",
+  "directories": {
+    "doc": "doc"
+  },
+  "dependencies": {
+    "babylonjs": "^3.2.0",
+    "chai": "^4.1.2",
+    "jsdoc": "^3.5.5",
+    "mocha": "^5.2.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ethanarns/BlockJS.git"
+  },
+  "keywords": [
+    "blockjs",
+    "js",
+    "game",
+    "babylon",
+    "babylonjs"
+  ],
+  "author": "Ethan Arns",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ethanarns/BlockJS/issues"
+  },
+  "homepage": "https://github.com/ethanarns/BlockJS#readme"
+}
