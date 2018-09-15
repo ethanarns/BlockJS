@@ -26,6 +26,7 @@ class Brick {
      * @public
      */
     constructor (name, x, y, z, locVec, color, World) {
+        this.id = ++lastId; // Increment THEN return
         var material = new BABYLON.StandardMaterial(name + " Material", World.scene);
             material.emissiveColor = new BABYLON.Color3(
                 color.r / COLORS.EMISSDARKERBY,
@@ -33,22 +34,25 @@ class Brick {
                 color.b / COLORS.EMISSDARKERBY
             );
             material.diffuseColor = color;
-        this._mesh = BABYLON.MeshBuilder.CreateBox(name, {width: x, height:y, depth:z}, World.scene);
+        var _mesh = BABYLON.MeshBuilder.CreateBox(name, {width: x, height:y, depth:z}, World.scene);
         locVec.x += x / 2;
         locVec.y += y / 2;
         locVec.z += z / 2;
         // Make pivot lower corner
-        this._mesh.setPivotMatrix(BABYLON.Matrix.Translation(x/2, y/2, z/2));
-        this._mesh.position = locVec;
-        this._mesh.material = material;
-        this._mesh.checkCollisions = true;
+        _mesh.setPivotMatrix(BABYLON.Matrix.Translation(x/2, y/2, z/2));
+        _mesh.position = locVec;
+        _mesh.material = material;
+        _mesh.checkCollisions = true;
         // Remember to undo these before duplicating
         //this._mesh.material.freeze();
         //this._mesh.isPickable = false;
         //this._mesh.checkCollisions = false;
         //this._mesh.freezeWorldMatrix();
-        this.id = ++lastId; // Increment THEN return
         //this._mesh.isVisible = false;
+        _mesh.spsClone = SPS.addShape(_mesh, 1);
+        console.log(_mesh.spsClone);
+        _mesh.isVisible = true;
+        SPS.buildMesh();
     }
 
     /**

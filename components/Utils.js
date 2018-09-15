@@ -33,9 +33,16 @@ class Utils {
         ground.isPickable = true;
         world.ground = ground;
         world.mainLight = new BABYLON.PointLight("light", new BABYLON.Vector3(10, 10, 0), scene);
-        // Now to add the brick-building system
-        world.SPS = new BABYLON.SolidParticleSystem("SPS", scene);
         world.scene = scene; // Might look good in references
+        SPS = new BABYLON.SolidParticleSystem("SPS", scene);
+        SPS.initParticles = function() {
+            for (let p = 0; p < SPS.nbParticles; p++) {
+                SPS.recycleParticle(SPS.particles[p]);
+            }
+        }
+        SPS.recycleParticle = function() {
+
+        }
         return world; // Return reference to it
     }
 
@@ -55,7 +62,7 @@ class Utils {
         if (debug) {
             console.log("%c[!] Debug mode enabled, set generateScene() flag 'debug' to false to disable at runtime", "color: orange");
             scene.debugLayer.show();
-            Utils.drawGrid();
+            //Utils.drawGrid();
         }
         isDebugMode = debug;
         return scene; // Return reference to it
