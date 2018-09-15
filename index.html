@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <title>Block.js</title>
     <style>
-        html,body,canvas { margin: 0; padding: 0; width: 100%; height: 100%; font-size: 0; }
+        html,body,canvas { margin: 0; padding: 0; width: 100%; height: 100%; }
     </style>
 </head>
 <body>
@@ -17,6 +17,7 @@
     <script src="./components/BrickUtils.js"></script>
     <script src="./components/Utils.js"></script>
     <script src="./components/Debug.js"></script>
+    <script src="https://preview.babylonjs.com/inspector/babylon.inspector.bundle.js"></script>
     <canvas id="render-canvas"></canvas>
     <script>
         var canvas = document.getElementById("render-canvas");
@@ -31,7 +32,7 @@
 
         brick1 = BrickUtils.placeBrickDynamic(1,1,1, 1,0,0, COLOR_GREEN);
         brick2 = BrickUtils.placeBrickDynamic(1,1,1, 1,1,0, COLOR_RED);
-        brick2 = BrickUtils.placeBrickDynamic(1,1,1, 1,2,0, COLOR_RED);
+        //brick2 = BrickUtils.placeBrickDynamic(1,1,1, 1,2,0, COLOR_RED);
 
         console.log("Brick count: " + BrickUtils.countAllBricks());
 
@@ -42,6 +43,7 @@
         engine.runRenderLoop(renderLoop);
         enableAudio(scene);
         //activateDebug();
+        scene.debugLayer.show();
     </script>
 </body>
 </html>
