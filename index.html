@@ -16,22 +16,20 @@
     <script src="https://preview.babylonjs.com/inspector/babylon.inspector.bundle.js"></script>
     <canvas id="render-canvas"></canvas>
     <script>
+        // Primary game running utilities
         var canvas = document.getElementById("render-canvas");
         var engine = new BABYLON.Engine(canvas);
         var scene = Utils.generateScene(engine);
-        Utils.generateCrosshair();
-        var light = new BABYLON.PointLight("light", new BABYLON.Vector3(10, 10, 0), scene);
-        var ground = Utils.generateGround();
-        var player1 = new Player("Player1", {}, scene);
-        var renderLoop = function() {
+        var world = Utils.generateWorld();
+        var UI = Utils.generateUI();
+        engine.runRenderLoop(function() {
             scene.render();
             player1.movement();
-        }
-        engine.runRenderLoop(renderLoop);
-        scene.debugLayer.show();
+        });
 
+        scene.debugLayer.show();
+        var player1 = new Player("Player1", {}, scene);
         player1.moveTo(0, 15, -20);
-        console.log(Brick.countAllBricks());
     </script>
 </body>
 </html>
