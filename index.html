@@ -19,7 +19,7 @@
         // Primary game running utilities
         var canvas = document.getElementById("render-canvas");
         var engine = new BABYLON.Engine(canvas);
-        var scene = Utils.generateScene(engine);
+        var scene = Utils.generateScene(engine, true);
         var world = Utils.generateWorld();
         var UI = Utils.generateUI();
         engine.runRenderLoop(function() {

@@ -35,6 +35,7 @@ class Utils {
             scene.collisionsEnabled = false;
             scene.preventDefaultOnPointerDown = true;
         if (debug) {
+            console.log("%c[!] Debug mode enabled, set generateScene() flag 'debug' to false to disable at runtime", "color: orange");
             scene.debugLayer.show();
             Utils.drawGrid();
         }
