@@ -224,5 +224,13 @@ class Brick {
 }
 
 // See if running under node to avoid exception
-if (typeof window == undefined)
-    module.exports = Brick;
+if (typeof window == undefined) {
+    module.exports = {
+        MISCSETTINGS,
+        PLAYERDEFAULTS,
+        COLORS,
+        brickList,
+        lastId,
+        isDebugMode
+    }
+}

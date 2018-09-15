@@ -32,7 +32,8 @@ const MISCSETTINGS = {
     GRAVITY: new BABYLON.Vector3(0, -9.8, 0)
 }
 
-if (typeof window == undefined)
+// See if running under node to avoid exception
+if (typeof window == undefined) {
     module.exports = {
         MISCSETTINGS,
         PLAYERDEFAULTS,
@@ -41,3 +42,4 @@ if (typeof window == undefined)
         lastId,
         isDebugMode
     }
+}
