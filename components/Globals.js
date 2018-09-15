@@ -1,3 +1,4 @@
+const BABYLON = require('babylonjs');
 // Global variables
 var brickList = [];
 var lastId = 0;
@@ -32,14 +33,11 @@ const MISCSETTINGS = {
     GRAVITY: new BABYLON.Vector3(0, -9.8, 0)
 }
 
-// See if running under node to avoid exception
-if (typeof window == undefined) {
-    module.exports = {
-        MISCSETTINGS,
-        PLAYERDEFAULTS,
-        COLORS,
-        brickList,
-        lastId,
-        isDebugMode
-    }
+module.exports = {
+    MISCSETTINGS,
+    PLAYERDEFAULTS,
+    COLORS,
+    brickList,
+    lastId,
+    isDebugMode
 }

@@ -1,3 +1,13 @@
+const BABYLON = require('babylonjs');
+// Import globals for testing
+const MISCSETTINGS = require('./Globals').MISCSETTINGS;
+const PLAYERDEFAULTS = require('./Globals').PLAYERDEFAULTS;
+const COLORS = require('./Globals').COLORS;
+var brickList = require('./Globals').brickList;
+var lastId = require('./Globals').lastId;
+var isDebugMode = require('./Globals').isDebugMode;
+var Player = require('./Player');
+
 /**
  * Class representing a Block with an attached mesh, as well as static helper methods
  * @author Ethan Arns <contact@ethanarns.com>
@@ -223,14 +233,11 @@ class Brick {
     }
 }
 
-// See if running under node to avoid exception
-if (typeof window == undefined) {
-    module.exports = {
-        MISCSETTINGS,
-        PLAYERDEFAULTS,
-        COLORS,
-        brickList,
-        lastId,
-        isDebugMode
-    }
+module.exports = {
+    MISCSETTINGS,
+    PLAYERDEFAULTS,
+    COLORS,
+    brickList,
+    lastId,
+    isDebugMode
 }

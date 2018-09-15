@@ -1,3 +1,13 @@
+const BABYLON = require('babylonjs');
+// Import globals for testing
+const MISCSETTINGS = require('./Globals').MISCSETTINGS;
+const PLAYERDEFAULTS = require('./Globals').PLAYERDEFAULTS;
+const COLORS = require('./Globals').COLORS;
+var brickList = require('./Globals').brickList;
+var lastId = require('./Globals').lastId;
+var isDebugMode = require('./Globals').isDebugMode;
+var Brick = require('./Brick');
+
 /**
  * Class representing a player, who will traverse this strange place
  * @author Ethan Arns <contact@ethanarns.com>
@@ -307,6 +317,4 @@ class Player {
     }
 }
 
-// See if running under node to avoid exception
-if (typeof window == undefined)
-    module.exports = Player;
+module.exports = Player;

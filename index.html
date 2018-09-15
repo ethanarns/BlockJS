@@ -8,6 +8,15 @@
     </style>
 </head>
 <body>
+    <script>
+        // Throwaways to allow Node unit testing
+        var module = {
+            exports: {}
+        };
+        function require(string) {
+            // do nothing
+        }
+    </script>
     <script src="./babylon.custom.js"></script>
     <script src="./components/Globals.js"></script>
     <script src="./components/Player.js"></script>
