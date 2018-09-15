@@ -1,7 +1,16 @@
 var brickList = [];
-
+/** Class representing a Block with an attached mesh, as well as static helper methods */
 class Brick {
-    // This is for making a BaseBrick
+    /**
+     * Create a Brick
+     * @param {string} name 
+     * @param {number} x 
+     * @param {number} y 
+     * @param {number} z 
+     * @param {*} locVec 
+     * @param {*} color 
+     * @param {*} scene 
+     */
     constructor (name, x, y, z, locVec, color, scene) {
         var material = new BABYLON.StandardMaterial(name + " Material", scene);
             material.emissiveColor = new BABYLON.Color3(
@@ -26,6 +35,10 @@ class Brick {
         this._mesh.isVisible = false; // Since this will be a reference for the GPU bricks
     }
 
+    /**
+     * 
+     * @param {BABYLON.Color3} color 
+     */
     setColor(color) {
         if (!color.r) {
             console.log("ERROR: specify a color constant, not string");
@@ -89,14 +102,11 @@ class Brick {
         var centerPointWorld = _mesh.getBoundingInfo().boundingBox.centerWorld;
         this.setPivotPoint(centerPointWorld, BABYLON.Space.WORLD);
     }
-}
 
-class BrickUtils {
-    static placeBrick(width, height, depth, x, y, z, color, rotated = false) {
-        var brick;
-        return brick;
-    }
-
+    /**
+     * 
+     * @param {*} brick 
+     */
     static canPlaceBrick(brick) {
         for (let i = 0; i < brickList.length; i++) {
             if (brick.intersectsMesh(brickList[i], false) && brick !== brickList[i]) {
@@ -107,9 +117,24 @@ class BrickUtils {
         return true;
     }
 
+    /**
+     * Static method that places a brick in the scene
+     * @param {*} width 
+     * @param {*} height 
+     * @param {*} depth 
+     * @param {*} x 
+     * @param {*} y 
+     * @param {*} z 
+     * @param {*} color 
+     * @param {*} rotated 
+     */
+    static placeBrick(width, height, depth, x, y, z, color, rotated = false) {
+        var brick;
+        return brick;
+    }
+
     static countAllBricks() {
-        var count = 0;
-        return count;
+        return brickList.length;
     }
 
     static handlePlayerPick() {

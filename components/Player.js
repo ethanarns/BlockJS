@@ -69,6 +69,7 @@ class Player {
             }
         }, 100);
 
+        // Raycast shooter
         this.rayHelper = new BABYLON.RayHelper(new BABYLON.Ray());
         this.rayHelper.attachToMesh(this.camera, new BABYLON.Vector3(0,0,1), new BABYLON.Vector3(0, 0, 0), 100);
     }
@@ -231,10 +232,6 @@ class Player {
             BABYLON.Matrix.RotationY(this.root.rotation.y));
         this.root.moveWithCollisions(dirVector);
         this.floating = this.isFloating();
-        //console.log(!this.isFloating());
-        /*if (!this.isFloating() && this.jumpPressed) {
-            this.vertVel = -1;
-        }*/
     }
 
     isFloating() {
@@ -242,13 +239,8 @@ class Player {
         origin.copyFrom(this.root.position);
         var down = new BABYLON.Vector3(0, -0.6, 0);
         var ray = new BABYLON.Ray(origin, down, 5);
-        //BABYLON.RayHelper.CreateAndShow(ray, this.scene, new BABYLON.Color3(1, 0, 0));
-        /*var picks = this.scene.multiPickWithRay(ray);
-        for (let i = 0; i < picks.length; i++) {
-            console.log(picks[i].pickedMesh.name);
-        }*/
         var hit = scene.pickWithRay(ray);
-
+        // Did the ray below the player hit an object?
         return !hit.hit;
     }
 

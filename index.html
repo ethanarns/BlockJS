@@ -9,7 +9,6 @@
 </head>
 <body>
     <script src="./babylon.custom.js"></script>
-    <script src="./components/UI.js"></script>
     <script src="./components/Constants.js"></script>
     <script src="./components/Player.js"></script>
     <script src="./components/Brick.js"></script>
@@ -20,21 +19,19 @@
         var canvas = document.getElementById("render-canvas");
         var engine = new BABYLON.Engine(canvas);
         var scene = Utils.generateScene(engine);
+        Utils.generateCrosshair();
         var light = new BABYLON.PointLight("light", new BABYLON.Vector3(10, 10, 0), scene);
         var ground = Utils.generateGround();
-
         var player1 = new Player("Player1", {}, scene);
-            player1.moveTo(0, 15, -20);
-
-        console.log("Brick count: " + BrickUtils.countAllBricks());
-
         var renderLoop = function() {
             scene.render();
             player1.movement();
         }
         engine.runRenderLoop(renderLoop);
-        //activateDebug();
         scene.debugLayer.show();
+
+        player1.moveTo(0, 15, -20);
+        console.log(Brick.countAllBricks());
     </script>
 </body>
 </html>
