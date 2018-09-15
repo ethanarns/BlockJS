@@ -18,7 +18,7 @@ class Brick {
     constructor (name, x, y, z, locVec, color, scene) {
         var material = new BABYLON.StandardMaterial(name + " Material", scene);
             material.emissiveColor = new BABYLON.Color3(
-                color.r / EMISSDARKERBY, color.g / EMISSDARKERBY, color.b / EMISSDARKERBY
+                color.r / COLORS.EMISSDARKERBY, color.g / COLORS.EMISSDARKERBY, color.b / COLORS.EMISSDARKERBY
             );
             material.diffuseColor = color;
         this._mesh = BABYLON.MeshBuilder.CreateBox(name, {width: x, height:y, depth:z}, scene);
@@ -185,7 +185,7 @@ class Brick {
      * @public
      */
     static canPlaceBrickAt(x, y, z, scene) {
-        var testerBrick = new Brick("DELETEME", 1, 1, 1, new BABYLON.Vector3(x, y, z), COLOR_DEFAULT, scene);
+        var testerBrick = new Brick("DELETEME", 1, 1, 1, new BABYLON.Vector3(x, y, z), COLORS.DEFAULT, scene);
         return this.canPlaceBrick(testerBrick);
     }
 
@@ -222,3 +222,7 @@ class Brick {
 
     }
 }
+
+// See if running under node to avoid exception
+if (!window)
+    module.exports = Brick;

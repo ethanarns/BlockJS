@@ -12,10 +12,14 @@ class Utils {
      */
     static generateWorld() {
         var world = {};
-        var ground = BABYLON.MeshBuilder.CreateGround("Ground", {height: FLOOR_WIDTH, width: FLOOR_WIDTH, subdivision: FLOOR_WIDTH / 2}, scene);
-            ground.checkCollisions = true;
-            ground.position = new BABYLON.Vector3(0, 0, 0);
-            ground.isPickable = true;
+        var ground = BABYLON.MeshBuilder.CreateGround("Ground", {
+            height: MISCSETTINGS.FLOOR_WIDTH,
+            width: MISCSETTINGS.FLOOR_WIDTH,
+            subdivision: MISCSETTINGS.FLOOR_WIDTH / 2
+        },scene);
+        ground.checkCollisions = true;
+        ground.position = new BABYLON.Vector3(0, 0, 0);
+        ground.isPickable = true;
         world.ground = ground;
         world.mainLight = new BABYLON.PointLight("light", new BABYLON.Vector3(10, 10, 0), scene);
         return world; // Return reference to it
@@ -30,8 +34,8 @@ class Utils {
      */
     static generateScene(engine, debug = true) {
         var scene = new BABYLON.Scene(engine);
-            scene.clearColor = COLOR_BGCLEAR;
-            scene.gravity = GRAVITY;
+            scene.clearColor = COLORS.BGCLEAR;
+            scene.gravity = MISCSETTINGS.GRAVITY;
             scene.collisionsEnabled = false;
             scene.preventDefaultOnPointerDown = true;
         if (debug) {
@@ -77,7 +81,7 @@ class Utils {
         const COLOR_GREEN4 = new BABYLON.Color4(0,1,0,1);
         const COLOR_BLUE4 = new BABYLON.Color4(0,0,1,1);
     
-        const MAINLENGTH = FLOOR_WIDTH/2;
+        const MAINLENGTH = MISCSETTINGS.FLOOR_WIDTH/2;
     
         var xLinePts = [new BABYLON.Vector3(0, 0, 0), new BABYLON.Vector3(MAINLENGTH, 0, 0)];
         var xColors = [COLOR_RED4, COLOR_RED4];
@@ -123,3 +127,7 @@ class Utils {
         }
     }
 }
+
+// See if running under node to avoid exception
+if (!window)
+    module.exports = Utils;

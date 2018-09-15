@@ -15,12 +15,11 @@ class Player {
         this.id = ++lastId;
         this.name = name;
         this.alive = true;
-        this.height = DEFAULT_PLAYERHEIGHT;
-        this.width = DEFAULT_PLAYERWIDTH;
-        this.speed = DEFAULT_PLAYERSPEED;
-        this.inertia = DEFAULT_INERTIA;
-        this.mouseSensitivity = DEFAULT_SENSITIVITY;
-        this.jumpStrength = DEFAULT_PLAYERJUMPSTRENGTH;
+        this.height = PLAYERDEFAULTS.HEIGHT;
+        this.width = PLAYERDEFAULTS.WIDTH;
+        this.speed = PLAYERDEFAULTS.SPEED;
+        this.mouseSensitivity = PLAYERDEFAULTS.SENSITIVITY;
+        this.jumpStrength = PLAYERDEFAULTS.JUMPSTRENGTH;
 
         this.forwards = 0;
         this.sideways = 0;
@@ -62,14 +61,14 @@ class Player {
         var _this = this;
         setInterval(function() {
             if (player1.floating) {
-                player1.vertVel -= GRAVITY.y / 100;
-                if (player1.vertVel > DEFAULT_PLAYERMAXVELOCITY) {
-                    player1.vertVel = DEFAULT_PLAYERMAXVELOCITY;
+                player1.vertVel -= MISCSETTINGS.GRAVITY.y / 100;
+                if (player1.vertVel > PLAYERDEFAULTS.MAXVELOCITY) {
+                    player1.vertVel = PLAYERDEFAULTS.MAXVELOCITY;
                 }
             }
             else {
                 // Grounded, make stick
-                player1.vertVel = DEFAULT_PLAYERVELOCITY;
+                player1.vertVel = PLAYERDEFAULTS.VELOCITY;
                 if (player1.jumpPressed) {
                     //console.log("Jump pressed!");
                     player1.vertVel = -player1.jumpStrength;
@@ -307,3 +306,7 @@ class Player {
         }
     }
 }
+
+// See if running under node to avoid exception
+if (!window)
+    module.exports = Player;

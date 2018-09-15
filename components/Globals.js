@@ -4,35 +4,40 @@ var lastId = 0;
 var isDebugMode = false;
 
 // Colors/material constants
-const COLOR_RED =    new BABYLON.Color3(1.0, 0.0, 0.0);
-const COLOR_ORANGE = new BABYLON.Color3(1.0, 0.5, 1.0);
-const COLOR_YELLOW = new BABYLON.Color3(1.0, 1.0, 0.0);
-const COLOR_GREEN =  new BABYLON.Color3(0.0, 1.0, 0.0);
-const COLOR_BLUE =   new BABYLON.Color3(0.0, 0.0, 1.0);
-const COLOR_PURPLE = new BABYLON.Color3(1.0, 0.0, 1.0);
-const COLOR_LIST = [
-    COLOR_RED,
-    COLOR_ORANGE,
-    COLOR_YELLOW,
-    COLOR_GREEN,
-    COLOR_BLUE,
-    COLOR_PURPLE
-]
-const COLOR_DEFAULT = new BABYLON.Color3(0, 0.58, 0.86);
-const COLOR_BGCLEAR = new BABYLON.Color3(0.8, 0.8, 0.8);
-const EMISSDARKERBY = 3;
+const COLORS = {
+    RED:     new BABYLON.Color3(1.0, 0.0, 0.0),
+    ORANGE:  new BABYLON.Color3(1.0, 0.5, 1.0),
+    YELLOW:  new BABYLON.Color3(1.0, 1.0, 0.0),
+    GREEN:   new BABYLON.Color3(0.0, 1.0, 0.0),
+    BLUE:    new BABYLON.Color3(0.0, 0.0, 1.0),
+    PURPLE:  new BABYLON.Color3(1.0, 0.0, 1.0),
+    DEFAULT: new BABYLON.Color3(0, 0.58, 0.86),
+    BGCLEAR: new BABYLON.Color3(0.8, 0.8, 0.8),
+    EMISSDARKERBY: 3
+}
 
-// Physics/movement constants
-const GRAVITY = new BABYLON.Vector3(0, -9.8, 0);
-const DEFAULT_SENSITIVITY = 0.005;
-const DEFAULT_PLAYERHEIGHT = 5 / 2;
-const DEFAULT_PLAYERWIDTH = 1;
-const DEFAULT_PLAYERSPEED = 0.12;
-const DEFAULT_PLAYERVELOCITY = 0.1;
-const DEFAULT_PLAYERMAXVELOCITY = 1.5;
-const DEFAULT_PLAYERJUMPSTRENGTH = 0.5;
-const DEFAULT_INERTIA = 0.5;
+const PLAYERDEFAULTS = {
+    SENSITIVITY: 0.005,
+    HEIGHT: 5 / 2,
+    WIDTH: 1,
+    SPEED: 0.12,
+    VELOCITY: 0.1,
+    MAXVELOCITY: 1.5,
+    JUMPSTRENGTH: 0.5
+}
 
-// Other constants
-const FLOOR_WIDTH = 100;
-const MAX_BRICKS = 5000;
+const MISCSETTINGS = {
+    FLOOR_WIDTH: 100,
+    MAX_BRICKS: 5000,
+    GRAVITY: new BABYLON.Vector3(0, -9.8, 0)
+}
+
+if (!window)
+    module.exports = {
+        MISCSETTINGS,
+        PLAYERDEFAULTS,
+        COLORS,
+        brickList,
+        lastId,
+        isDebugMode
+    }
