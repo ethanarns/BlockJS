@@ -1,8 +1,12 @@
 var lastId;
 
 class Utils {
+    /**
+     * Creates and then returns the Ground mesh
+     * @returns Ground mesh
+     */
     static generateGround() {
-        let ground = BABYLON.MeshBuilder.CreateGround("Ground", {height: FLOOR_WIDTH, width: FLOOR_WIDTH, subdivision: FLOOR_WIDTH / 2}, scene);
+        var ground = BABYLON.MeshBuilder.CreateGround("Ground", {height: FLOOR_WIDTH, width: FLOOR_WIDTH, subdivision: FLOOR_WIDTH / 2}, scene);
         ground.checkCollisions = true;
         ground.position = new BABYLON.Vector3(0, 0, 0);
         ground.isPickable = true;

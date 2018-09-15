@@ -3,13 +3,13 @@ var brickList = [];
 class Brick {
     /**
      * Create a Brick
-     * @param {string} name 
-     * @param {number} x 
-     * @param {number} y 
-     * @param {number} z 
-     * @param {*} locVec 
-     * @param {*} color 
-     * @param {*} scene 
+     * @param {string} name Name of brick (applied to Mesh)
+     * @param {number} x Width
+     * @param {number} y Height
+     * @param {number} z Depth
+     * @param {BABYLON.Vector3} locVec Vector3 representing placement location
+     * @param {BABYLON.Color3} color Color3 representing Material color, usually a constant
+     * @param {BABYLON.Scene} scene Scene Brick will be placed into
      */
     constructor (name, x, y, z, locVec, color, scene) {
         var material = new BABYLON.StandardMaterial(name + " Material", scene);
@@ -36,7 +36,7 @@ class Brick {
     }
 
     /**
-     * 
+     * Sets the material color of the Brick mesh
      * @param {BABYLON.Color3} color 
      */
     setColor(color) {
@@ -53,28 +53,56 @@ class Brick {
         return this.material;
     }
 
+    /**
+     * Gets the name of the Brick (mesh)
+     * @returns {number} The name of the Brick's mesh
+     */
     getName() {
         return this._mesh.name;
     }
+
+    /**
+     * Gets the mesh attached to the Brick class
+     * @returns {BABYLON.Mesh} The Brick's Mesh
+     */
     getMesh() {
         return this._mesh;
     }
+
+    /**
+     * Gets the Material attached to this Brick, usually StandardMaterial
+     * @returns {BABYLON.Material} Material of Brick Mesh
+     */
     getMaterial() {
         return this._mesh.material;
     }
 
+    /**
+     * Sets the X position, in world space, of the Brick mesh
+     * @param {number} xVal 
+     */
     setX(xVal) {
         this._mesh.unfreezeWorldMatrix();
         xVal += this._mesh.scaling.x / 2;
         this._mesh.position.x = xVal;
         this._mesh.freezeWorldMatrix();
     }
+
+    /**
+     * Sets the Y position, in world space, of the Brick mesh
+     * @param {number} yVal 
+     */
     setY(yVal) {
         this._mesh.unfreezeWorldMatrix();
         yVal += this._mesh.scaling.y / 2;
         this._mesh.position.y = yVal;
         this._mesh.freezeWorldMatrix();
     }
+
+    /**
+     * Sets the Z position, in world space, of the Brick mesh
+     * @param {number} zVal 
+     */
     setZ(zVal) {
         this._mesh.unfreezeWorldMatrix();
         zVal += this._mesh.scaling.z / 2;
@@ -82,10 +110,18 @@ class Brick {
         this._mesh.freezeWorldMatrix();
     }
 
+    /**
+     * Gets the position of the Brick's mesh
+     * @returns {number} Position of Brick's mesh
+     */
     getPosition() {
         return this._mesh.position;
     }
 
+    /**
+     * Sets the rotation of the Brick's mesh
+     * @param {number} rVal 
+     */
     setRotation(rVal) {
         let slide = 0;
         this._mesh.unfreezeWorldMatrix();
@@ -98,14 +134,16 @@ class Brick {
         return this;
     }
 
+    /** Centers the pivot of the Brick's mesh */
     centerPivot() {
         var centerPointWorld = _mesh.getBoundingInfo().boundingBox.centerWorld;
         this.setPivotPoint(centerPointWorld, BABYLON.Space.WORLD);
     }
 
     /**
-     * 
-     * @param {*} brick 
+     * Given constructed brick, should it be able to be placed?
+     * @param {Brick} brick 
+     * @returns {boolean} True if the brick can be placed
      */
     static canPlaceBrick(brick) {
         for (let i = 0; i < brickList.length; i++) {
@@ -118,21 +156,26 @@ class Brick {
     }
 
     /**
-     * Static method that places a brick in the scene
-     * @param {*} width 
-     * @param {*} height 
-     * @param {*} depth 
-     * @param {*} x 
-     * @param {*} y 
-     * @param {*} z 
-     * @param {*} color 
-     * @param {*} rotated 
+     * Places a Brick in the scene by cloning a BaseBrick
+     * @param {*} width Width dimension of the Brick to create
+     * @param {*} height Height dimension of the Brick to create
+     * @param {*} depth Depth dimension of the Brick to create
+     * @param {*} x X location of the Brick to create
+     * @param {*} y Y location of the Brick to create
+     * @param {*} z Z location of the Brick to create
+     * @param {*} color Color that will be applied to the Brick's Mesh Material
+     * @param {*} rotated Should the brick be rotated 90 degrees?
+     * @returns {Brick} The created brick
      */
-    static placeBrick(width, height, depth, x, y, z, color, rotated = false) {
+    static placeBrick(width, height, depth, x, y, z, color = COLOR_DEFAULT, rotated = false) {
         var brick;
         return brick;
     }
 
+    /**
+     * Gets the total number of active Bricks
+     * @returns {number} Length of brickList
+     */
     static countAllBricks() {
         return brickList.length;
     }
