@@ -310,11 +310,35 @@ class Brick {
     }
 }
 
-module.exports = {
-    MISCSETTINGS,
-    PLAYERDEFAULTS,
-    COLORS,
-    brickList,
-    lastId,
-    isDebugMode
+/**
+ * A temporary brick showing what might be placed at a location
+ * Gets all of its information from tool/gui global variables
+ * @extends Brick
+ */
+class TempBrick extends Brick{
+    constructor () {
+        var color = currentColor;
+        var material = new BABYLON.StandardMaterial(name + " Material", World.scene);
+            material.emissiveColor = new BABYLON.Color3(
+                color.r / COLORS.EMISSDARKERBY,
+                color.g / COLORS.EMISSDARKERBY,
+                color.b / COLORS.EMISSDARKERBY
+            );
+            material.diffuseColor = color;
+        this._mesh = BABYLON.MeshBuilder.CreateBox(name, {}, World.scene);
+        locVec.x += x / 2;
+        locVec.y += y / 2;
+        locVec.z += z / 2;
+        // Make pivot lower corner
+        this._mesh.setPivotMatrix(BABYLON.Matrix.Translation(x/2, y/2, z/2));
+        this._mesh.rotation.y = (Math.PI / 180) * currentRotation;
+        this.centerPivot();
+        this._mesh.computeWorldMatrix();
+        this._mesh.scaling = currentBrick;
+        this._mesh.position = locVec;
+        this._mesh.material = material;
+        this._mesh.checkCollisions = false;
+        this._mesh.material.freeze();
+        this._mesh.isPickable = false;
+    }
 }

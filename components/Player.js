@@ -316,13 +316,14 @@ class Player {
         else {
             if (isDebugMode)
                 console.log("Mesh hit by player raycast!");
-            if (!hit.pickedMesh.brickClass) {
-                // not a brick
-                return;
-            }
             var hitPoint = hit.pickedPoint;
             var hitMesh = hit.pickedMesh;
-            Brick.deleteBrickById(hitMesh.brickClass.id);
+            console.log(hitPoint);
+            hitPoint.x = Math.round(hitPoint.x);
+            hitPoint.y = Math.round(hitPoint.y);
+            hitPoint.z = Math.round(hitPoint.z);
+            console.log("Rounded: " + hitPoint);
+            Brick.placeBrick(hitPoint);
         }
     }
 }
