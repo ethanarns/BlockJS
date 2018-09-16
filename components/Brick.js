@@ -279,6 +279,7 @@ class Brick {
             return null;
         }
         brick._mesh.freezeWorldMatrix();
+        UI.Audio.clickPlace.play();
         return brick;
     }
 

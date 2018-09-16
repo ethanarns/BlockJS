@@ -104,7 +104,7 @@ class Utils {
         // Audio
         UI.Audio = {};
         UI.Audio.jumpSound = new BABYLON.Sound("jumpSound", "./audio/jump.wav", scene);
-        UI.Audio.placeClick = new BABYLON.Sound("placeClick", "./audio/placeClick.wav", scene);
+        UI.Audio.clickPlace = new BABYLON.Sound("clickPlace", "./audio/clickPlace.wav", scene);
 
         return UI;
     }
