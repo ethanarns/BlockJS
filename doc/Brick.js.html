@@ -26,7 +26,17 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>/**
+            <pre class="prettyprint source linenums"><code>/*const BABYLON = require('babylonjs');
+// Import globals for testing
+const MISCSETTINGS = require('./Globals').MISCSETTINGS;
+const PLAYERDEFAULTS = require('./Globals').PLAYERDEFAULTS;
+const COLORS = require('./Globals').COLORS;
+var brickList = require('./Globals').brickList;
+var lastId = require('./Globals').lastId;
+var isDebugMode = require('./Globals').isDebugMode;
+var Player = require('./Player');*/
+
+/**
  * Class representing a Block with an attached mesh, as well as static helper methods
  * @author Ethan Arns &lt;contact@ethanarns.com>
  */
@@ -39,17 +49,21 @@ class Brick {
      * @param {number} z Depth
      * @param {BABYLON.Vector3} locVec Vector3 representing placement location
      * @param {BABYLON.Color3} color Color3 representing Material color, usually a constant
-     * @param {BABYLON.Scene} scene Scene Brick will be placed into
+     * @param {object} World World container holding scene and SPS
      * @constructs
      * @public
      */
-    constructor (name, x, y, z, locVec, color, scene) {
-        var material = new BABYLON.StandardMaterial(name + " Material", scene);
+    constructor (name, x, y, z, locVec, color, World) {
+        this.id = ++lastId; // Increment THEN return
+        var material = new BABYLON.StandardMaterial(name + " Material", World.scene);
             material.emissiveColor = new BABYLON.Color3(
-                color.r / EMISSDARKERBY, color.g / EMISSDARKERBY, color.b / EMISSDARKERBY
+                color.r / COLORS.EMISSDARKERBY,
+                color.g / COLORS.EMISSDARKERBY,
+                color.b / COLORS.EMISSDARKERBY
             );
             material.diffuseColor = color;
-        this._mesh = BABYLON.MeshBuilder.CreateBox(name, {width: x, height:y, depth:z}, scene);
+        this._mesh = BABYLON.MeshBuilder.CreateBox(name, {width: x, height:y, depth:z}, World.scene);
+        this._mesh.brickClass = this; // Parent reference to access Brick class from mesh
         locVec.x += x / 2;
         locVec.y += y / 2;
         locVec.z += z / 2;
@@ -57,14 +71,14 @@ class Brick {
         this._mesh.setPivotMatrix(BABYLON.Matrix.Translation(x/2, y/2, z/2));
         this._mesh.position = locVec;
         this._mesh.material = material;
-        // Remember to undo these before duplicating
-        this._mesh.material.freeze();
-        this._mesh.isPickable = false;
-        this._mesh.checkCollisions = false;
+        this._mesh.checkCollisions = true;
+        this._mesh.material.freeze(); // Color set in particle anyway
+        this._mesh.isPickable = true;
         this._mesh.freezeWorldMatrix();
-        this.id = ++lastId; // Increment THEN return
-        this.duplicates = [];
-        this._mesh.isVisible = false; // Since this will be a reference for the GPU bricks
+        this._mesh._visibility = false; // kills drawcall without removing pickability
+        brickList.push(this);
+        // Wipe then recreate SPS
+        Utils.refreshSPS();
     }
 
     /**
@@ -74,7 +88,8 @@ class Brick {
      */
     setColor(color) {
         if (!color.r) {
-            console.log("ERROR: specify a color constant, not string");
+            if (isDebugMode)
+                console.log("ERROR: specify a color constant, not string");
             return;
         }
         this._mesh.material.unfreeze();
@@ -167,7 +182,8 @@ class Brick {
         this._mesh.unfreezeWorldMatrix();
         this._mesh.rotation.y = rVal;
         if (slide !== 0) {
-            console.log("Sliding " + slide);
+            if (isDebugMode)
+                console.log("Sliding: " + slide);
             this._mesh.position.y -= slide;
         }
         this._mesh.freezeWorldMatrix();
@@ -181,6 +197,46 @@ class Brick {
     centerPivot() {
         var centerPointWorld = _mesh.getBoundingInfo().boundingBox.centerWorld;
         this.setPivotPoint(centerPointWorld, BABYLON.Space.WORLD);
+    }
+
+    /**
+     * Deletes a brick, targetted by the brick's id number
+     * @param {number} id id of brick to delete
+     * @static
+     * @public
+     */
+    static deleteBrickById(id) {
+        var found = false;
+        for (let i = 0; i &lt; brickList.length; i++) {
+            if (id === brickList[i].id) {
+                found = true;
+                brickList[i]._mesh.dispose();
+                brickList[i] = null;
+                brickList.splice(i, 1);
+            }
+        }
+        if (!found) {
+            console.log("No brick found with that id");
+            return;
+        }
+        Utils.refreshSPS();
+    }
+
+    /**
+     * Retrieves a reference to a brick with the spsCloneId of 'id'
+     * @param {number} id SPS Particle id to match brick with
+     */
+    static getByParticleId(id) {
+        // console.log("Searching for brick with spsCloneId " + id + "...");
+        for (let i = 0; i &lt; brickList.length; i++) {
+            // console.log("Here's one: " + brickList[i].spsCloneId);
+            if (brickList[i].spsCloneId === id) {
+                // console.log("Found one!")
+                return brickList[i];
+            }
+        }
+        // console.log("None found...");
+        return null;
     }
 
     /**
@@ -211,7 +267,7 @@ class Brick {
      * @public
      */
     static canPlaceBrickAt(x, y, z, scene) {
-        var testerBrick = new Brick("DELETEME", 1, 1, 1, new BABYLON.Vector3(x, y, z), COLOR_DEFAULT, scene);
+        var testerBrick = new Brick("DELETEME", 1, 1, 1, new BABYLON.Vector3(x, y, z), COLORS.DEFAULT, scene);
         return this.canPlaceBrick(testerBrick);
     }
 
@@ -228,6 +284,7 @@ class Brick {
      * @returns {Brick} The created brick
      * @static
      * @public
+     * @todo Make this again
      */
     static placeBrick(width, height, depth, x, y, z, color = COLOR_DEFAULT, rotated = false) {
         var brick;
@@ -243,11 +300,17 @@ class Brick {
     static countAllBricks() {
         return brickList.length;
     }
+}
 
-    static handlePlayerPick() {
-
-    }
-}</code></pre>
+module.exports = {
+    MISCSETTINGS,
+    PLAYERDEFAULTS,
+    COLORS,
+    brickList,
+    lastId,
+    isDebugMode
+}
+</code></pre>
         </article>
     </section>
 
@@ -263,7 +326,7 @@ class Brick {
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sat Sep 15 2018 01:03:18 GMT-0700 (Pacific Daylight Time)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sat Sep 15 2018 20:30:56 GMT-0700 (Pacific Daylight Time)
 </footer>
 
 <script> prettyPrint(); </script>

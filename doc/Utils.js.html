@@ -26,7 +26,18 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>/**
+            <pre class="prettyprint source linenums"><code>/*const BABYLON = require('babylonjs');
+// Import globals for testing
+const MISCSETTINGS = require('./Globals').MISCSETTINGS;
+const PLAYERDEFAULTS = require('./Globals').PLAYERDEFAULTS;
+const COLORS = require('./Globals').COLORS;
+var brickList = require('./Globals').brickList;
+var lastId = require('./Globals').lastId;
+var isDebugMode = require('./Globals').isDebugMode;
+var Brick = require('./Brick');
+var Player = require('./Player');*/
+
+/**
  * Utility class, provides handy helper methods
  * @author Ethan Arns &lt;contact@ethanarns.com>
  * @hideconstructor
@@ -40,12 +51,20 @@ class Utils {
      */
     static generateWorld() {
         var world = {};
-        var ground = BABYLON.MeshBuilder.CreateGround("Ground", {height: FLOOR_WIDTH, width: FLOOR_WIDTH, subdivision: FLOOR_WIDTH / 2}, scene);
-            ground.checkCollisions = true;
-            ground.position = new BABYLON.Vector3(0, 0, 0);
-            ground.isPickable = true;
+        var ground = BABYLON.MeshBuilder.CreateGround("Ground", {
+            height: MISCSETTINGS.FLOOR_WIDTH,
+            width: MISCSETTINGS.FLOOR_WIDTH,
+            subdivision: MISCSETTINGS.FLOOR_WIDTH / 2
+        }, scene);
+        ground.checkCollisions = true;
+        ground.position = new BABYLON.Vector3(0, 0, 0);
+        ground.isPickable = true;
         world.ground = ground;
-        world.mainLight = new BABYLON.PointLight("light", new BABYLON.Vector3(10, 10, 0), scene);
+        world.lights = {};
+        world.lights.mainLight = new BABYLON.PointLight("light", new BABYLON.Vector3(10, 10, 0), scene);
+        world.lights.hemiLight = new BABYLON.HemisphericLight("HemiLight", new BABYLON.Vector3(0, 1, 0), scene);
+        world.scene = scene; // Might look good in references
+        SPS = new BABYLON.SolidParticleSystem("SPS", scene);
         return world; // Return reference to it
     }
 
@@ -58,14 +77,16 @@ class Utils {
      */
     static generateScene(engine, debug = true) {
         var scene = new BABYLON.Scene(engine);
-            scene.clearColor = COLOR_BGCLEAR;
-            scene.gravity = GRAVITY;
+            scene.clearColor = COLORS.BGCLEAR;
+            scene.gravity = MISCSETTINGS.GRAVITY;
             scene.collisionsEnabled = false;
             scene.preventDefaultOnPointerDown = true;
         if (debug) {
+            console.log("%c[!] Debug mode enabled, set generateScene() flag 'debug' to false to disable at runtime", "color: orange");
             scene.debugLayer.show();
-            Utils.drawGrid();
+            //Utils.drawGrid();
         }
+        isDebugMode = debug;
         return scene; // Return reference to it
     }
 
@@ -103,7 +124,7 @@ class Utils {
         const COLOR_GREEN4 = new BABYLON.Color4(0,1,0,1);
         const COLOR_BLUE4 = new BABYLON.Color4(0,0,1,1);
     
-        const MAINLENGTH = FLOOR_WIDTH/2;
+        const MAINLENGTH = MISCSETTINGS.FLOOR_WIDTH/2;
     
         var xLinePts = [new BABYLON.Vector3(0, 0, 0), new BABYLON.Vector3(MAINLENGTH, 0, 0)];
         var xColors = [COLOR_RED4, COLOR_RED4];
@@ -148,7 +169,59 @@ class Utils {
             }
         }
     }
-}</code></pre>
+
+    /**
+     * Deletes and then recreates the SPS. Allows a single drawcall for every single brick in the scene.
+     * @static
+     * @public
+     */
+    static refreshSPS() {
+        try {
+            SPS.dispose();
+        }
+        catch (error) {
+            console.log("SPS does not contain existing meshes, cannot dispose.");
+        }
+        SPS = null;
+        SPS = new BABYLON.SolidParticleSystem("SPS", scene);
+        //SPS._alwaysVisible = true;
+
+        SPS.initParticles();
+        if (brickList.length &lt; 1) {
+            // Don't bother building an empty mesh
+            return;
+        }
+        for (let i = 0; i &lt; brickList.length; i++) {
+            var idShape = SPS.addShape(brickList[i]._mesh, 1);
+            brickList[i].spsCloneId = idShape;
+        }
+        SPS.buildMesh();
+        // This is called when SPS.setParticles is called. Don't do constantly!
+        SPS.updateParticle = function(particle) {
+            // console.log("Doing particle update");
+            var brick = Brick.getByParticleId(particle.shapeId);
+            if (brick === null) {
+                console.log("[!] No matching Brick found for particle!");
+            }
+            else {
+                //console.log("Linking")
+                particle.brickRef = brick;
+                brick.particleRef = particle;
+                particle.position.x = brick.getPosition().x;
+                particle.position.y = brick.getPosition().y;
+                particle.position.z = brick.getPosition().z;
+                let col = brick._mesh.material.diffuseColor;
+                particle.color = new BABYLON.Color4(col.r, col.g, col.b, 1.0);
+            }
+        }
+        SPS.setParticles();
+        SPS.isAlwaysVisible = true;
+    }
+}
+
+// See if running under node to avoid exception
+module.exports = Utils;
+</code></pre>
         </article>
     </section>
 
@@ -164,7 +237,7 @@ class Utils {
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sat Sep 15 2018 01:03:18 GMT-0700 (Pacific Daylight Time)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sat Sep 15 2018 20:30:56 GMT-0700 (Pacific Daylight Time)
 </footer>
 
 <script> prettyPrint(); </script>

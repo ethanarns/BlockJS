@@ -171,6 +171,12 @@ class Brick {
         this.setPivotPoint(centerPointWorld, BABYLON.Space.WORLD);
     }
 
+    /**
+     * Deletes a brick, targetted by the brick's id number
+     * @param {number} id id of brick to delete
+     * @static
+     * @public
+     */
     static deleteBrickById(id) {
         var found = false;
         for (let i = 0; i < brickList.length; i++) {
@@ -265,10 +271,6 @@ class Brick {
      */
     static countAllBricks() {
         return brickList.length;
-    }
-
-    static handlePlayerPick() {
-
     }
 }
 

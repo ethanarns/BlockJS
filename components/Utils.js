@@ -142,6 +142,11 @@ class Utils {
         }
     }
 
+    /**
+     * Deletes and then recreates the SPS. Allows a single drawcall for every single brick in the scene.
+     * @static
+     * @public
+     */
     static refreshSPS() {
         try {
             SPS.dispose();
