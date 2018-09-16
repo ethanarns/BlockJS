@@ -311,13 +311,24 @@ class Brick {
         return brickList.length;
     }
 
-    static fixPos(brickPos) {
+    /**
+     * Fixes position of temp brick and placement
+     * @param {BABYLON.Vector3} brickPos Where the ray hit
+     * @param {BABYLON.Mesh} hitMesh The mesh the ray hit, if any
+     */
+    static fixPos(brickPos, hitMesh) {
         brickPos.x = Math.round(brickPos.x);
-        brickPos.y = Math.floor(brickPos.y);
-        if (brickPos.y < 0) {
-            brickPos.y = 0;
+        if (!hitMesh || !hitMesh.brickClass) {
+            brickPos.y = Math.floor(brickPos.y);
+            if (brickPos.y < 0) {
+                brickPos.y = 0;
+            }
         }
-        brickPos.z = Math.round(brickPos.z);
+        else {
+            console.log("Brick hit!");
+            brickPos.y = hitMesh.position.y + 0.5;
+        }
+        brickPos.z = Math.round(brickPos.z);    
         return brickPos;
     }
 }
@@ -347,6 +358,7 @@ class TempBrick extends Brick {
         this._mesh.isVisible = true;
         this._mesh.checkCollisions = false;
         this._mesh.brickClass = null;
+        this._mesh.isPickable = false;
         this.owner = owner;
 
         this._setupPlacing();
@@ -364,7 +376,7 @@ class TempBrick extends Brick {
             }
             else {
                 var hitPoint = hit.pickedPoint;
-                hitPoint = Brick.fixPos(hitPoint);
+                hitPoint = Brick.fixPos(hitPoint, hit.pickedMesh);
                 _this.setX(hitPoint.x);
                 _this.setY(hitPoint.y);
                 _this.setZ(hitPoint.z);

@@ -320,7 +320,7 @@ class Player {
                 console.log("Mesh hit by player raycast!");
             var hitPoint = hit.pickedPoint;
             var hitMesh = hit.pickedMesh;
-            hitPoint = Brick.fixPos(hitPoint);
+            hitPoint = Brick.fixPos(hitPoint, hitMesh);
             Brick.placeBrick(hitPoint);
         }
     }
