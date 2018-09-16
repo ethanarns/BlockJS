@@ -171,8 +171,7 @@ class Brick {
     }
 
     static deleteBrick(brick) {
-        brick.dispose();
-        brick = null;
+        brick._mesh.dispose();
     }
 
     /**
