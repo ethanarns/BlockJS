@@ -264,7 +264,8 @@ class Brick {
      * @static
      * @public
      */
-    static placeBrick(dim, loc) {
+    static placeBrick(loc) {
+        var dim = currentBrick;
         var brick = new Brick("Brick", dim.x, dim.y, dim.z, new BABYLON.Vector3(loc.x, loc.y, loc.z),
             currentColor, World, currentRotation);
         if (currentRotation % 90 != 0) {
@@ -279,6 +280,22 @@ class Brick {
         }
         brick._mesh.freezeWorldMatrix();
         return brick;
+    }
+
+    /**
+     * Translates 3 number values into a Vector3, then hands off to original
+     * @param {number} x X position
+     * @param {number} y Y position
+     * @param {number} z Z position
+     * @static
+     * @public
+     */
+    static placeBrickAt(x, y, z) {
+        if (!y) {
+            console.log("You are using the wrong function, see placeBrick()");
+            return null;
+        }
+        return this.placeBrick(new BABYLON.Vector3(x, y, z));
     }
 
     /**

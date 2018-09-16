@@ -43,12 +43,12 @@
         });
         var player1 = new Player("Player1", {}, scene);
         player1.moveTo(0, 15, -20);
-        Brick.placeBrick(BRICKS.b1x1, new BABYLON.Vector3(1, 0, 1));
-        Brick.placeBrick(BRICKS.b1x1, new BABYLON.Vector3(1, 1, 1));
+        Brick.placeBrickAt(1, 0, 1);
+        Brick.placeBrick(new BABYLON.Vector3(1, 1, 1));
         currentRotation = 90;
-        Brick.placeBrick(BRICKS.b1x1, new BABYLON.Vector3(1, 2, 1));
+        Brick.placeBrickAt(1, 2, 1);
         currentColor = COLORS.RED;
-        Brick.placeBrick(BRICKS.b1x1, new BABYLON.Vector3(0,0,0));
+        Brick.placeBrickAt(0, 0, 0);
     </script>
 </body>
 </html>

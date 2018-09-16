@@ -1,13 +1,11 @@
-//const BABYLON = require('babylonjs');
-
 // Global variables
 var brickList = [];
 var lastId = 0;
 var isDebugMode = false;
 var SPS;
-var currentColor; // From gui
-var currentRotation = 0; // From gui
-var placementRotated = false; // From tool/gui
+var currentColor; // From gui/tools
+var currentRotation = 0; // From gui/tools
+var currentBrick; // From gui/tools
 
 // Colors/material constants
 const COLORS = {
@@ -26,6 +24,7 @@ currentColor = COLORS.DEFAULT;
 const BRICKS = {
     b1x1: new BABYLON.Vector3(1, 1, 1)
 }
+currentBrick = BRICKS.b1x1;
 
 const PLAYERDEFAULTS = {
     SENSITIVITY: 0.005,
