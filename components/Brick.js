@@ -318,20 +318,26 @@ class Brick {
      */
     static fixPos(brickPos, hitMesh) {
         if (!hitMesh || !hitMesh.brickClass) {
-            brickPos.x = Math.round(brickPos.x);
+            // Not a brick, likely the ground
+            brickPos.x = Math.floor(brickPos.x);
             brickPos.y = Math.floor(brickPos.y);
-            brickPos.z = Math.round(brickPos.z);
+            brickPos.z = Math.floor(brickPos.z);
             if (brickPos.y < 0) {
                 brickPos.y = 0;
             }
         }
         else {
-            console.log("Brick hit!");
+            // Floor ensures the brick will always be on top of the brick, not rounding off the side
             brickPos.x = Math.floor(brickPos.x);
             brickPos.z = Math.floor(brickPos.z);
-            var newY = hitMesh.position.y + 0.5;
+            // This is the position the brick would be if it were exactly on top of the hit brick
+            var newY = hitMesh.position.y + 0.5; // Placed bricks are centered
+            // The raycast has hit high on thebrick, likely meaning its at or near the top
             if (newY - brickPos.y < 0.1) {
                 brickPos.y = newY;
+            }
+            else {
+                
             }
         }    
         return brickPos;
@@ -358,6 +364,9 @@ class TempBrick extends Brick {
         World,
         currentRotation);
 
+        this._mesh.scaling.x *= 1.01;
+        this._mesh.scaling.y *= 1.01;
+        this._mesh.scaling.z *= 1.01;
         this._mesh.material.alpha = 0.5;
         this._mesh._visibility = true;
         this._mesh.isVisible = true;
@@ -365,27 +374,20 @@ class TempBrick extends Brick {
         this._mesh.brickClass = null;
         this._mesh.isPickable = false;
         this.owner = owner;
-
-        this._setupPlacing();
     }
 
-    /**
-     * @private
-     */
-    _setupPlacing() {
-        var _this = this;
-        setInterval(function() {
-            var hit = scene.pickWithRay(_this.owner.rayHelper.ray);
-            if (!hit || hit == null || hit.pickedPoint == null) {
-                console.log("No hit point!");
-            }
-            else {
-                var hitPoint = hit.pickedPoint;
-                hitPoint = Brick.fixPos(hitPoint, hit.pickedMesh);
-                _this.setX(hitPoint.x);
-                _this.setY(hitPoint.y);
-                _this.setZ(hitPoint.z);
-            }
-        }, 100);
+    moveToRay() {
+        var hit = scene.pickWithRay(this.owner.rayHelper.ray);
+        if (!hit || hit == null || hit.pickedPoint == null) {
+            //console.log("No hit point!");
+        }
+        else {
+            console.log(hit);
+            var hitPoint = hit.pickedPoint;
+            hitPoint = Brick.fixPos(hitPoint, hit.pickedMesh);
+            this.setX(hitPoint.x);
+            this.setY(hitPoint.y);
+            this.setZ(hitPoint.z);
+        }
     }
 }

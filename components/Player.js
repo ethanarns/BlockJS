@@ -245,24 +245,37 @@ class Player {
                 function() { _this.sideways = 0; }
             )
         );
+
         // There is no event.key for space! Do it via values instead.
-        var onKeyDown = function(evt) {
+        var onJumpKeyDown = function(evt) {
             // Spacebar
             if (evt.keyCode == 32) {
                 _this.jumpPressed = true;
             }
         };
-        var onKeyUp = function(evt) {
+        var onJumpKeyUp = function(evt) {
             if (evt.keyCode == 32) {
                 _this.jumpPressed = false;
             }
         };
+        var onEnterKeyDown = function(evt) {
+            if (evt.keyCode == 13) {
+                var brickPos = _this.tempBrick._mesh.position;
+                brickPos.x = brickPos.x - 0.5;
+                brickPos.y = brickPos.y - 0.5;
+                brickPos.z = brickPos.z - 0.5;
+                Brick.placeBrick(_this.tempBrick._mesh.position);
+            }
+        };
         BABYLON.Tools.RegisterTopRootEvents([{
             name: "keydown",
-            handler: onKeyDown
+            handler: onJumpKeyDown
         }, {
             name: "keyup",
-            handler: onKeyUp
+            handler: onJumpKeyUp
+        }, {
+            name: "keydown",
+            handler: onEnterKeyDown
         }]);
     }
 
@@ -318,10 +331,7 @@ class Player {
         else {
             if (isDebugMode)
                 console.log("Mesh hit by player raycast!");
-            var hitPoint = hit.pickedPoint;
-            var hitMesh = hit.pickedMesh;
-            hitPoint = Brick.fixPos(hitPoint, hitMesh);
-            Brick.placeBrick(hitPoint);
+            this.tempBrick.moveToRay();
         }
     }
 }
