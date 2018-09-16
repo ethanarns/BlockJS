@@ -45,7 +45,7 @@ class Brick {
         this._mesh.rotation.y = (Math.PI / 180) * rotation;
         this.centerPivot();
         this._mesh.computeWorldMatrix();
-        this._mesh.scaling = new BABYLON.Vector3(0.9, 0.9, 0.9);
+        this._mesh.scaling = new BABYLON.Vector3(0.99, 0.99, 0.99);
         this._mesh.position = locVec;
         this._mesh.material = material;
         this._mesh.checkCollisions = true;
@@ -318,7 +318,11 @@ class Brick {
  * @extends Brick
  */
 class TempBrick extends Brick {
-    constructor () {
+    constructor (owner) {
+        if (!owner) {
+            console.log("[!] No owner detected in TempBrick construction!");
+            return;
+        }
         super("tempBrick",
         currentBrick.x,
         currentBrick.y,
@@ -331,5 +335,31 @@ class TempBrick extends Brick {
         this._mesh.material.alpha = 0.5;
         this._mesh._visibility = true;
         this._mesh.isVisible = true;
+        this._mesh.brickClass = null;
+        this.owner = owner;
+
+        this._setupPlacing();
+    }
+
+    /**
+     * @private
+     */
+    _setupPlacing() {
+        var _this = this;
+        setInterval(function() {
+            var hit = scene.pickWithRay(_this.owner.rayHelper.ray);
+            if (!hit || hit == null) {
+                console.log("No hit!");
+            }
+            else {
+                var hitPoint = hit.pickedPoint;
+                hitPoint.x = Math.round(hitPoint.x);
+                hitPoint.y = Math.round(hitPoint.y);
+                hitPoint.z = Math.round(hitPoint.z);
+                _this.setX(hitPoint.x);
+                _this.setY(hitPoint.y);
+                _this.setZ(hitPoint.z);
+            }
+        }, 100);
     }
 }
