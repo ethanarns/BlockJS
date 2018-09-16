@@ -46,8 +46,6 @@ class Brick {
         this._mesh.material.freeze(); // Color set in particle anyway
         this._mesh.isPickable = true;
         this._mesh.freezeWorldMatrix();
-        this.spsCloneId = SPS.addShape(this._mesh, 1); // Add one copy
-        console.log("Created brick has a spsCloneId of " + this.spsCloneId);
         //this._mesh._visibility = false; // kills drawcall without removing pickability
         brickList.push(this);
         // Remember to do SPS update later
@@ -176,15 +174,15 @@ class Brick {
      * @param {number} id SPS Particle id to match brick with
      */
     static getByParticleId(id) {
-        console.log("Searching for brick with spsCloneId " + id + "...");
+        // console.log("Searching for brick with spsCloneId " + id + "...");
         for (let i = 0; i < brickList.length; i++) {
-            console.log("Here's one: " + brickList[i].spsCloneId);
+            // console.log("Here's one: " + brickList[i].spsCloneId);
             if (brickList[i].spsCloneId === id) {
-                console.log("Found one!")
+                // console.log("Found one!")
                 return brickList[i];
             }
         }
-        console.log("None found...");
+        // console.log("None found...");
         return null;
     }
 

@@ -31,21 +31,15 @@
         var scene = Utils.generateScene(engine, true);
         var World = Utils.generateWorld();
         var UI = Utils.generateUI();
-        Utils.setupSPS();
+        //Utils.setupSPS();
         engine.runRenderLoop(function() {
             scene.render();
             player1.movement();
         });
-        
         var player1 = new Player("Player1", {}, scene);
         player1.moveTo(0, 15, -20);
-        var brick1 = new Brick("Brick1", 1, 1, 1,
-            new BABYLON.Vector3(0, 0, 0), COLORS.RED, World);
-        var brick2 = new Brick("Brick1", 1, 1, 1,
-            new BABYLON.Vector3(0, 2, 0), COLORS.RED, World);
-        SPS.buildMesh();
-        SPS.initParticles();
-        SPS.setParticles();
+        var brick1 = new Brick("Brick1", 1, 1, 1, new BABYLON.Vector3(0, 0, 0), COLORS.RED, World);
+        var brick2 = new Brick("Brick1", 1, 1, 1, new BABYLON.Vector3(0, 2, 0), COLORS.RED, World);
     </script>
 </body>
 </html>

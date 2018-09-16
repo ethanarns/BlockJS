@@ -139,9 +139,21 @@ class Utils {
         }
     }
 
-    static setupSPS() {
+    static refreshSPS() {
+        if (SPS && typeof SPS.dispose != undefined) {
+            SPS.dispose();
+        }
+        var SPS = null;
         SPS = new BABYLON.SolidParticleSystem("SPS", scene);
+        SPS.initParticles();
+        for (let i = 0; i < brickList.length; i++) {
+            var idShape = SPS.addShape(brickList[i]._mesh, 1);
+            brickList[i].spsCloneId = idShape;
+        }
+        SPS.buildMesh();
+        // This is called when SPS.setParticles is called. Don't do constantly!
         SPS.updateParticle = function(particle) {
+            console.log("Doing particle update");
             var brick = Brick.getByParticleId(particle.shapeId);
             if (brick === null) {
                 console.log("[!] No matching Brick found for particle!");
@@ -158,14 +170,7 @@ class Utils {
                 particle.position.z = brick.getPosition().z;
             }
         }
-        SPS.initParticles = function () {
-            for (var p = 0; p < SPS.nbParticles; p++) {
-                SPS.recycleParticle(SPS.particles[p]);
-            }
-        };
-        SPS.recycleParticle = function (particle) {
-            // Do something here
-        };
+        SPS.setParticles();
     }
 }
 

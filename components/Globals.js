@@ -4,7 +4,6 @@
 var brickList = [];
 var lastId = 0;
 var isDebugMode = false;
-var SPS;
 
 // Colors/material constants
 const COLORS = {
