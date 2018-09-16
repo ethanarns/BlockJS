@@ -6,6 +6,7 @@ var lastId = 0;
 var isDebugMode = false;
 var SPS;
 var currentColor; // From gui
+var currentRotation = 0; // From gui
 var placementRotated = false; // From tool/gui
 
 // Colors/material constants
@@ -40,7 +41,7 @@ const MISCSETTINGS = {
     FLOOR_WIDTH: 100,
     MAX_BRICKS: 5000,
     GRAVITY: new BABYLON.Vector3(0, -9.8, 0),
-    BRICKSHRINK: 0.99
+    BRICKSHRINK: 0.999
 }
 
 module.exports = {

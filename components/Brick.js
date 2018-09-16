@@ -26,7 +26,7 @@ class Brick {
      * @constructs
      * @public
      */
-    constructor (name, x, y, z, locVec, color, World, rotation = 90) {
+    constructor (name, x, y, z, locVec, color, World, rotation = 0) {
         this.id = ++lastId; // Increment THEN return
         var material = new BABYLON.StandardMaterial(name + " Material", World.scene);
             material.emissiveColor = new BABYLON.Color3(
@@ -265,9 +265,13 @@ class Brick {
      * @public
      */
     static placeBrick(dim, loc) {
-        var brick = new Brick("Brick", dim.x, dim.y, dim.z, new BABYLON.Vector3(loc.x, loc.y, loc.z), currentColor, World);
+        var brick = new Brick("Brick", dim.x, dim.y, dim.z, new BABYLON.Vector3(loc.x, loc.y, loc.z),
+            currentColor, World, currentRotation);
+        if (currentRotation % 90 != 0) {
+            console.log("Warning: Angles not divisible by 90 degrees will " +
+                "intersection with other bricks and look bad, fix");
+        }
         brick._mesh.unfreezeWorldMatrix();
-        // TODO: Rotation
         if (!this.canPlaceBrick(brick)) {
             console.log("You cannot place a brick here!");
             Brick.deleteBrickById(brick.id);
