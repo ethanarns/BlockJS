@@ -52,9 +52,6 @@ class Brick {
         this._mesh.material.freeze(); // Color set in particle anyway
         this._mesh.isPickable = true;
         this._mesh._visibility = false; // kills drawcall without removing pickability
-        brickList.push(this);
-        // Wipe then recreate SPS
-        Utils.refreshSPS();
     }
 
     /**
@@ -278,6 +275,11 @@ class Brick {
             Brick.deleteBrickById(brick.id);
             return null;
         }
+
+        brickList.push(brick);
+        // Wipe then recreate SPS
+        Utils.refreshSPS();
+
         brick._mesh.freezeWorldMatrix();
         UI.Audio.clickPlace.play();
         return brick;
@@ -315,30 +317,19 @@ class Brick {
  * Gets all of its information from tool/gui global variables
  * @extends Brick
  */
-class TempBrick extends Brick{
+class TempBrick extends Brick {
     constructor () {
-        var color = currentColor;
-        var material = new BABYLON.StandardMaterial(name + " Material", World.scene);
-            material.emissiveColor = new BABYLON.Color3(
-                color.r / COLORS.EMISSDARKERBY,
-                color.g / COLORS.EMISSDARKERBY,
-                color.b / COLORS.EMISSDARKERBY
-            );
-            material.diffuseColor = color;
-        this._mesh = BABYLON.MeshBuilder.CreateBox(name, {}, World.scene);
-        locVec.x += x / 2;
-        locVec.y += y / 2;
-        locVec.z += z / 2;
-        // Make pivot lower corner
-        this._mesh.setPivotMatrix(BABYLON.Matrix.Translation(x/2, y/2, z/2));
-        this._mesh.rotation.y = (Math.PI / 180) * currentRotation;
-        this.centerPivot();
-        this._mesh.computeWorldMatrix();
-        this._mesh.scaling = currentBrick;
-        this._mesh.position = locVec;
-        this._mesh.material = material;
-        this._mesh.checkCollisions = false;
-        this._mesh.material.freeze();
-        this._mesh.isPickable = false;
+        super("tempBrick",
+        currentBrick.x,
+        currentBrick.y,
+        currentBrick.z,
+        new BABYLON.Vector3(0, 0, 0),
+        currentColor,
+        World,
+        currentRotation);
+
+        this._mesh.material.alpha = 0.5;
+        this._mesh._visibility = true;
+        this._mesh.isVisible = true;
     }
 }
