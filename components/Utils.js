@@ -61,7 +61,8 @@ class Utils {
             engine.resize();
         });
         if (debug) {
-            console.log("%c[!] Debug mode enabled, set generateScene() flag 'debug' to false to disable at runtime", "color: orange");
+            console.log("%c[!] Debug mode enabled, " +
+                "set generateScene() flag 'debug' to false to disable at runtime", "color: orange");
             scene.debugLayer.show();
             if (!noGrid) {
                 Utils.drawGrid();
@@ -86,13 +87,20 @@ class Utils {
         var UI = {};
         // Graphics
         UI.advancedTexture = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("myUI");
-        UI.crosshair = new BABYLON.GUI.Ellipse();
-        UI.crosshair.height = "10px";
-        UI.crosshair.name = "Crosshairs";
-        UI.crosshair.width = "10px";
-        UI.crosshair.color = "White";
-        UI.crosshair.thickness = 2;
-        UI.advancedTexture.addControl(UI.crosshair);
+        UI.crosshair2 = new BABYLON.GUI.Ellipse();
+        UI.crosshair2.height = "12px";
+        UI.crosshair2.name = "Crosshairs Outline";
+        UI.crosshair2.width = "12px";
+        UI.crosshair2.color = "Grey";
+        UI.crosshair2.thickness = 1;
+        UI.advancedTexture.addControl(UI.crosshair2);
+        UI.crosshair1 = new BABYLON.GUI.Ellipse();
+        UI.crosshair1.height = "10px";
+        UI.crosshair1.name = "Crosshairs White";
+        UI.crosshair1.width = "10px";
+        UI.crosshair1.color = "White";
+        UI.crosshair1.thickness = 2;
+        UI.advancedTexture.addControl(UI.crosshair1);
         // Audio
         UI.Audio = {};
         UI.Audio.jumpSound = new BABYLON.Sound("gunshot", "./audio/jump.wav", scene);
