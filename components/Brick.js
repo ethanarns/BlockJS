@@ -48,8 +48,8 @@ class Brick {
         this._mesh.freezeWorldMatrix();
         this._mesh._visibility = false; // kills drawcall without removing pickability
         brickList.push(this);
-        // Remember to do SPS update later
-        //Utils.refreshSPS();
+        // Wipe then recreate SPS
+        Utils.refreshSPS();
     }
 
     /**
@@ -170,6 +170,11 @@ class Brick {
         this.setPivotPoint(centerPointWorld, BABYLON.Space.WORLD);
     }
 
+    static deleteBrick(brick) {
+        brick.dispose();
+        brick = null;
+    }
+
     /**
      * Retrieves a reference to a brick with the spsCloneId of 'id'
      * @param {number} id SPS Particle id to match brick with
@@ -232,7 +237,7 @@ class Brick {
      * @returns {Brick} The created brick
      * @static
      * @public
-     * @deprecated
+     * @todo Make this again
      */
     static placeBrick(width, height, depth, x, y, z, color = COLOR_DEFAULT, rotated = false) {
         var brick;

@@ -157,21 +157,20 @@ class Utils {
         SPS.buildMesh();
         // This is called when SPS.setParticles is called. Don't do constantly!
         SPS.updateParticle = function(particle) {
-            console.log("Doing particle update");
+            // console.log("Doing particle update");
             var brick = Brick.getByParticleId(particle.shapeId);
             if (brick === null) {
                 console.log("[!] No matching Brick found for particle!");
             }
-            else if (typeof brick.particleRef === undefined) {
-                console.log("Already matched and updated");
-            }
             else {
-                console.log("Linking")
+                //console.log("Linking")
                 particle.brickRef = brick;
                 brick.particleRef = particle;
                 particle.position.x = brick.getPosition().x;
                 particle.position.y = brick.getPosition().y;
                 particle.position.z = brick.getPosition().z;
+                let col = brick._mesh.material.diffuseColor;
+                particle.color = new BABYLON.Color4(col.r, col.g, col.b, 1.0);
             }
         }
         SPS.setParticles();
