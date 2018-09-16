@@ -170,8 +170,16 @@ class Brick {
         this.setPivotPoint(centerPointWorld, BABYLON.Space.WORLD);
     }
 
-    static deleteBrick(brick) {
-        brick._mesh.dispose();
+    static deleteBrickById(id) {
+        for (let i = 0; i < brickList.length; i++) {
+            if (id === brickList[i].id) {
+                console.log("Match found! Deleting...");
+                brickList[i]._mesh.dispose();
+                brickList[i] = null;
+                brickList.splice(i, 1);
+            }
+        }
+        Utils.refreshSPS();
     }
 
     /**
