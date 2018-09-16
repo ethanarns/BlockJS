@@ -310,6 +310,16 @@ class Brick {
     static countAllBricks() {
         return brickList.length;
     }
+
+    static fixPos(brickPos) {
+        brickPos.x = Math.round(brickPos.x);
+        brickPos.y = Math.floor(brickPos.y);
+        if (brickPos.y < 0) {
+            brickPos.y = 0;
+        }
+        brickPos.z = Math.round(brickPos.z);
+        return brickPos;
+    }
 }
 
 /**
@@ -335,6 +345,7 @@ class TempBrick extends Brick {
         this._mesh.material.alpha = 0.5;
         this._mesh._visibility = true;
         this._mesh.isVisible = true;
+        this._mesh.checkCollisions = false;
         this._mesh.brickClass = null;
         this.owner = owner;
 
@@ -348,14 +359,12 @@ class TempBrick extends Brick {
         var _this = this;
         setInterval(function() {
             var hit = scene.pickWithRay(_this.owner.rayHelper.ray);
-            if (!hit || hit == null) {
-                console.log("No hit!");
+            if (!hit || hit == null || hit.pickedPoint == null) {
+                console.log("No hit point!");
             }
             else {
                 var hitPoint = hit.pickedPoint;
-                hitPoint.x = Math.round(hitPoint.x);
-                hitPoint.y = Math.round(hitPoint.y);
-                hitPoint.z = Math.round(hitPoint.z);
+                hitPoint = Brick.fixPos(hitPoint);
                 _this.setX(hitPoint.x);
                 _this.setY(hitPoint.y);
                 _this.setZ(hitPoint.z);

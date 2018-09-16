@@ -95,6 +95,8 @@ class Player {
         // Raycast shooter
         this.rayHelper = new BABYLON.RayHelper(new BABYLON.Ray());
         this.rayHelper.attachToMesh(this.camera, new BABYLON.Vector3(0,0,1), new BABYLON.Vector3(0, 0, 0), 100);
+
+        this.tempBrick = new TempBrick(this);
     }
     /**
      * Add listeners to user's mouse controls
@@ -318,11 +320,7 @@ class Player {
                 console.log("Mesh hit by player raycast!");
             var hitPoint = hit.pickedPoint;
             var hitMesh = hit.pickedMesh;
-            console.log(hitPoint);
-            hitPoint.x = Math.round(hitPoint.x);
-            hitPoint.y = Math.round(hitPoint.y);
-            hitPoint.z = Math.round(hitPoint.z);
-            console.log("Rounded: " + hitPoint);
+            hitPoint = Brick.fixPos(hitPoint);
             Brick.placeBrick(hitPoint);
         }
     }
