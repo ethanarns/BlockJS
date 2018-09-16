@@ -291,9 +291,9 @@ class Brick {
      * @public
      */
     static placeBrickAt(x, y, z) {
-        if (!y) {
+        if (typeof x == BABYLON.Vector3) {
             console.log("You are using the wrong function, see placeBrick()");
-            return null;
+            return this.placeBrick(x);
         }
         return this.placeBrick(new BABYLON.Vector3(x, y, z));
     }
