@@ -34,6 +34,7 @@ class Utils {
         world.ground = ground;
         world.mainLight = new BABYLON.PointLight("light", new BABYLON.Vector3(10, 10, 0), scene);
         world.scene = scene; // Might look good in references
+        SPS = new BABYLON.SolidParticleSystem("SPS", scene);
         return world; // Return reference to it
     }
 
@@ -140,10 +141,13 @@ class Utils {
     }
 
     static refreshSPS() {
-        if (SPS && typeof SPS.dispose != undefined) {
+        try {
             SPS.dispose();
         }
-        var SPS = null;
+        catch (error) {
+            console.log("SPS does not contain existing meshes, cannot dispose.");
+        }
+        SPS = null;
         SPS = new BABYLON.SolidParticleSystem("SPS", scene);
         SPS.initParticles();
         for (let i = 0; i < brickList.length; i++) {

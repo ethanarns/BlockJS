@@ -46,9 +46,10 @@ class Brick {
         this._mesh.material.freeze(); // Color set in particle anyway
         this._mesh.isPickable = true;
         this._mesh.freezeWorldMatrix();
-        //this._mesh._visibility = false; // kills drawcall without removing pickability
+        this._mesh._visibility = false; // kills drawcall without removing pickability
         brickList.push(this);
         // Remember to do SPS update later
+        //Utils.refreshSPS();
     }
 
     /**
