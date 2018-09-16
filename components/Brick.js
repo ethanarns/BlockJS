@@ -22,10 +22,11 @@ class Brick {
      * @param {BABYLON.Vector3} locVec Vector3 representing placement location
      * @param {BABYLON.Color3} color Color3 representing Material color, usually a constant
      * @param {object} World World container holding scene and SPS
+     * @param {number} rotation The bricks rotation, if any, in degrees
      * @constructs
      * @public
      */
-    constructor (name, x, y, z, locVec, color, World) {
+    constructor (name, x, y, z, locVec, color, World, rotation = 90) {
         this.id = ++lastId; // Increment THEN return
         var material = new BABYLON.StandardMaterial(name + " Material", World.scene);
             material.emissiveColor = new BABYLON.Color3(
@@ -41,12 +42,15 @@ class Brick {
         locVec.z += z / 2;
         // Make pivot lower corner
         this._mesh.setPivotMatrix(BABYLON.Matrix.Translation(x/2, y/2, z/2));
+        this._mesh.rotation.y = (Math.PI / 180) * rotation;
+        this.centerPivot();
+        this._mesh.computeWorldMatrix();
+        this._mesh.scaling = new BABYLON.Vector3(0.9, 0.9, 0.9);
         this._mesh.position = locVec;
         this._mesh.material = material;
         this._mesh.checkCollisions = true;
         this._mesh.material.freeze(); // Color set in particle anyway
         this._mesh.isPickable = true;
-        this._mesh.freezeWorldMatrix();
         this._mesh._visibility = false; // kills drawcall without removing pickability
         brickList.push(this);
         // Wipe then recreate SPS
@@ -175,8 +179,8 @@ class Brick {
      * @public
      */
     centerPivot() {
-        var centerPointWorld = _mesh.getBoundingInfo().boundingBox.centerWorld;
-        this.setPivotPoint(centerPointWorld, BABYLON.Space.WORLD);
+        var centerPointWorld = this._mesh.getBoundingInfo().boundingBox.centerWorld;
+        this._mesh.setPivotPoint(centerPointWorld, BABYLON.Space.WORLD);
     }
 
     /**
@@ -228,7 +232,7 @@ class Brick {
      */
     static canPlaceBrick(brick) {
         for (let i = 0; i < brickList.length; i++) {
-            if (brick.intersectsMesh(brickList[i], false) && brick !== brickList[i]) {
+            if (brick._mesh.intersectsMesh(brickList[i]._mesh, false) && brick.id !== brickList[i].id) {
                 console.log("Intersection! Cannot place brick.");
                 return false;
             }
@@ -262,11 +266,14 @@ class Brick {
      */
     static placeBrick(dim, loc) {
         var brick = new Brick("Brick", dim.x, dim.y, dim.z, new BABYLON.Vector3(loc.x, loc.y, loc.z), currentColor, World);
+        brick._mesh.unfreezeWorldMatrix();
+        // TODO: Rotation
         if (!this.canPlaceBrick(brick)) {
             console.log("You cannot place a brick here!");
-            Block.deleteBrickById(brick.id);
+            Brick.deleteBrickById(brick.id);
             return null;
         }
+        brick._mesh.freezeWorldMatrix();
         return brick;
     }
 

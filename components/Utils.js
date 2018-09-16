@@ -182,6 +182,11 @@ class Utils {
                 particle.position.x = brick.getPosition().x;
                 particle.position.y = brick.getPosition().y;
                 particle.position.z = brick.getPosition().z;
+                particle.scaling = new BABYLON.Vector3(
+                    MISCSETTINGS.BRICKSHRINK,
+                    MISCSETTINGS.BRICKSHRINK,
+                    MISCSETTINGS.BRICKSHRINK
+                )
                 let col = brick._mesh.material.diffuseColor;
                 particle.color = new BABYLON.Color4(col.r, col.g, col.b, 1.0);
             }

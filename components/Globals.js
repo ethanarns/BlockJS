@@ -5,7 +5,7 @@ var brickList = [];
 var lastId = 0;
 var isDebugMode = false;
 var SPS;
-var currentColor = COLORS.RED; // From gui
+var currentColor; // From gui
 var placementRotated = false; // From tool/gui
 
 // Colors/material constants
@@ -19,6 +19,11 @@ const COLORS = {
     DEFAULT: new BABYLON.Color3(0, 0.58, 0.86),
     BGCLEAR: new BABYLON.Color3(0.8, 0.8, 0.8),
     EMISSDARKERBY: 3
+}
+currentColor = COLORS.DEFAULT;
+
+const BRICKS = {
+    b1x1: new BABYLON.Vector3(1, 1, 1)
 }
 
 const PLAYERDEFAULTS = {
@@ -34,12 +39,14 @@ const PLAYERDEFAULTS = {
 const MISCSETTINGS = {
     FLOOR_WIDTH: 100,
     MAX_BRICKS: 5000,
-    GRAVITY: new BABYLON.Vector3(0, -9.8, 0)
+    GRAVITY: new BABYLON.Vector3(0, -9.8, 0),
+    BRICKSHRINK: 0.99
 }
 
 module.exports = {
     MISCSETTINGS,
     PLAYERDEFAULTS,
+    BRICKS,
     COLORS,
     brickList,
     lastId,

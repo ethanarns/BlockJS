@@ -37,10 +37,9 @@
         });
         var player1 = new Player("Player1", {}, scene);
         player1.moveTo(0, 15, -20);
-        var brick1 = new Brick("Brick1", 1, 1, 1, new BABYLON.Vector3(0, 0, 0), COLORS.RED, World);
-        var brick2 = new Brick("Brick2", 1, 1, 1, new BABYLON.Vector3(0, 1, 0), COLORS.ORANGE, World);
-        var brick3 = new Brick("Brick3", 1, 1, 1, new BABYLON.Vector3(0, 2, 0), COLORS.YELLOW, World);
-        var brick4 = new Brick("Brick4", 1, 1, 1, new BABYLON.Vector3(0, 3, 0), COLORS.GREEN, World);
+        Brick.placeBrick(BRICKS.b1x1, new BABYLON.Vector3(1, 0, 1));
+        Brick.placeBrick(BRICKS.b1x1, new BABYLON.Vector3(1, 1, 1));
+        Brick.placeBrick(BRICKS.b1x1, new BABYLON.Vector3(1, 2, 1));
     </script>
 </body>
 </html>
