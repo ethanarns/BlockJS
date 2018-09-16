@@ -34,25 +34,23 @@ class Brick {
                 color.b / COLORS.EMISSDARKERBY
             );
             material.diffuseColor = color;
-        var _mesh = BABYLON.MeshBuilder.CreateBox(name, {width: x, height:y, depth:z}, World.scene);
+        this._mesh = BABYLON.MeshBuilder.CreateBox(name, {width: x, height:y, depth:z}, World.scene);
         locVec.x += x / 2;
         locVec.y += y / 2;
         locVec.z += z / 2;
         // Make pivot lower corner
-        _mesh.setPivotMatrix(BABYLON.Matrix.Translation(x/2, y/2, z/2));
-        _mesh.position = locVec;
-        _mesh.material = material;
-        _mesh.checkCollisions = true;
-        // Remember to undo these before duplicating
-        //this._mesh.material.freeze();
-        //this._mesh.isPickable = false;
-        //this._mesh.checkCollisions = false;
-        //this._mesh.freezeWorldMatrix();
-        //this._mesh.isVisible = false;
-        _mesh.spsClone = SPS.addShape(_mesh, 1);
-        console.log(_mesh.spsClone);
-        _mesh.isVisible = true;
-        SPS.buildMesh();
+        this._mesh.setPivotMatrix(BABYLON.Matrix.Translation(x/2, y/2, z/2));
+        this._mesh.position = locVec;
+        this._mesh.material = material;
+        this._mesh.checkCollisions = true;
+        this._mesh.material.freeze(); // Color set in particle anyway
+        this._mesh.isPickable = true;
+        this._mesh.freezeWorldMatrix();
+        this.spsCloneId = SPS.addShape(this._mesh, 1); // Add one copy
+        console.log("Created brick has a spsCloneId of " + this.spsCloneId);
+        //this._mesh._visibility = false; // kills drawcall without removing pickability
+        brickList.push(this);
+        // Remember to do SPS update later
     }
 
     /**
@@ -171,6 +169,23 @@ class Brick {
     centerPivot() {
         var centerPointWorld = _mesh.getBoundingInfo().boundingBox.centerWorld;
         this.setPivotPoint(centerPointWorld, BABYLON.Space.WORLD);
+    }
+
+    /**
+     * Retrieves a reference to a brick with the spsCloneId of 'id'
+     * @param {number} id SPS Particle id to match brick with
+     */
+    static getByParticleId(id) {
+        console.log("Searching for brick with spsCloneId " + id + "...");
+        for (let i = 0; i < brickList.length; i++) {
+            console.log("Here's one: " + brickList[i].spsCloneId);
+            if (brickList[i].spsCloneId === id) {
+                console.log("Found one!")
+                return brickList[i];
+            }
+        }
+        console.log("None found...");
+        return null;
     }
 
     /**

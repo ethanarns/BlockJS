@@ -34,15 +34,6 @@ class Utils {
         world.ground = ground;
         world.mainLight = new BABYLON.PointLight("light", new BABYLON.Vector3(10, 10, 0), scene);
         world.scene = scene; // Might look good in references
-        SPS = new BABYLON.SolidParticleSystem("SPS", scene);
-        SPS.initParticles = function() {
-            for (let p = 0; p < SPS.nbParticles; p++) {
-                SPS.recycleParticle(SPS.particles[p]);
-            }
-        }
-        SPS.recycleParticle = function() {
-
-        }
         return world; // Return reference to it
     }
 
@@ -146,6 +137,35 @@ class Utils {
                 line.isPickable = false;
             }
         }
+    }
+
+    static setupSPS() {
+        SPS = new BABYLON.SolidParticleSystem("SPS", scene);
+        SPS.updateParticle = function(particle) {
+            var brick = Brick.getByParticleId(particle.shapeId);
+            if (brick === null) {
+                console.log("[!] No matching Brick found for particle!");
+            }
+            else if (typeof brick.particleRef === undefined) {
+                console.log("Already matched and updated");
+            }
+            else {
+                console.log("Linking")
+                particle.brickRef = brick;
+                brick.particleRef = particle;
+                particle.position.x = brick.getPosition().x;
+                particle.position.y = brick.getPosition().y;
+                particle.position.z = brick.getPosition().z;
+            }
+        }
+        SPS.initParticles = function () {
+            for (var p = 0; p < SPS.nbParticles; p++) {
+                SPS.recycleParticle(SPS.particles[p]);
+            }
+        };
+        SPS.recycleParticle = function (particle) {
+            // Do something here
+        };
     }
 }
 
