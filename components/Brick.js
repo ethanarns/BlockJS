@@ -83,6 +83,14 @@ class Brick {
     }
 
     /**
+     * Sets the name of the Brick
+     * @param {string} newName Name to set the Brick to (via its mesh)
+     */
+    setName(newName) {
+        this._mesh.name = newName;
+    }
+
+    /**
      * Gets the mesh attached to the Brick class
      * @returns {BABYLON.Mesh} The Brick's Mesh
      * @public
@@ -245,21 +253,20 @@ class Brick {
 
     /**
      * Places a Brick in the scene by cloning a base Brick, no straight constructing
-     * @param {*} width Width dimension of the Brick to create
-     * @param {*} height Height dimension of the Brick to create
-     * @param {*} depth Depth dimension of the Brick to create
-     * @param {*} x X location of the Brick to create
-     * @param {*} y Y location of the Brick to create
-     * @param {*} z Z location of the Brick to create
-     * @param {*} color Color that will be applied to the Brick's Mesh Material
-     * @param {*} rotated Should the brick be rotated 90 degrees?
+     * Will get all data from player's state/gui
+     * @param {BABYLON.Vector3} dim Dimension of the Brick to create
+     * @param {BABYLON.Vector3} loc Location of the Brick to create
      * @returns {Brick} The created brick
      * @static
      * @public
-     * @todo Make this again
      */
-    static placeBrick(width, height, depth, x, y, z, color = COLOR_DEFAULT, rotated = false) {
-        var brick;
+    static placeBrick(dim, loc) {
+        var brick = new Brick("Brick", dim.x, dim.y, dim.z, new BABYLON.Vector3(loc.x, loc.y, loc.z), currentColor, World);
+        if (!this.canPlaceBrick(brick)) {
+            console.log("You cannot place a brick here!");
+            Block.deleteBrickById(brick.id);
+            return null;
+        }
         return brick;
     }
 

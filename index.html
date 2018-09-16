@@ -28,10 +28,9 @@
         // Primary game running utilities
         var canvas = document.getElementById("render-canvas");
         var engine = new BABYLON.Engine(canvas);
-        var scene = Utils.generateScene(engine, true);
+        var scene = Utils.generateScene(engine, false);
         var World = Utils.generateWorld();
         var UI = Utils.generateUI();
-        //Utils.setupSPS();
         engine.runRenderLoop(function() {
             scene.render();
             player1.movement();

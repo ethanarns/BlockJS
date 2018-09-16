@@ -5,6 +5,8 @@ var brickList = [];
 var lastId = 0;
 var isDebugMode = false;
 var SPS;
+var currentColor = COLORS.RED; // From gui
+var placementRotated = false; // From tool/gui
 
 // Colors/material constants
 const COLORS = {
