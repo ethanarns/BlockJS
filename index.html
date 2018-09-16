@@ -25,10 +25,16 @@
     <script src="https://preview.babylonjs.com/inspector/babylon.inspector.bundle.js"></script>
     <canvas id="render-canvas"></canvas>
     <script>
+        /**
+         * Handy links:
+         * http://doc.babylonjs.com/api/classes/babylon.mesh
+         * https://doc.babylonjs.com/how_to/solid_particle_system
+         */
+        
         // Primary game running utilities
         var canvas = document.getElementById("render-canvas");
         var engine = new BABYLON.Engine(canvas);
-        var scene = Utils.generateScene(engine, false);
+        var scene = Utils.generateScene(engine, true);
         var World = Utils.generateWorld();
         var UI = Utils.generateUI();
         engine.runRenderLoop(function() {

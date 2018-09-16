@@ -43,7 +43,12 @@ class Player {
                 this.alive = optionObject.isAlive;
             }
         }
-        this.root = BABYLON.MeshBuilder.CreateSphere("PlayerRoot", {height: this.height, width:this.width, depth:this.width}, this.scene);
+        this.root = BABYLON.MeshBuilder.CreateSphere("PlayerRoot", {
+            height: this.height,
+            width:this.width,
+            depth:this.width,
+            segments: 2 // turn up if needs visibility, 32 is default
+        }, this.scene);
         this.root.isVisible = false;
         this.root.checkCollisions = true;
         this.root.applyGravity = false;

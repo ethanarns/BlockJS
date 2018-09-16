@@ -26,7 +26,7 @@ class Utils {
         var ground = BABYLON.MeshBuilder.CreateGround("Ground", {
             height: MISCSETTINGS.FLOOR_WIDTH,
             width: MISCSETTINGS.FLOOR_WIDTH,
-            subdivision: MISCSETTINGS.FLOOR_WIDTH / 2
+            subdivision: 2
         }, scene);
         ground.checkCollisions = true;
         ground.position = new BABYLON.Vector3(0, 0, 0);
@@ -56,7 +56,7 @@ class Utils {
         if (debug) {
             console.log("%c[!] Debug mode enabled, set generateScene() flag 'debug' to false to disable at runtime", "color: orange");
             scene.debugLayer.show();
-            //Utils.drawGrid();
+            // Utils.drawGrid();
         }
         isDebugMode = debug;
         return scene; // Return reference to it
