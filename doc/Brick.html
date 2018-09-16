@@ -28,7 +28,7 @@
 
 <header>
     
-        <h2><span class="attribs"><span class="type-signature"></span></span>Brick<span class="signature">(name, x, y, z, locVec, color, World)</span><span class="type-signature"></span></h2>
+        <h2><span class="attribs"><span class="type-signature"></span></span>Brick<span class="signature">(name, x, y, z, locVec, color, World, rotation)</span><span class="type-signature"></span></h2>
         
             <div class="class-description">Class representing a Block with an attached mesh, as well as static helper methods</div>
         
@@ -45,7 +45,7 @@
     
 
     
-    <h4 class="name" id="Brick"><span class="type-signature"></span>new Brick<span class="signature">(name, x, y, z, locVec, color, World)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="Brick"><span class="type-signature"></span>new Brick<span class="signature">(name, x, y, z, locVec, color, World, rotation)</span><span class="type-signature"></span></h4>
     
 
     
@@ -79,6 +79,8 @@
         
 
         
+        <th>Default</th>
+        
 
         <th class="last">Description</th>
     </tr>
@@ -104,6 +106,10 @@
             
 
             
+                <td class="default">
+                
+                </td>
+            
 
             <td class="description last">Name of brick (applied to Mesh)</td>
         </tr>
@@ -126,6 +132,10 @@
 
             
 
+            
+                <td class="default">
+                
+                </td>
             
 
             <td class="description last">Width</td>
@@ -150,6 +160,10 @@
             
 
             
+                <td class="default">
+                
+                </td>
+            
 
             <td class="description last">Height</td>
         </tr>
@@ -172,6 +186,10 @@
 
             
 
+            
+                <td class="default">
+                
+                </td>
             
 
             <td class="description last">Depth</td>
@@ -196,6 +214,10 @@
             
 
             
+                <td class="default">
+                
+                </td>
+            
 
             <td class="description last">Vector3 representing placement location</td>
         </tr>
@@ -218,6 +240,10 @@
 
             
 
+            
+                <td class="default">
+                
+                </td>
             
 
             <td class="description last">Color3 representing Material color, usually a constant</td>
@@ -242,8 +268,41 @@
             
 
             
+                <td class="default">
+                
+                </td>
+            
 
             <td class="description last">World container holding scene and SPS</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>rotation</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+                <td class="default">
+                
+                    0
+                
+                </td>
+            
+
+            <td class="description last">The bricks rotation, if any, in degrees</td>
         </tr>
 
     
@@ -446,7 +505,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Brick.js.html">Brick.js</a>, <a href="Brick.js.html#line229">line 229</a>
+        <a href="Brick.js.html">Brick.js</a>, <a href="Brick.js.html#line233">line 233</a>
     </li></ul></dd>
     
 
@@ -672,7 +731,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Brick.js.html">Brick.js</a>, <a href="Brick.js.html#line249">line 249</a>
+        <a href="Brick.js.html">Brick.js</a>, <a href="Brick.js.html#line253">line 253</a>
     </li></ul></dd>
     
 
@@ -780,7 +839,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Brick.js.html">Brick.js</a>, <a href="Brick.js.html#line279">line 279</a>
+        <a href="Brick.js.html">Brick.js</a>, <a href="Brick.js.html#line307">line 307</a>
     </li></ul></dd>
     
 
@@ -937,7 +996,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Brick.js.html">Brick.js</a>, <a href="Brick.js.html#line188">line 188</a>
+        <a href="Brick.js.html">Brick.js</a>, <a href="Brick.js.html#line192">line 192</a>
     </li></ul></dd>
     
 
@@ -1072,7 +1131,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Brick.js.html">Brick.js</a>, <a href="Brick.js.html#line209">line 209</a>
+        <a href="Brick.js.html">Brick.js</a>, <a href="Brick.js.html#line213">line 213</a>
     </li></ul></dd>
     
 
@@ -1231,7 +1290,7 @@ Will get all data from player's state/gui
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Brick.js.html">Brick.js</a>, <a href="Brick.js.html#line263">line 263</a>
+        <a href="Brick.js.html">Brick.js</a>, <a href="Brick.js.html#line267">line 267</a>
     </li></ul></dd>
     
 
@@ -1276,6 +1335,187 @@ Will get all data from player's state/gui
 </dl>
 
     
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id=".placeBrickAt"><span class="type-signature">(static) </span>placeBrickAt<span class="signature">(x, y, z)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Translates 3 number values into a Vector3, then hands off to original
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>x</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">X position</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>y</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Y position</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>z</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Z position</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Brick.js.html">Brick.js</a>, <a href="Brick.js.html#line293">line 293</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1339,7 +1579,7 @@ Will get all data from player's state/gui
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Brick.js.html">Brick.js</a>, <a href="Brick.js.html#line177">line 177</a>
+        <a href="Brick.js.html">Brick.js</a>, <a href="Brick.js.html#line181">line 181</a>
     </li></ul></dd>
     
 
@@ -1425,7 +1665,7 @@ Will get all data from player's state/gui
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Brick.js.html">Brick.js</a>, <a href="Brick.js.html#line107">line 107</a>
+        <a href="Brick.js.html">Brick.js</a>, <a href="Brick.js.html#line111">line 111</a>
     </li></ul></dd>
     
 
@@ -1533,7 +1773,7 @@ Will get all data from player's state/gui
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Brick.js.html">Brick.js</a>, <a href="Brick.js.html#line98">line 98</a>
+        <a href="Brick.js.html">Brick.js</a>, <a href="Brick.js.html#line102">line 102</a>
     </li></ul></dd>
     
 
@@ -1641,7 +1881,7 @@ Will get all data from player's state/gui
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Brick.js.html">Brick.js</a>, <a href="Brick.js.html#line81">line 81</a>
+        <a href="Brick.js.html">Brick.js</a>, <a href="Brick.js.html#line85">line 85</a>
     </li></ul></dd>
     
 
@@ -1749,7 +1989,7 @@ Will get all data from player's state/gui
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Brick.js.html">Brick.js</a>, <a href="Brick.js.html#line152">line 152</a>
+        <a href="Brick.js.html">Brick.js</a>, <a href="Brick.js.html#line156">line 156</a>
     </li></ul></dd>
     
 
@@ -1906,7 +2146,7 @@ Will get all data from player's state/gui
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Brick.js.html">Brick.js</a>, <a href="Brick.js.html#line61">line 61</a>
+        <a href="Brick.js.html">Brick.js</a>, <a href="Brick.js.html#line65">line 65</a>
     </li></ul></dd>
     
 
@@ -2041,7 +2281,7 @@ Will get all data from player's state/gui
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Brick.js.html">Brick.js</a>, <a href="Brick.js.html#line89">line 89</a>
+        <a href="Brick.js.html">Brick.js</a>, <a href="Brick.js.html#line93">line 93</a>
     </li></ul></dd>
     
 
@@ -2176,7 +2416,7 @@ Will get all data from player's state/gui
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Brick.js.html">Brick.js</a>, <a href="Brick.js.html#line160">line 160</a>
+        <a href="Brick.js.html">Brick.js</a>, <a href="Brick.js.html#line164">line 164</a>
     </li></ul></dd>
     
 
@@ -2311,7 +2551,7 @@ Will get all data from player's state/gui
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Brick.js.html">Brick.js</a>, <a href="Brick.js.html#line116">line 116</a>
+        <a href="Brick.js.html">Brick.js</a>, <a href="Brick.js.html#line120">line 120</a>
     </li></ul></dd>
     
 
@@ -2446,7 +2686,7 @@ Will get all data from player's state/gui
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Brick.js.html">Brick.js</a>, <a href="Brick.js.html#line128">line 128</a>
+        <a href="Brick.js.html">Brick.js</a>, <a href="Brick.js.html#line132">line 132</a>
     </li></ul></dd>
     
 
@@ -2581,7 +2821,7 @@ Will get all data from player's state/gui
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Brick.js.html">Brick.js</a>, <a href="Brick.js.html#line140">line 140</a>
+        <a href="Brick.js.html">Brick.js</a>, <a href="Brick.js.html#line144">line 144</a>
     </li></ul></dd>
     
 
@@ -2631,7 +2871,7 @@ Will get all data from player's state/gui
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sat Sep 15 2018 21:14:00 GMT-0700 (Pacific Daylight Time)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sat Sep 15 2018 23:15:03 GMT-0700 (Pacific Daylight Time)
 </footer>
 
 <script> prettyPrint(); </script>
