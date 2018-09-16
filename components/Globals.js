@@ -9,7 +9,7 @@ var SPS;
 // Colors/material constants
 const COLORS = {
     RED:     new BABYLON.Color3(1.0, 0.0, 0.0),
-    ORANGE:  new BABYLON.Color3(1.0, 0.5, 1.0),
+    ORANGE:  new BABYLON.Color3(1.0, 0.5, 0.0),
     YELLOW:  new BABYLON.Color3(1.0, 1.0, 0.0),
     GREEN:   new BABYLON.Color3(0.0, 1.0, 0.0),
     BLUE:    new BABYLON.Color3(0.0, 0.0, 1.0),

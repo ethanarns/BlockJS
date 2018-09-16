@@ -313,6 +313,8 @@ class Player {
                 console.log("Mesh hit by player raycast!")
             var hitPoint = hit.pickedPoint;
             var hitMesh = hit.pickedMesh;
+            console.log(hitMesh.brickClass);
+            //Brick.deleteBrickById(hitMesh.)
         }
     }
 }

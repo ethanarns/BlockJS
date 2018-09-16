@@ -35,6 +35,7 @@ class Brick {
             );
             material.diffuseColor = color;
         this._mesh = BABYLON.MeshBuilder.CreateBox(name, {width: x, height:y, depth:z}, World.scene);
+        this._mesh.brickClass = this; // Parent reference to access Brick class from mesh
         locVec.x += x / 2;
         locVec.y += y / 2;
         locVec.z += z / 2;
@@ -171,13 +172,18 @@ class Brick {
     }
 
     static deleteBrickById(id) {
+        var found = false;
         for (let i = 0; i < brickList.length; i++) {
             if (id === brickList[i].id) {
-                console.log("Match found! Deleting...");
+                found = true;
                 brickList[i]._mesh.dispose();
                 brickList[i] = null;
                 brickList.splice(i, 1);
             }
+        }
+        if (!found) {
+            console.log("No brick found with that id");
+            return;
         }
         Utils.refreshSPS();
     }
