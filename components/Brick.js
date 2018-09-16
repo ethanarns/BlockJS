@@ -317,18 +317,23 @@ class Brick {
      * @param {BABYLON.Mesh} hitMesh The mesh the ray hit, if any
      */
     static fixPos(brickPos, hitMesh) {
-        brickPos.x = Math.round(brickPos.x);
         if (!hitMesh || !hitMesh.brickClass) {
+            brickPos.x = Math.round(brickPos.x);
             brickPos.y = Math.floor(brickPos.y);
+            brickPos.z = Math.round(brickPos.z);
             if (brickPos.y < 0) {
                 brickPos.y = 0;
             }
         }
         else {
             console.log("Brick hit!");
-            brickPos.y = hitMesh.position.y + 0.5;
-        }
-        brickPos.z = Math.round(brickPos.z);    
+            brickPos.x = Math.floor(brickPos.x);
+            brickPos.z = Math.floor(brickPos.z);
+            var newY = hitMesh.position.y + 0.5;
+            if (newY - brickPos.y < 0.1) {
+                brickPos.y = newY;
+            }
+        }    
         return brickPos;
     }
 }
