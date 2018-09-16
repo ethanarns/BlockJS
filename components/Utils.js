@@ -41,22 +41,36 @@ class Utils {
     }
 
     /**
-     * Creates and then returns the engine to run the game
+     * Creates and then returns the scene to run the game
+     * Option after debug to hide the grid since it adds drawcalls
      * @param {BABYLON.Engine} engine Engine to run the game
      * @param {boolean} debug Should the game start in debug mode?
+     * @param {boolean} noGrid If in debug mode, should the grid be hidden?
+     * @returns {BABYLON.Scene} The game's current scene
      * @public
      * @static
      */
-    static generateScene(engine, debug = true) {
+    static generateScene(engine, debug = true, noGrid = true) {
         var scene = new BABYLON.Scene(engine);
             scene.clearColor = COLORS.BGCLEAR;
             scene.gravity = MISCSETTINGS.GRAVITY;
             scene.collisionsEnabled = false;
             scene.preventDefaultOnPointerDown = true;
+        // Prevent stretching
+        window.addEventListener("resize", function () { 
+            engine.resize();
+        });
         if (debug) {
             console.log("%c[!] Debug mode enabled, set generateScene() flag 'debug' to false to disable at runtime", "color: orange");
             scene.debugLayer.show();
-            // Utils.drawGrid();
+            if (!noGrid) {
+                Utils.drawGrid();
+            }
+        }
+        else {
+            document.getElementsByTagName("html")[0].style.fontSize = 0;
+            document.getElementsByTagName("body")[0].style.fontSize = 0;
+            document.getElementsByTagName("canvas")[0].style.fontSize = 0;
         }
         isDebugMode = debug;
         return scene; // Return reference to it

@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <title>Block.js</title>
     <style>
-        html, body, canvas { margin: 0; padding: 0; width: 100%; height: 100%; }
+        html, body, canvas { margin: 0; padding: 0; width: 100%; height: 100%;}
     </style>
 </head>
 <body>
@@ -34,7 +34,7 @@
         // Primary game running utilities
         var canvas = document.getElementById("render-canvas");
         var engine = new BABYLON.Engine(canvas);
-        var scene = Utils.generateScene(engine, true);
+        var scene = Utils.generateScene(engine, false, true);
         var World = Utils.generateWorld();
         var UI = Utils.generateUI();
         engine.runRenderLoop(function() {
