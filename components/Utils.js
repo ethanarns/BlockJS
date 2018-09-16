@@ -103,7 +103,8 @@ class Utils {
         UI.advancedTexture.addControl(UI.crosshair1);
         // Audio
         UI.Audio = {};
-        UI.Audio.jumpSound = new BABYLON.Sound("gunshot", "./audio/jump.wav", scene);
+        UI.Audio.jumpSound = new BABYLON.Sound("jumpSound", "./audio/jump.wav", scene);
+        UI.Audio.placeClick = new BABYLON.Sound("placeClick", "./audio/placeClick.wav", scene);
 
         return UI;
     }
