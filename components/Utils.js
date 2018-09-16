@@ -149,7 +149,13 @@ class Utils {
         }
         SPS = null;
         SPS = new BABYLON.SolidParticleSystem("SPS", scene);
+        //SPS._alwaysVisible = true;
+
         SPS.initParticles();
+        if (brickList.length < 1) {
+            // Don't bother building an empty mesh
+            return;
+        }
         for (let i = 0; i < brickList.length; i++) {
             var idShape = SPS.addShape(brickList[i]._mesh, 1);
             brickList[i].spsCloneId = idShape;
@@ -174,6 +180,7 @@ class Utils {
             }
         }
         SPS.setParticles();
+        SPS.isAlwaysVisible = true;
     }
 }
 

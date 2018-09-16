@@ -310,11 +310,14 @@ class Player {
         }
         else {
             if (isDebugMode)
-                console.log("Mesh hit by player raycast!")
+                console.log("Mesh hit by player raycast!");
+            if (!hit.pickedMesh.brickClass) {
+                // not a brick
+                return;
+            }
             var hitPoint = hit.pickedPoint;
             var hitMesh = hit.pickedMesh;
-            console.log(hitMesh.brickClass);
-            //Brick.deleteBrickById(hitMesh.)
+            Brick.deleteBrickById(hitMesh.brickClass.id);
         }
     }
 }
