@@ -45,8 +45,8 @@ class Brick {
         this._mesh.rotation.y = (Math.PI / 180) * rotation;
         this.centerPivot();
         this._mesh.computeWorldMatrix();
-        this._mesh.showBoundingBox = true;
-        this._mesh.showSubMeshesBoundingBox = true;
+        //this._mesh.showBoundingBox = true;
+        //this._mesh.showSubMeshesBoundingBox = true;
 
         
         this._mesh.position = locVec;
@@ -54,7 +54,7 @@ class Brick {
         this._mesh.checkCollisions = true;
         this._mesh.material.freeze(); // Color set in particle anyway
         this._mesh.isPickable = true;
-        //this._mesh._visibility = false; // kills drawcall without removing pickability
+        this._mesh._visibility = false; // kills drawcall without removing pickability
     }
 
     /**
@@ -157,7 +157,7 @@ class Brick {
         this._mesh.unfreezeWorldMatrix();
         var pos = new BABYLON.Vector3();
         pos.copyFrom(this._mesh.position);
-        console.log(this._mesh.scaling / 2);
+        //console.log(this._mesh.scaling / 2);
         pos.x = pos.x - this._mesh.scaling.x / 2;
         pos.y = pos.y - this._mesh.scaling.y / 2;
         pos.z = pos.z - this._mesh.scaling.z / 2;
@@ -364,9 +364,9 @@ class Brick {
             else {
                 // Most likely the side of the brick has been hit. Lets get the player rotation...
                 var rot = player1.getDirection();
-                console.log(rot);
+                //console.log(rot);
                 brickPos.y = Math.floor(brickPos.y);
-                console.log(brickPos);
+                //console.log(brickPos);
                 brickPos.x -= rot.x;
                 brickPos.z -= rot.z;
                 //console.log(brickPos);

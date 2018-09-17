@@ -40,7 +40,7 @@ const MISCSETTINGS = {
     FLOOR_WIDTH: 100,
     MAX_BRICKS: 5000,
     GRAVITY: new BABYLON.Vector3(0, -9.8, 0),
-    BRICKSHRINK: 0.9
+    BRICKSHRINK: 0.995
 }
 
 module.exports = {

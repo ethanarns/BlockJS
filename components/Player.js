@@ -260,11 +260,12 @@ class Player {
         };
         var onEnterKeyDown = function(evt) {
             if (evt.keyCode == 13) {
-                var brickPos = _this.tempBrick._mesh.position;
+                var brickPos = new BABYLON.Vector3();
+                brickPos.copyFrom(_this.tempBrick._mesh.position);
                 brickPos.x = brickPos.x - 0.5;
                 brickPos.y = brickPos.y - 0.5;
                 brickPos.z = brickPos.z - 0.5;
-                Brick.placeBrick(_this.tempBrick._mesh.position);
+                Brick.placeBrick(brickPos);
             }
         };
         BABYLON.Tools.RegisterTopRootEvents([{
@@ -296,7 +297,7 @@ class Player {
         var degrees = (this.root.rotation.y * (180/Math.PI)) % 360;
         if (degrees < 0)
             degrees += 360;
-        console.log(degrees);
+        //console.log(degrees);
         if (degrees > 315 || degrees <= 45) {
             return new BABYLON.Vector3(0, 0, 1);
         }
