@@ -336,8 +336,8 @@ class Brick {
         }
         else {
             // Floor ensures the brick will always be on top of the brick, not rounding off the side
-            brickPos.x = Math.floor(brickPos.x) + hitMesh.brickClass.widthX / 2;
-            brickPos.z = Math.floor(brickPos.z) + hitMesh.brickClass.depthZ / 2;
+            brickPos.x = Math.floor(brickPos.x);// + hitMesh.brickClass.widthX / 2;
+            brickPos.z = Math.floor(brickPos.z);// + hitMesh.brickClass.depthZ / 2;
             // This is the position the brick would be if it were exactly on top of the hit brick
             var newY = hitMesh.position.y + hitMesh.scaling.y / 2; // Placed bricks are centered
             // The raycast has hit high on thebrick, likely meaning its at or near the top
