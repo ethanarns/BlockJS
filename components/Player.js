@@ -291,6 +291,26 @@ class Player {
         this.floating = this.isFloating();
     }
 
+    getDirection() {
+        // Always keep rotation within 0-360
+        var degrees = (this.root.rotation.y * (180/Math.PI)) % 360;
+        if (degrees < 0)
+            degrees += 360;
+        console.log(degrees);
+        if (degrees > 315 || degrees <= 45) {
+            return new BABYLON.Vector3(0, 0, 1);
+        }
+        else if (degrees > 45 && degrees <= 135) {
+            return new BABYLON.Vector3(1, 0, 0);
+        }
+        else if (degrees > 135 && degrees <= 225) {
+            return new BABYLON.Vector3(0, 0, -1);
+        }
+        else {
+            return new BABYLON.Vector3(-1, 0, 0);
+        }
+    }
+
     /**
      * Returns true if the player is currently airborne
      * @returns {boolean} Is the player airborne?

@@ -118,7 +118,7 @@ class Brick {
         this._mesh.unfreezeWorldMatrix();
         xVal += this._mesh.scaling.x / 2;
         this._mesh.position.x = xVal;
-        this._mesh.freezeWorldMatrix();
+        //this._mesh.freezeWorldMatrix();
     }
 
     /**
@@ -130,7 +130,7 @@ class Brick {
         this._mesh.unfreezeWorldMatrix();
         yVal += this._mesh.scaling.y / 2;
         this._mesh.position.y = yVal;
-        this._mesh.freezeWorldMatrix();
+        //this._mesh.freezeWorldMatrix();
     }
 
     /**
@@ -142,7 +142,7 @@ class Brick {
         this._mesh.unfreezeWorldMatrix();
         zVal += this._mesh.scaling.z / 2;
         this._mesh.position.z = zVal;
-        this._mesh.freezeWorldMatrix();
+        //this._mesh.freezeWorldMatrix();
     }
 
     /**
@@ -167,7 +167,7 @@ class Brick {
                 console.log("Sliding: " + slide);
             this._mesh.position.y -= slide;
         }
-        this._mesh.freezeWorldMatrix();
+        //this._mesh.freezeWorldMatrix();
         return this;
     }
 
@@ -280,7 +280,7 @@ class Brick {
         // Wipe then recreate SPS
         Utils.refreshSPS();
 
-        brick._mesh.freezeWorldMatrix();
+        //brick._mesh.freezeWorldMatrix();
         UI.Audio.clickPlace.play();
         return brick;
     }
@@ -337,7 +337,14 @@ class Brick {
                 brickPos.y = newY;
             }
             else {
-                
+                // Most likely the side of the brick has been hit. Lets get the player rotation...
+                var rot = player1.getDirection();
+                console.log(rot);
+                brickPos.y = Math.floor(brickPos.y);
+                console.log(brickPos);
+                brickPos.x -= rot.x;
+                brickPos.z -= rot.z;
+                //console.log(brickPos);
             }
         }    
         return brickPos;
@@ -378,12 +385,13 @@ class TempBrick extends Brick {
             //console.log("No hit point!");
         }
         else {
-            console.log(hit);
+            //console.log(hit);
             var hitPoint = hit.pickedPoint;
             hitPoint = Brick.fixPos(hitPoint, hit.pickedMesh);
             this.setX(hitPoint.x);
             this.setY(hitPoint.y);
             this.setZ(hitPoint.z);
+            console.log(this._mesh.position);
         }
     }
 }
