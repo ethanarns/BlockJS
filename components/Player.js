@@ -265,7 +265,8 @@ class Player {
             }
 
             if (evt.keyCode == 38 || evt.keyCode == 39 ||
-            evt.keyCode == 37 || evt.keyCode == 40) {
+            evt.keyCode == 37 || evt.keyCode == 40 || evt.keyCode == 219
+            || evt.keyCode == 221) {
                 var pRot = new BABYLON.Vector3();
                 pRot.copyFrom(_this.getDirection());
                 var tb = _this.tempBrick._mesh.position;
@@ -289,6 +290,15 @@ class Player {
                     case 39:
                         tb.z -= pRot.x;
                         tb.x += pRot.z;
+                        break;
+                    // Left bracket (downwards)
+                    case 219:
+                        if (tb.y >= 1.5)
+                            tb.y--;
+                        break;
+                    // Right bracket (upwards)
+                    case 221:
+                        tb.y++;
                         break;
                 }
             }
