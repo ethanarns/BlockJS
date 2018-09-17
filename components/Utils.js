@@ -23,7 +23,7 @@ class Utils {
         world.ground = ground;
         world.lights = {};
         world.lights.mainLight = new BABYLON.PointLight("light", new BABYLON.Vector3(10, 10, 0), scene);
-        world.lights.hemiLight = new BABYLON.HemisphericLight("HemiLight", new BABYLON.Vector3(0, 1, 0), scene);
+        //world.lights.hemiLight = new BABYLON.HemisphericLight("HemiLight", new BABYLON.Vector3(0, 1, 0), scene);
         world.scene = scene; // Might look good in references
         SPS = new BABYLON.SolidParticleSystem("SPS", scene);
         return world; // Return reference to it

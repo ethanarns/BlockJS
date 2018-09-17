@@ -26,6 +26,9 @@ class Brick {
             );
             material.diffuseColor = color;
         this._mesh = BABYLON.MeshBuilder.CreateBox(name, {width: x, height:y, depth:z}, World.scene);
+        this.widthX = x;
+        this.heightY = y;
+        this.depthZ = z;
         this._mesh.brickClass = this; // Parent reference to access Brick class from mesh
         locVec.x += x / 2;
         locVec.y += y / 2;
@@ -107,7 +110,8 @@ class Brick {
      * @public
      */
     setX(xVal) {
-        xVal = xVal + this._mesh.scaling.x / 2;
+        xVal = xVal + this.widthX / 2;
+        console.log(xVal);
         this._mesh.position.x = xVal;
     }
 
@@ -117,7 +121,7 @@ class Brick {
      * @public
      */
     setY(yVal) {
-        yVal = yVal + this._mesh.scaling.y / 2;
+        yVal = yVal + this.heightY / 2;
         this._mesh.position.y = yVal;
     }
 
@@ -127,7 +131,7 @@ class Brick {
      * @public
      */
     setZ(zVal) {
-        zVal = zVal + this._mesh.scaling.z / 2;
+        zVal = zVal + this.depthZ / 2;
         this._mesh.position.z = zVal;
     }
 
@@ -332,10 +336,10 @@ class Brick {
         }
         else {
             // Floor ensures the brick will always be on top of the brick, not rounding off the side
-            brickPos.x = Math.floor(brickPos.x);
-            brickPos.z = Math.floor(brickPos.z);
+            brickPos.x = Math.floor(brickPos.x) + hitMesh.scaling.x / 2;
+            brickPos.z = Math.floor(brickPos.z) + hitMesh.scaling.z / 2;
             // This is the position the brick would be if it were exactly on top of the hit brick
-            var newY = hitMesh.position.y + 0.5; // Placed bricks are centered
+            var newY = hitMesh.position.y + hitMesh.scaling.y / 2; // Placed bricks are centered
             // The raycast has hit high on thebrick, likely meaning its at or near the top
             if (newY - brickPos.y < 0.1) {
                 brickPos.y = newY;
@@ -388,6 +392,8 @@ class TempBrick extends Brick {
             //console.log(hit);
             var hitPoint = hit.pickedPoint;
             hitPoint = Brick.fixPos(hitPoint, hit.pickedMesh);
+            //this._mesh.position.x = hitPoint.x;
+            //this._mesh.position.z = hitPoint.z;
             this.setX(hitPoint.x);
             this.setY(hitPoint.y);
             this.setZ(hitPoint.z);

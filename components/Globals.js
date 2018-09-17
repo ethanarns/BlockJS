@@ -24,7 +24,7 @@ currentColor = COLORS.DEFAULT;
 
 const BRICKS = {
     b1x1: new BABYLON.Vector3(1, 1, 1),
-    b1x2: new BABYLON.Vector3(1, 1, 2)
+    b1x2: new BABYLON.Vector3(2, 1, 1)
 }
 currentBrick = BRICKS.b1x1;
 
@@ -42,5 +42,5 @@ const MISCSETTINGS = {
     FLOOR_WIDTH: 100,
     MAX_BRICKS: 5000,
     GRAVITY: new BABYLON.Vector3(0, -9.8, 0),
-    BRICKSHRINK: 0.995
+    BRICKSHRINK: 0.999
 }
