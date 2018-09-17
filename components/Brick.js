@@ -46,12 +46,14 @@ class Brick {
         this.centerPivot();
         this._mesh.computeWorldMatrix();
         this._mesh.scaling = new BABYLON.Vector3(0.99, 0.99, 0.99);
+
+        
         this._mesh.position = locVec;
         this._mesh.material = material;
         this._mesh.checkCollisions = true;
         this._mesh.material.freeze(); // Color set in particle anyway
         this._mesh.isPickable = true;
-        this._mesh._visibility = false; // kills drawcall without removing pickability
+        //this._mesh._visibility = false; // kills drawcall without removing pickability
     }
 
     /**
@@ -116,7 +118,7 @@ class Brick {
      */
     setX(xVal) {
         this._mesh.unfreezeWorldMatrix();
-        xVal += this._mesh.scaling.x / 2;
+        xVal = xVal + this._mesh.scaling.x / 2;
         this._mesh.position.x = xVal;
         //this._mesh.freezeWorldMatrix();
     }
@@ -128,7 +130,7 @@ class Brick {
      */
     setY(yVal) {
         this._mesh.unfreezeWorldMatrix();
-        yVal += this._mesh.scaling.y / 2;
+        yVal = yVal + this._mesh.scaling.y / 2;
         this._mesh.position.y = yVal;
         //this._mesh.freezeWorldMatrix();
     }
@@ -140,7 +142,7 @@ class Brick {
      */
     setZ(zVal) {
         this._mesh.unfreezeWorldMatrix();
-        zVal += this._mesh.scaling.z / 2;
+        zVal = zVal + this._mesh.scaling.z / 2;
         this._mesh.position.z = zVal;
         //this._mesh.freezeWorldMatrix();
     }
@@ -151,7 +153,12 @@ class Brick {
      * @public
      */
     getPosition() {
-        return this._mesh.position;
+        var pos = new BABYLON.Vector3();//= this._mesh.position;
+        pos.copyFrom(this._mesh.position);
+        pos.x = pos.x - this._mesh.scaling.x / 2;
+        pos.y = pos.y - this._mesh.scaling.y / 2;
+        pos.z = pos.z - this._mesh.scaling.z / 2;
+        return new BABYLON.Vector3(pos.x, pos.y, pos.z);
     }
 
     /**
