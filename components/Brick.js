@@ -337,14 +337,7 @@ class Brick {
                 brickPos.y = newY;
             }
             else {
-                // Most likely the side of the brick has been hit. Lets get the player rotation...
-                var rot = player1.getDirection();
-                console.log(rot);
-                brickPos.y = Math.floor(brickPos.y);
-                console.log(brickPos);
-                brickPos.x -= rot.x;
-                brickPos.z -= rot.z;
-                //console.log(brickPos);
+                
             }
         }    
         return brickPos;
@@ -365,6 +358,7 @@ class TempBrick extends Brick {
         super("tempBrick", currentBrick.x, currentBrick.y, currentBrick.z,
             new BABYLON.Vector3(0, 0, 0), currentColor, World, currentRotation);
 
+        // 
         this._mesh.scaling.x *= 1.01;
         this._mesh.scaling.y *= 1.01;
         this._mesh.scaling.z *= 1.01;
@@ -384,7 +378,7 @@ class TempBrick extends Brick {
             //console.log("No hit point!");
         }
         else {
-            //console.log(hit);
+            console.log(hit);
             var hitPoint = hit.pickedPoint;
             hitPoint = Brick.fixPos(hitPoint, hit.pickedMesh);
             this.setX(hitPoint.x);
