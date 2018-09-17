@@ -355,18 +355,14 @@ class TempBrick extends Brick {
             console.log("[!] No owner detected in TempBrick construction!");
             return;
         }
-        super("tempBrick",
-        currentBrick.x,
-        currentBrick.y,
-        currentBrick.z,
-        new BABYLON.Vector3(0, 0, 0),
-        currentColor,
-        World,
-        currentRotation);
+        super("tempBrick", currentBrick.x, currentBrick.y, currentBrick.z,
+            new BABYLON.Vector3(0, 0, 0), currentColor, World, currentRotation);
 
+        // 
         this._mesh.scaling.x *= 1.01;
         this._mesh.scaling.y *= 1.01;
         this._mesh.scaling.z *= 1.01;
+        this._mesh.material.unfreeze();
         this._mesh.material.alpha = 0.5;
         this._mesh._visibility = true;
         this._mesh.isVisible = true;
