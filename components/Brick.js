@@ -1,13 +1,3 @@
-/*const BABYLON = require('babylonjs');
-// Import globals for testing
-const MISCSETTINGS = require('./Globals').MISCSETTINGS;
-const PLAYERDEFAULTS = require('./Globals').PLAYERDEFAULTS;
-const COLORS = require('./Globals').COLORS;
-var brickList = require('./Globals').brickList;
-var lastId = require('./Globals').lastId;
-var isDebugMode = require('./Globals').isDebugMode;
-var Player = require('./Player');*/
-
 /**
  * Class representing a Block with an attached mesh, as well as static helper methods
  * @author Ethan Arns <contact@ethanarns.com>
@@ -379,9 +369,6 @@ class TempBrick extends Brick {
         super("tempBrick", currentBrick.x, currentBrick.y, currentBrick.z,
             new BABYLON.Vector3(0, 0, 0), currentColor, World, currentRotation);
 
-        //this._mesh.scaling.x *= 1.01;
-        //this._mesh.scaling.y *= 1.01;
-        //this._mesh.scaling.z *= 1.01;
         this._mesh.material.alpha = 0.5;
         this._mesh.material.unfreeze();
         this._mesh._visibility = true;

@@ -43,13 +43,3 @@ const MISCSETTINGS = {
     GRAVITY: new BABYLON.Vector3(0, -9.8, 0),
     BRICKSHRINK: 0.995
 }
-
-module.exports = {
-    MISCSETTINGS,
-    PLAYERDEFAULTS,
-    BRICKS,
-    COLORS,
-    brickList,
-    lastId,
-    isDebugMode
-}

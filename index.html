@@ -8,15 +8,6 @@
     </style>
 </head>
 <body>
-    <script>
-        // Throwaways to allow Node unit testing and running at same time
-        var module = {
-            exports: {}
-        };
-        function require(string) {
-            // do nothing, removes browser errors if require() used
-        }
-    </script>
     <script src="./babylon.custom.js"></script>
     <script src="./components/Globals.js"></script>
     <script src="./components/Player.js"></script>
@@ -35,7 +26,7 @@
         // Primary game running utilities
         var canvas = document.getElementById("render-canvas");
         var engine = new BABYLON.Engine(canvas);
-        var scene = Utils.generateScene(engine, true, false);
+        var scene = Utils.generateScene(engine, false, false);
         var World = Utils.generateWorld();
         var UI = Utils.generateUI();
         engine.runRenderLoop(function() {

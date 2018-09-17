@@ -1,13 +1,3 @@
-/*const BABYLON = require('babylonjs');
-// Import globals for testing
-const MISCSETTINGS = require('./Globals').MISCSETTINGS;
-const PLAYERDEFAULTS = require('./Globals').PLAYERDEFAULTS;
-const COLORS = require('./Globals').COLORS;
-var brickList = require('./Globals').brickList;
-var lastId = require('./Globals').lastId;
-var isDebugMode = require('./Globals').isDebugMode;
-var Brick = require('./Brick');*/
-
 /**
  * Class representing a player, who will traverse this strange place
  * @author Ethan Arns <contact@ethanarns.com>
@@ -273,6 +263,10 @@ class Player {
                 brickPos.z = brickPos.z - 0.5;
                 Brick.placeBrick(brickPos);
             }
+
+            switch(evt.keyCode) {
+
+            }
         };
         BABYLON.Tools.RegisterTopRootEvents([{
             name: "keydown",
@@ -349,11 +343,7 @@ class Player {
             return;
         }
         else {
-            if (isDebugMode)
-                //console.log("Mesh hit by player raycast!");
             this.tempBrick.moveToRay();
         }
     }
 }
-
-module.exports = Player;

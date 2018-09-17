@@ -1,14 +1,3 @@
-/*const BABYLON = require('babylonjs');
-// Import globals for testing
-const MISCSETTINGS = require('./Globals').MISCSETTINGS;
-const PLAYERDEFAULTS = require('./Globals').PLAYERDEFAULTS;
-const COLORS = require('./Globals').COLORS;
-var brickList = require('./Globals').brickList;
-var lastId = require('./Globals').lastId;
-var isDebugMode = require('./Globals').isDebugMode;
-var Brick = require('./Brick');
-var Player = require('./Player');*/
-
 /**
  * Utility class, provides handy helper methods
  * @author Ethan Arns <contact@ethanarns.com>
@@ -219,6 +208,3 @@ class Utils {
         SPS.isAlwaysVisible = true;
     }
 }
-
-// See if running under node to avoid exception
-module.exports = Utils;
