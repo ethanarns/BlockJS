@@ -45,7 +45,8 @@ class Brick {
         this._mesh.rotation.y = (Math.PI / 180) * rotation;
         this.centerPivot();
         this._mesh.computeWorldMatrix();
-        //this._mesh.scaling = new BABYLON.Vector3(0.99, 0.99, 0.99);
+        this._mesh.showBoundingBox = true;
+        this._mesh.showSubMeshesBoundingBox = true;
 
         
         this._mesh.position = locVec;
@@ -156,6 +157,7 @@ class Brick {
         this._mesh.unfreezeWorldMatrix();
         var pos = new BABYLON.Vector3();
         pos.copyFrom(this._mesh.position);
+        console.log(this._mesh.scaling / 2);
         pos.x = pos.x - this._mesh.scaling.x / 2;
         pos.y = pos.y - this._mesh.scaling.y / 2;
         pos.z = pos.z - this._mesh.scaling.z / 2;
@@ -189,15 +191,16 @@ class Brick {
     }
 
     shrink() {
-        this._mesh.scaling.x = 0.999;
-        this._mesh.scaling.y = 0.999;
-        this._mesh.scaling.y = 0.999;
+        this._mesh.scaling.x = MISCSETTINGS.BRICKSHRINK;
+        this._mesh.scaling.y = MISCSETTINGS.BRICKSHRINK;
+        this._mesh.scaling.z = MISCSETTINGS.BRICKSHRINK;
+        this._mesh.computeWorldMatrix();
     }
 
     unshrink() {
-        this._mesh.scaling.x = 0.999;
-        this._mesh.scaling.y = 0.999;
-        this._mesh.scaling.y = 0.999;
+        this._mesh.scaling.x = 1;
+        this._mesh.scaling.y = 1;
+        this._mesh.scaling.z = 1;
     }
 
     /**
@@ -243,16 +246,18 @@ class Brick {
     /**
      * Given constructed brick, should it be able to be placed? Helper for when creating bricks
      * @param {Brick} brick The brick to check if can be placed
+     * @param {boolean} deleteOnDone Should the brick be deleted upon check completion?
      * @returns {boolean} True if the brick can be placed
      * @static
      * @public
      */
     static canPlaceBrick(brick, deleteOnDone = false) {
+        // Only call if brick has not been placed yet and is in the list
         brick.shrink();
         for (let i = 0; i < brickList.length; i++) {
             brickList[i].shrink();
-            if (brick._mesh.intersectsMesh(brickList[i]._mesh, false) && brick.id !== brickList[i].id) {
-                console.log("Intersection! Cannot place brick.");
+            if (brick._mesh.intersectsMesh(brickList[i]._mesh, false)) {
+                console.log("Intersection detected with brick [id: " + brickList[i].id + "]");
                 brickList[i].unshrink();
                 brick.unshrink();
                 if (deleteOnDone) {
@@ -290,8 +295,9 @@ class Brick {
         }
         brick._mesh.unfreezeWorldMatrix();
         if (!this.canPlaceBrick(brick)) {
-            console.log("You cannot place a brick here!");
-            Brick.deleteBrickById(brick.id);
+            console.log("Brick collision detected!");
+            brick._mesh.dispose();
+            brick = null;
             return null;
         }
 
@@ -384,10 +390,9 @@ class TempBrick extends Brick {
         super("tempBrick", currentBrick.x, currentBrick.y, currentBrick.z,
             new BABYLON.Vector3(0, 0, 0), currentColor, World, currentRotation);
 
-        // 
-        this._mesh.scaling.x *= 1.01;
-        this._mesh.scaling.y *= 1.01;
-        this._mesh.scaling.z *= 1.01;
+        //this._mesh.scaling.x *= 1.01;
+        //this._mesh.scaling.y *= 1.01;
+        //this._mesh.scaling.z *= 1.01;
         this._mesh.material.unfreeze();
         this._mesh.material.alpha = 0.5;
         this._mesh._visibility = true;
@@ -410,7 +415,7 @@ class TempBrick extends Brick {
             this.setX(hitPoint.x);
             this.setY(hitPoint.y);
             this.setZ(hitPoint.z);
-            console.log(this._mesh.position);
+            //console.log(this._mesh.position);
         }
     }
 }

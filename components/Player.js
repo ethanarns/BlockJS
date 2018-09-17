@@ -344,13 +344,12 @@ class Player {
     rayFromCamera() {
         var hit = scene.pickWithRay(this.rayHelper.ray);
         if (!hit.pickedMesh) {
-            if (isDebugMode)
-                console.log("No mesh hit by player raycast!");
+                //console.log("No mesh hit by player raycast!");
             return;
         }
         else {
             if (isDebugMode)
-                console.log("Mesh hit by player raycast!");
+                //console.log("Mesh hit by player raycast!");
             this.tempBrick.moveToRay();
         }
     }

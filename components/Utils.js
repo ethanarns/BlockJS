@@ -202,9 +202,10 @@ class Utils {
                 //console.log("Linking")
                 particle.brickRef = brick;
                 brick.particleRef = particle;
-                particle.position.x = brick.getPosition().x;
-                particle.position.y = brick.getPosition().y;
-                particle.position.z = brick.getPosition().z;
+                // Don't use the getters here, we're looking for the actual space position
+                particle.position.x = brick._mesh.position.x;
+                particle.position.y = brick._mesh.position.y;
+                particle.position.z = brick._mesh.position.z;
                 particle.scaling = new BABYLON.Vector3(
                     MISCSETTINGS.BRICKSHRINK,
                     MISCSETTINGS.BRICKSHRINK,
