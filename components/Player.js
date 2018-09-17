@@ -73,6 +73,7 @@ class Player {
         this._initPointerLock();
         this._setupLook();
         this._setupMovement();
+        this._setupBrickControl();
         var _this = this;
         setInterval(function() {
             if (player1.floating) {
@@ -238,7 +239,7 @@ class Player {
             })
         );
 
-        // There is no event.key for space! Do it via values instead.
+        // Some keys don't have working event names, do keycodes instead
         var onJumpKeyDown = function(evt) {
             // Spacebar
             if (evt.keyCode == 32) {
@@ -246,6 +247,7 @@ class Player {
             }
         };
         var onJumpKeyUp = function(evt) {
+            // Spacebar
             if (evt.keyCode == 32) {
                 _this.jumpPressed = false;
             }
@@ -259,8 +261,8 @@ class Player {
         }]);
     }
 
-    setupBrickControl() {
-        // Separate one for brick modification
+    _setupBrickControl() {
+        var _this = this;
         var onKeyDown = function(evt) {
             // enter -> place the brick
             if (evt.keyCode == 13) {
