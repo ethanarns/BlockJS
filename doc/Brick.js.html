@@ -26,17 +26,7 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>/*const BABYLON = require('babylonjs');
-// Import globals for testing
-const MISCSETTINGS = require('./Globals').MISCSETTINGS;
-const PLAYERDEFAULTS = require('./Globals').PLAYERDEFAULTS;
-const COLORS = require('./Globals').COLORS;
-var brickList = require('./Globals').brickList;
-var lastId = require('./Globals').lastId;
-var isDebugMode = require('./Globals').isDebugMode;
-var Player = require('./Player');*/
-
-/**
+            <pre class="prettyprint source linenums"><code>/**
  * Class representing a Block with an attached mesh, as well as static helper methods
  * @author Ethan Arns &lt;contact@ethanarns.com>
  */
@@ -64,25 +54,28 @@ class Brick {
             );
             material.diffuseColor = color;
         this._mesh = BABYLON.MeshBuilder.CreateBox(name, {width: x, height:y, depth:z}, World.scene);
+        this.widthX = x;
+        this.heightY = y;
+        this.depthZ = z;
         this._mesh.brickClass = this; // Parent reference to access Brick class from mesh
         locVec.x += x / 2;
         locVec.y += y / 2;
         locVec.z += z / 2;
-        // Make pivot lower corner
+        // Make pivot lower corner for right-angle rotation
         this._mesh.setPivotMatrix(BABYLON.Matrix.Translation(x/2, y/2, z/2));
         this._mesh.rotation.y = (Math.PI / 180) * rotation;
         this.centerPivot();
         this._mesh.computeWorldMatrix();
-        this._mesh.scaling = new BABYLON.Vector3(0.9, 0.9, 0.9);
+        //this._mesh.showBoundingBox = true;
+        //this._mesh.showSubMeshesBoundingBox = true;
+
+        
         this._mesh.position = locVec;
         this._mesh.material = material;
         this._mesh.checkCollisions = true;
         this._mesh.material.freeze(); // Color set in particle anyway
         this._mesh.isPickable = true;
         this._mesh._visibility = false; // kills drawcall without removing pickability
-        brickList.push(this);
-        // Wipe then recreate SPS
-        Utils.refreshSPS();
     }
 
     /**
@@ -92,8 +85,7 @@ class Brick {
      */
     setColor(color) {
         if (!color.r) {
-            if (isDebugMode)
-                console.log("ERROR: specify a color constant, not string");
+            console.log("ERROR: specify a color constant, not string");
             return;
         }
         this._mesh.material.unfreeze();
@@ -146,10 +138,8 @@ class Brick {
      * @public
      */
     setX(xVal) {
-        this._mesh.unfreezeWorldMatrix();
-        xVal += this._mesh.scaling.x / 2;
+        xVal = xVal + this.widthX / 2;
         this._mesh.position.x = xVal;
-        this._mesh.freezeWorldMatrix();
     }
 
     /**
@@ -158,10 +148,8 @@ class Brick {
      * @public
      */
     setY(yVal) {
-        this._mesh.unfreezeWorldMatrix();
-        yVal += this._mesh.scaling.y / 2;
+        yVal = yVal + this.heightY / 2;
         this._mesh.position.y = yVal;
-        this._mesh.freezeWorldMatrix();
     }
 
     /**
@@ -170,10 +158,8 @@ class Brick {
      * @public
      */
     setZ(zVal) {
-        this._mesh.unfreezeWorldMatrix();
-        zVal += this._mesh.scaling.z / 2;
+        zVal = zVal + this.depthZ / 2;
         this._mesh.position.z = zVal;
-        this._mesh.freezeWorldMatrix();
     }
 
     /**
@@ -182,7 +168,13 @@ class Brick {
      * @public
      */
     getPosition() {
-        return this._mesh.position;
+        var pos = new BABYLON.Vector3();
+        pos.copyFrom(this._mesh.position);
+        //console.log(this._mesh.scaling / 2);
+        pos.x = pos.x - this.widthX / 2;
+        pos.y = pos.y - this.heightY / 2;
+        pos.z = pos.z - this.depthZ / 2;
+        return new BABYLON.Vector3(pos.x, pos.y, pos.z);
     }
 
     /**
@@ -191,14 +183,12 @@ class Brick {
      */
     setRotation(rVal) {
         let slide = 0;
-        this._mesh.unfreezeWorldMatrix();
         this._mesh.rotation.y = rVal;
         if (slide !== 0) {
             if (isDebugMode)
                 console.log("Sliding: " + slide);
             this._mesh.position.y -= slide;
         }
-        this._mesh.freezeWorldMatrix();
         return this;
     }
 
@@ -209,6 +199,28 @@ class Brick {
     centerPivot() {
         var centerPointWorld = this._mesh.getBoundingInfo().boundingBox.centerWorld;
         this._mesh.setPivotPoint(centerPointWorld, BABYLON.Space.WORLD);
+    }
+
+    /**
+     * Shrinks the mesh just enough to not overlap faces, helper for collision
+     * @private
+     */
+    _shrink() {
+        this._mesh.scaling.x = MISCSETTINGS.BRICKSHRINK;
+        this._mesh.scaling.y = MISCSETTINGS.BRICKSHRINK;
+        this._mesh.scaling.z = MISCSETTINGS.BRICKSHRINK;
+        this._mesh.computeWorldMatrix();
+    }
+
+    /**
+     * Undoes the shrinking done in shrink()
+     * @private
+     * @see {@link _shrink}
+     */
+    _unshrink() {
+        this._mesh.scaling.x = 1;
+        this._mesh.scaling.y = 1;
+        this._mesh.scaling.z = 1;
     }
 
     /**
@@ -237,6 +249,7 @@ class Brick {
     /**
      * Retrieves a reference to a brick with the spsCloneId of 'id'
      * @param {number} id SPS Particle id to match brick with
+     * @returns {Brick} The brick with stated id, null if error
      */
     static getByParticleId(id) {
         // console.log("Searching for brick with spsCloneId " + id + "...");
@@ -254,39 +267,39 @@ class Brick {
     /**
      * Given constructed brick, should it be able to be placed? Helper for when creating bricks
      * @param {Brick} brick The brick to check if can be placed
+     * @param {boolean} deleteOnDone Should the brick be deleted upon check completion?
      * @returns {boolean} True if the brick can be placed
      * @static
      * @public
      */
-    static canPlaceBrick(brick) {
+    static canPlaceBrick(brick, deleteOnDone = false) {
+        // Only call if brick has not been placed yet and is in the list
+        brick._shrink();
         for (let i = 0; i &lt; brickList.length; i++) {
-            if (brick._mesh.intersectsMesh(brickList[i]._mesh, false) &amp;&amp; brick.id !== brickList[i].id) {
-                console.log("Intersection! Cannot place brick.");
+            brickList[i]._shrink();
+            if (brick._mesh.intersectsMesh(brickList[i]._mesh, false)) {
+                console.log("Intersection detected with brick [id: " + brickList[i].id + "]");
+                brickList[i]._unshrink();
+                brick._unshrink();
+                if (deleteOnDone) {
+                    brick._mesh.dispose();
+                    brick = null;
+                }
                 return false;
             }
+            brickList[i]._unshrink();
+        }
+        brick._unshrink();
+        if (deleteOnDone) {
+            brick._mesh.dispose();
+            brick = null;
         }
         return true;
     }
 
     /**
-     * Temporarily creates a 1x1x1 brick to test if an individual location cube is filled
-     * @param {number} x X value to test
-     * @param {number} y Y value to test
-     * @param {number} z Z value to test
-     * @param {BABYLON.Scene} scene Scene to test brick in
-     * @returns {boolean} True if the location is empty, false if Brick already taking up that space
-     * @static
-     * @public
-     */
-    static canPlaceBrickAt(x, y, z, scene) {
-        var testerBrick = new Brick("DELETEME", 1, 1, 1, new BABYLON.Vector3(x, y, z), COLORS.DEFAULT, scene);
-        return this.canPlaceBrick(testerBrick);
-    }
-
-    /**
      * Places a Brick in the scene by cloning a base Brick, no straight constructing
-     * Will get all data from player's state/gui
-     * @param {BABYLON.Vector3} dim Dimension of the Brick to create
+     * Will get almost all data from player's current state/gui
      * @param {BABYLON.Vector3} loc Location of the Brick to create
      * @returns {Brick} The created brick
      * @static
@@ -300,13 +313,19 @@ class Brick {
             console.log("Warning: Angles not divisible by 90 degrees will " +
                 "intersection with other bricks and look bad, fix");
         }
-        brick._mesh.unfreezeWorldMatrix();
         if (!this.canPlaceBrick(brick)) {
-            console.log("You cannot place a brick here!");
-            Brick.deleteBrickById(brick.id);
+            console.log("Brick collision detected!");
+            brick._mesh.dispose();
+            brick = null;
             return null;
         }
+
+        brickList.push(brick);
+        // Wipe then recreate SPS
+        Utils.refreshSPS();
+        // This brick should not move after this, so freeze in place
         brick._mesh.freezeWorldMatrix();
+        UI.Audio.clickPlace.play();
         return brick;
     }
 
@@ -319,15 +338,15 @@ class Brick {
      * @public
      */
     static placeBrickAt(x, y, z) {
-        if (!y) {
+        if (typeof x == BABYLON.Vector3) {
             console.log("You are using the wrong function, see placeBrick()");
-            return null;
+            return this.placeBrick(x);
         }
         return this.placeBrick(new BABYLON.Vector3(x, y, z));
     }
 
     /**
-     * Gets the total number of active Bricks
+     * Gets the total number of all active Bricks
      * @returns {number} Length of brickList
      * @static
      * @public
@@ -335,15 +354,106 @@ class Brick {
     static countAllBricks() {
         return brickList.length;
     }
+
+    /**
+     * Fixes position of temp brick and placement. For example, slides brick into
+     * place if the ray hits the ground, or snaps to the side of a brick ray hit
+     * @param {BABYLON.Vector3} brickPos Where the ray hit
+     * @param {BABYLON.Mesh} hitMesh The mesh the ray hit, if any
+     * @public
+     * @static
+     */
+    static fixPos(brickPos, hitMesh) {
+        if (!hitMesh || !hitMesh.brickClass) {
+            // Not a brick, likely the ground
+            brickPos.x = Math.floor(brickPos.x);
+            brickPos.y = Math.floor(brickPos.y);
+            brickPos.z = Math.floor(brickPos.z);
+            if (brickPos.y &lt; 0) {
+                brickPos.y = 0;
+            }
+        }
+        else {
+            // Floor ensures the brick will always be on top of the brick, not rounding off the side
+            brickPos.x = Math.floor(brickPos.x);
+            brickPos.z = Math.floor(brickPos.z);
+            // This is the position the brick would be if it were exactly on top of the hit brick
+            var newY = hitMesh.position.y + hitMesh.scaling.y / 2; // Placed bricks are centered
+            // The raycast has hit high on thebrick, likely meaning its at or near the top
+            if (newY - brickPos.y &lt; 0.1) {
+                brickPos.y = newY;
+            }
+            else {
+                // Most likely the side of the brick has been hit. Lets get the player rotation...
+                var rot = player1.getDirection();
+                brickPos.y = Math.floor(brickPos.y);
+                // Use returned Vector3 to decide which way the brick should snap
+                brickPos.x -= rot.x;
+                brickPos.z -= rot.z;
+            }
+        }    
+        return brickPos;
+    }
 }
 
-module.exports = {
-    MISCSETTINGS,
-    PLAYERDEFAULTS,
-    COLORS,
-    brickList,
-    lastId,
-    isDebugMode
+/**
+ * A temporary brick showing what might be placed at a location
+ * Gets all of its information from tool/gui global variables
+ * @extends Brick
+ */
+class TempBrick extends Brick {
+    /**
+     * Creates a TempBrick
+     * @param {Player} owner Player that will own the brick
+     */
+    constructor (owner) {
+        if (!owner) {
+            console.log("[!] No owner detected in TempBrick construction!");
+            return;
+        }
+        super("tempBrick", currentBrick.x, currentBrick.y, currentBrick.z,
+            new BABYLON.Vector3(0, 0, 0), currentColor, World, currentRotation);
+
+        this._mesh.material.alpha = 0.5;
+        this._mesh.material.unfreeze();
+        this._mesh._visibility = true;
+        this._mesh.isVisible = true;
+        this._mesh.checkCollisions = false;
+        this._mesh.brickClass = null;
+        this._mesh.isPickable = false;
+        this.owner = owner;
+    }
+
+    /**
+     * When called, fires a ray from the player camera and then moves the tempBrick
+     * to a constrained location
+     * @public
+     */
+    moveToRay() {
+        var hit = scene.pickWithRay(this.owner.rayHelper.ray);
+        if (!hit || hit == null || hit.pickedPoint == null) {
+            //console.log("No hit point!");
+        }
+        else {
+            var hitPoint = hit.pickedPoint;
+            hitPoint = Brick.fixPos(hitPoint, hit.pickedMesh);
+            this.setX(hitPoint.x);
+            this.setY(hitPoint.y);
+            this.setZ(hitPoint.z);
+        }
+    }
+
+    /**
+     * Recreates the TempBrick with a new size
+     * @param {Player} player Player that owns the TempBrick
+     * @param {BABYLON.Vector3} brickSize Size of new TempBrick
+     */
+    static rebuild(player, brickSize) {
+        currentBrick = brickSize;
+        player.tempBrick._mesh.dispose();
+        player.tempBrick = null;
+        player.tempBrick = new TempBrick(player);
+    }
 }
 </code></pre>
         </article>
@@ -355,13 +465,13 @@ module.exports = {
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Brick.html">Brick</a></li><li><a href="Player.html">Player</a></li><li><a href="Utils.html">Utils</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Brick.html">Brick</a></li><li><a href="Player.html">Player</a></li><li><a href="TempBrick.html">TempBrick</a></li><li><a href="Utils.html">Utils</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sat Sep 15 2018 23:15:03 GMT-0700 (Pacific Daylight Time)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Mon Sep 17 2018 10:16:59 GMT-0700 (Pacific Daylight Time)
 </footer>
 
 <script> prettyPrint(); </script>

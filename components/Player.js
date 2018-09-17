@@ -321,12 +321,15 @@ class Player {
         this.floating = this.isFloating();
     }
 
+    /**
+     * Gets a Vector3 used to adjust objects to the player's view direction
+     * @returns {BABYLON.Vector3} X or Z value representing the player direction
+     */
     getDirection() {
         // Always keep rotation within 0-360
         var degrees = (this.root.rotation.y * (180/Math.PI)) % 360;
-        if (degrees < 0)
+        if (degrees < 0) // % can spit out negatives, so push to positive
             degrees += 360;
-        //console.log(degrees);
         if (degrees > 315 || degrees <= 45) {
             return new BABYLON.Vector3(0, 0, 1);
         }

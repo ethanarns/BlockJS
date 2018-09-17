@@ -350,7 +350,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Brick.js.html">Brick.js</a>, <a href="Brick.js.html#line15">line 15</a>
+        <a href="Brick.js.html">Brick.js</a>, <a href="Brick.js.html#line5">line 5</a>
     </li></ul></dd>
     
 
@@ -404,7 +404,7 @@
     
 
     
-    <h4 class="name" id=".canPlaceBrick"><span class="type-signature">(static) </span>canPlaceBrick<span class="signature">(brick)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
+    <h4 class="name" id=".canPlaceBrick"><span class="type-signature">(static) </span>canPlaceBrick<span class="signature">(brick, deleteOnDone)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
     
 
     
@@ -438,6 +438,8 @@
         
 
         
+        <th>Default</th>
+        
 
         <th class="last">Description</th>
     </tr>
@@ -463,8 +465,41 @@
             
 
             
+                <td class="default">
+                
+                </td>
+            
 
             <td class="description last">The brick to check if can be placed</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>deleteOnDone</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+
+            
+                <td class="default">
+                
+                    false
+                
+                </td>
+            
+
+            <td class="description last">Should the brick be deleted upon check completion?</td>
         </tr>
 
     
@@ -505,7 +540,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Brick.js.html">Brick.js</a>, <a href="Brick.js.html#line233">line 233</a>
+        <a href="Brick.js.html">Brick.js</a>, <a href="Brick.js.html#line247">line 247</a>
     </li></ul></dd>
     
 
@@ -561,232 +596,6 @@
     
 
     
-    <h4 class="name" id=".canPlaceBrickAt"><span class="type-signature">(static) </span>canPlaceBrickAt<span class="signature">(x, y, z, scene)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    Temporarily creates a 1x1x1 brick to test if an individual location cube is filled
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>x</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">number</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">X value to test</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>y</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">number</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Y value to test</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>z</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">number</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Z value to test</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>scene</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">BABYLON.Scene</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Scene to test brick in</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Brick.js.html">Brick.js</a>, <a href="Brick.js.html#line253">line 253</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    True if the location is empty, false if Brick already taking up that space
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">boolean</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-
-
-        
-            
-
-    
-
-    
     <h4 class="name" id=".countAllBricks"><span class="type-signature">(static) </span>countAllBricks<span class="signature">()</span><span class="type-signature"> &rarr; {number}</span></h4>
     
 
@@ -795,7 +604,7 @@
 
 
 <div class="description">
-    Gets the total number of active Bricks
+    Gets the total number of all active Bricks
 </div>
 
 
@@ -839,7 +648,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Brick.js.html">Brick.js</a>, <a href="Brick.js.html#line307">line 307</a>
+        <a href="Brick.js.html">Brick.js</a>, <a href="Brick.js.html#line326">line 326</a>
     </li></ul></dd>
     
 
@@ -996,7 +805,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Brick.js.html">Brick.js</a>, <a href="Brick.js.html#line192">line 192</a>
+        <a href="Brick.js.html">Brick.js</a>, <a href="Brick.js.html#line204">line 204</a>
     </li></ul></dd>
     
 
@@ -1030,7 +839,166 @@
     
 
     
-    <h4 class="name" id=".getByParticleId"><span class="type-signature">(static) </span>getByParticleId<span class="signature">(id)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".fixPos"><span class="type-signature">(static) </span>fixPos<span class="signature">(brickPos, hitMesh)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Fixes position of temp brick and placement. For example, slides brick into
+place if the ray hits the ground, or snaps to the side of a brick ray hit
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>brickPos</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">BABYLON.Vector3</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Where the ray hit</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>hitMesh</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">BABYLON.Mesh</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The mesh the ray hit, if any</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Brick.js.html">Brick.js</a>, <a href="Brick.js.html#line338">line 338</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id=".getByParticleId"><span class="type-signature">(static) </span>getByParticleId<span class="signature">(id)</span><span class="type-signature"> &rarr; {<a href="Brick.html">Brick</a>}</span></h4>
     
 
     
@@ -1131,7 +1099,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Brick.js.html">Brick.js</a>, <a href="Brick.js.html#line213">line 213</a>
+        <a href="Brick.js.html">Brick.js</a>, <a href="Brick.js.html#line226">line 226</a>
     </li></ul></dd>
     
 
@@ -1154,6 +1122,28 @@
 
 
 
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    The brick with stated id, null if error
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type"><a href="Brick.html">Brick</a></span>
+
+
+    </dd>
+</dl>
+
+    
 
 
 
@@ -1165,7 +1155,7 @@
     
 
     
-    <h4 class="name" id=".placeBrick"><span class="type-signature">(static) </span>placeBrick<span class="signature">(dim, loc)</span><span class="type-signature"> &rarr; {<a href="Brick.html">Brick</a>}</span></h4>
+    <h4 class="name" id=".placeBrick"><span class="type-signature">(static) </span>placeBrick<span class="signature">(loc)</span><span class="type-signature"> &rarr; {<a href="Brick.html">Brick</a>}</span></h4>
     
 
     
@@ -1174,7 +1164,7 @@
 
 <div class="description">
     Places a Brick in the scene by cloning a base Brick, no straight constructing
-Will get all data from player's state/gui
+Will get almost all data from player's current state/gui
 </div>
 
 
@@ -1206,29 +1196,6 @@ Will get all data from player's state/gui
     </thead>
 
     <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>dim</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">BABYLON.Vector3</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Dimension of the Brick to create</td>
-        </tr>
-
     
 
         <tr>
@@ -1290,7 +1257,7 @@ Will get all data from player's state/gui
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Brick.js.html">Brick.js</a>, <a href="Brick.js.html#line267">line 267</a>
+        <a href="Brick.js.html">Brick.js</a>, <a href="Brick.js.html#line280">line 280</a>
     </li></ul></dd>
     
 
@@ -1493,7 +1460,7 @@ Will get all data from player's state/gui
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Brick.js.html">Brick.js</a>, <a href="Brick.js.html#line293">line 293</a>
+        <a href="Brick.js.html">Brick.js</a>, <a href="Brick.js.html#line312">line 312</a>
     </li></ul></dd>
     
 
@@ -1579,7 +1546,7 @@ Will get all data from player's state/gui
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Brick.js.html">Brick.js</a>, <a href="Brick.js.html#line181">line 181</a>
+        <a href="Brick.js.html">Brick.js</a>, <a href="Brick.js.html#line171">line 171</a>
     </li></ul></dd>
     
 
@@ -1665,7 +1632,7 @@ Will get all data from player's state/gui
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Brick.js.html">Brick.js</a>, <a href="Brick.js.html#line111">line 111</a>
+        <a href="Brick.js.html">Brick.js</a>, <a href="Brick.js.html#line103">line 103</a>
     </li></ul></dd>
     
 
@@ -1773,7 +1740,7 @@ Will get all data from player's state/gui
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Brick.js.html">Brick.js</a>, <a href="Brick.js.html#line102">line 102</a>
+        <a href="Brick.js.html">Brick.js</a>, <a href="Brick.js.html#line94">line 94</a>
     </li></ul></dd>
     
 
@@ -1881,7 +1848,7 @@ Will get all data from player's state/gui
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Brick.js.html">Brick.js</a>, <a href="Brick.js.html#line85">line 85</a>
+        <a href="Brick.js.html">Brick.js</a>, <a href="Brick.js.html#line77">line 77</a>
     </li></ul></dd>
     
 
@@ -1989,7 +1956,7 @@ Will get all data from player's state/gui
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Brick.js.html">Brick.js</a>, <a href="Brick.js.html#line156">line 156</a>
+        <a href="Brick.js.html">Brick.js</a>, <a href="Brick.js.html#line142">line 142</a>
     </li></ul></dd>
     
 
@@ -2146,7 +2113,7 @@ Will get all data from player's state/gui
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Brick.js.html">Brick.js</a>, <a href="Brick.js.html#line65">line 65</a>
+        <a href="Brick.js.html">Brick.js</a>, <a href="Brick.js.html#line58">line 58</a>
     </li></ul></dd>
     
 
@@ -2281,7 +2248,7 @@ Will get all data from player's state/gui
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Brick.js.html">Brick.js</a>, <a href="Brick.js.html#line93">line 93</a>
+        <a href="Brick.js.html">Brick.js</a>, <a href="Brick.js.html#line85">line 85</a>
     </li></ul></dd>
     
 
@@ -2416,7 +2383,7 @@ Will get all data from player's state/gui
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Brick.js.html">Brick.js</a>, <a href="Brick.js.html#line164">line 164</a>
+        <a href="Brick.js.html">Brick.js</a>, <a href="Brick.js.html#line156">line 156</a>
     </li></ul></dd>
     
 
@@ -2551,7 +2518,7 @@ Will get all data from player's state/gui
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Brick.js.html">Brick.js</a>, <a href="Brick.js.html#line120">line 120</a>
+        <a href="Brick.js.html">Brick.js</a>, <a href="Brick.js.html#line112">line 112</a>
     </li></ul></dd>
     
 
@@ -2686,7 +2653,7 @@ Will get all data from player's state/gui
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Brick.js.html">Brick.js</a>, <a href="Brick.js.html#line132">line 132</a>
+        <a href="Brick.js.html">Brick.js</a>, <a href="Brick.js.html#line122">line 122</a>
     </li></ul></dd>
     
 
@@ -2821,7 +2788,7 @@ Will get all data from player's state/gui
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Brick.js.html">Brick.js</a>, <a href="Brick.js.html#line144">line 144</a>
+        <a href="Brick.js.html">Brick.js</a>, <a href="Brick.js.html#line132">line 132</a>
     </li></ul></dd>
     
 
@@ -2865,13 +2832,13 @@ Will get all data from player's state/gui
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Brick.html">Brick</a></li><li><a href="Player.html">Player</a></li><li><a href="Utils.html">Utils</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Brick.html">Brick</a></li><li><a href="Player.html">Player</a></li><li><a href="TempBrick.html">TempBrick</a></li><li><a href="Utils.html">Utils</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sat Sep 15 2018 23:15:03 GMT-0700 (Pacific Daylight Time)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Mon Sep 17 2018 10:16:59 GMT-0700 (Pacific Daylight Time)
 </footer>
 
 <script> prettyPrint(); </script>

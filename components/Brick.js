@@ -111,7 +111,6 @@ class Brick {
      */
     setX(xVal) {
         xVal = xVal + this.widthX / 2;
-        console.log(xVal);
         this._mesh.position.x = xVal;
     }
 
@@ -174,14 +173,23 @@ class Brick {
         this._mesh.setPivotPoint(centerPointWorld, BABYLON.Space.WORLD);
     }
 
-    shrink() {
+    /**
+     * Shrinks the mesh just enough to not overlap faces, helper for collision
+     * @private
+     */
+    _shrink() {
         this._mesh.scaling.x = MISCSETTINGS.BRICKSHRINK;
         this._mesh.scaling.y = MISCSETTINGS.BRICKSHRINK;
         this._mesh.scaling.z = MISCSETTINGS.BRICKSHRINK;
         this._mesh.computeWorldMatrix();
     }
 
-    unshrink() {
+    /**
+     * Undoes the shrinking done in shrink()
+     * @private
+     * @see {@link _shrink}
+     */
+    _unshrink() {
         this._mesh.scaling.x = 1;
         this._mesh.scaling.y = 1;
         this._mesh.scaling.z = 1;
@@ -213,6 +221,7 @@ class Brick {
     /**
      * Retrieves a reference to a brick with the spsCloneId of 'id'
      * @param {number} id SPS Particle id to match brick with
+     * @returns {Brick} The brick with stated id, null if error
      */
     static getByParticleId(id) {
         // console.log("Searching for brick with spsCloneId " + id + "...");
@@ -237,22 +246,22 @@ class Brick {
      */
     static canPlaceBrick(brick, deleteOnDone = false) {
         // Only call if brick has not been placed yet and is in the list
-        brick.shrink();
+        brick._shrink();
         for (let i = 0; i < brickList.length; i++) {
-            brickList[i].shrink();
+            brickList[i]._shrink();
             if (brick._mesh.intersectsMesh(brickList[i]._mesh, false)) {
                 console.log("Intersection detected with brick [id: " + brickList[i].id + "]");
-                brickList[i].unshrink();
-                brick.unshrink();
+                brickList[i]._unshrink();
+                brick._unshrink();
                 if (deleteOnDone) {
                     brick._mesh.dispose();
                     brick = null;
                 }
                 return false;
             }
-            brickList[i].unshrink();
+            brickList[i]._unshrink();
         }
-        brick.unshrink();
+        brick._unshrink();
         if (deleteOnDone) {
             brick._mesh.dispose();
             brick = null;
@@ -262,8 +271,7 @@ class Brick {
 
     /**
      * Places a Brick in the scene by cloning a base Brick, no straight constructing
-     * Will get all data from player's state/gui
-     * @param {BABYLON.Vector3} dim Dimension of the Brick to create
+     * Will get almost all data from player's current state/gui
      * @param {BABYLON.Vector3} loc Location of the Brick to create
      * @returns {Brick} The created brick
      * @static
@@ -310,7 +318,7 @@ class Brick {
     }
 
     /**
-     * Gets the total number of active Bricks
+     * Gets the total number of all active Bricks
      * @returns {number} Length of brickList
      * @static
      * @public
@@ -320,9 +328,12 @@ class Brick {
     }
 
     /**
-     * Fixes position of temp brick and placement
+     * Fixes position of temp brick and placement. For example, slides brick into
+     * place if the ray hits the ground, or snaps to the side of a brick ray hit
      * @param {BABYLON.Vector3} brickPos Where the ray hit
      * @param {BABYLON.Mesh} hitMesh The mesh the ray hit, if any
+     * @public
+     * @static
      */
     static fixPos(brickPos, hitMesh) {
         if (!hitMesh || !hitMesh.brickClass) {
@@ -336,8 +347,8 @@ class Brick {
         }
         else {
             // Floor ensures the brick will always be on top of the brick, not rounding off the side
-            brickPos.x = Math.floor(brickPos.x);// + hitMesh.brickClass.widthX / 2;
-            brickPos.z = Math.floor(brickPos.z);// + hitMesh.brickClass.depthZ / 2;
+            brickPos.x = Math.floor(brickPos.x);
+            brickPos.z = Math.floor(brickPos.z);
             // This is the position the brick would be if it were exactly on top of the hit brick
             var newY = hitMesh.position.y + hitMesh.scaling.y / 2; // Placed bricks are centered
             // The raycast has hit high on thebrick, likely meaning its at or near the top
@@ -347,12 +358,10 @@ class Brick {
             else {
                 // Most likely the side of the brick has been hit. Lets get the player rotation...
                 var rot = player1.getDirection();
-                //console.log(rot);
                 brickPos.y = Math.floor(brickPos.y);
-                //console.log(brickPos);
+                // Use returned Vector3 to decide which way the brick should snap
                 brickPos.x -= rot.x;
                 brickPos.z -= rot.z;
-                //console.log(brickPos);
             }
         }    
         return brickPos;
@@ -365,6 +374,10 @@ class Brick {
  * @extends Brick
  */
 class TempBrick extends Brick {
+    /**
+     * Creates a TempBrick
+     * @param {Player} owner Player that will own the brick
+     */
     constructor (owner) {
         if (!owner) {
             console.log("[!] No owner detected in TempBrick construction!");
@@ -383,24 +396,30 @@ class TempBrick extends Brick {
         this.owner = owner;
     }
 
+    /**
+     * When called, fires a ray from the player camera and then moves the tempBrick
+     * to a constrained location
+     * @public
+     */
     moveToRay() {
         var hit = scene.pickWithRay(this.owner.rayHelper.ray);
         if (!hit || hit == null || hit.pickedPoint == null) {
             //console.log("No hit point!");
         }
         else {
-            //console.log(hit);
             var hitPoint = hit.pickedPoint;
             hitPoint = Brick.fixPos(hitPoint, hit.pickedMesh);
-            //this._mesh.position.x = hitPoint.x;
-            //this._mesh.position.z = hitPoint.z;
             this.setX(hitPoint.x);
             this.setY(hitPoint.y);
             this.setZ(hitPoint.z);
-            //console.log(this._mesh.position);
         }
     }
 
+    /**
+     * Recreates the TempBrick with a new size
+     * @param {Player} player Player that owns the TempBrick
+     * @param {BABYLON.Vector3} brickSize Size of new TempBrick
+     */
     static rebuild(player, brickSize) {
         currentBrick = brickSize;
         player.tempBrick._mesh.dispose();

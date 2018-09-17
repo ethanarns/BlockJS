@@ -26,18 +26,7 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>/*const BABYLON = require('babylonjs');
-// Import globals for testing
-const MISCSETTINGS = require('./Globals').MISCSETTINGS;
-const PLAYERDEFAULTS = require('./Globals').PLAYERDEFAULTS;
-const COLORS = require('./Globals').COLORS;
-var brickList = require('./Globals').brickList;
-var lastId = require('./Globals').lastId;
-var isDebugMode = require('./Globals').isDebugMode;
-var Brick = require('./Brick');
-var Player = require('./Player');*/
-
-/**
+            <pre class="prettyprint source linenums"><code>/**
  * Utility class, provides handy helper methods
  * @author Ethan Arns &lt;contact@ethanarns.com>
  * @hideconstructor
@@ -62,29 +51,44 @@ class Utils {
         world.ground = ground;
         world.lights = {};
         world.lights.mainLight = new BABYLON.PointLight("light", new BABYLON.Vector3(10, 10, 0), scene);
-        world.lights.hemiLight = new BABYLON.HemisphericLight("HemiLight", new BABYLON.Vector3(0, 1, 0), scene);
+        //world.lights.hemiLight = new BABYLON.HemisphericLight("HemiLight", new BABYLON.Vector3(0, 1, 0), scene);
         world.scene = scene; // Might look good in references
         SPS = new BABYLON.SolidParticleSystem("SPS", scene);
         return world; // Return reference to it
     }
 
     /**
-     * Creates and then returns the engine to run the game
+     * Creates and then returns the scene to run the game
+     * Option after debug to hide the grid since it adds drawcalls
      * @param {BABYLON.Engine} engine Engine to run the game
      * @param {boolean} debug Should the game start in debug mode?
+     * @param {boolean} noGrid If in debug mode, should the grid be hidden?
+     * @returns {BABYLON.Scene} The game's current scene
      * @public
      * @static
      */
-    static generateScene(engine, debug = true) {
+    static generateScene(engine, debug = true, noGrid = true) {
         var scene = new BABYLON.Scene(engine);
             scene.clearColor = COLORS.BGCLEAR;
             scene.gravity = MISCSETTINGS.GRAVITY;
             scene.collisionsEnabled = false;
             scene.preventDefaultOnPointerDown = true;
+        // Prevent stretching
+        window.addEventListener("resize", function () { 
+            engine.resize();
+        });
         if (debug) {
-            console.log("%c[!] Debug mode enabled, set generateScene() flag 'debug' to false to disable at runtime", "color: orange");
+            console.log("%c[!] Debug mode enabled, " +
+                "set generateScene() flag 'debug' to false to disable at runtime", "color: orange");
             scene.debugLayer.show();
-            // Utils.drawGrid();
+            if (!noGrid) {
+                Utils.drawGrid();
+            }
+        }
+        else {
+            document.getElementsByTagName("html")[0].style.fontSize = 0;
+            document.getElementsByTagName("body")[0].style.fontSize = 0;
+            document.getElementsByTagName("canvas")[0].style.fontSize = 0;
         }
         isDebugMode = debug;
         return scene; // Return reference to it
@@ -100,16 +104,24 @@ class Utils {
         var UI = {};
         // Graphics
         UI.advancedTexture = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("myUI");
-        UI.crosshair = new BABYLON.GUI.Ellipse();
-        UI.crosshair.height = "10px";
-        UI.crosshair.name = "Crosshairs";
-        UI.crosshair.width = "10px";
-        UI.crosshair.color = "White";
-        UI.crosshair.thickness = 2;
-        UI.advancedTexture.addControl(UI.crosshair);
+        UI.crosshair2 = new BABYLON.GUI.Ellipse();
+        UI.crosshair2.height = "12px";
+        UI.crosshair2.name = "Crosshairs Outline";
+        UI.crosshair2.width = "12px";
+        UI.crosshair2.color = "Grey";
+        UI.crosshair2.thickness = 1;
+        UI.advancedTexture.addControl(UI.crosshair2);
+        UI.crosshair1 = new BABYLON.GUI.Ellipse();
+        UI.crosshair1.height = "10px";
+        UI.crosshair1.name = "Crosshairs White";
+        UI.crosshair1.width = "10px";
+        UI.crosshair1.color = "White";
+        UI.crosshair1.thickness = 2;
+        UI.advancedTexture.addControl(UI.crosshair1);
         // Audio
         UI.Audio = {};
-        UI.Audio.jumpSound = new BABYLON.Sound("gunshot", "./audio/jump.wav", scene);
+        UI.Audio.jumpSound = new BABYLON.Sound("jumpSound", "./audio/jump.wav", scene);
+        UI.Audio.clickPlace = new BABYLON.Sound("clickPlace", "./audio/clickPlace.wav", scene);
 
         return UI;
     }
@@ -207,9 +219,10 @@ class Utils {
                 //console.log("Linking")
                 particle.brickRef = brick;
                 brick.particleRef = particle;
-                particle.position.x = brick.getPosition().x;
-                particle.position.y = brick.getPosition().y;
-                particle.position.z = brick.getPosition().z;
+                // Don't use the getters here, we're looking for the actual space position
+                particle.position.x = brick._mesh.position.x;
+                particle.position.y = brick._mesh.position.y;
+                particle.position.z = brick._mesh.position.z;
                 particle.scaling = new BABYLON.Vector3(
                     MISCSETTINGS.BRICKSHRINK,
                     MISCSETTINGS.BRICKSHRINK,
@@ -223,9 +236,6 @@ class Utils {
         SPS.isAlwaysVisible = true;
     }
 }
-
-// See if running under node to avoid exception
-module.exports = Utils;
 </code></pre>
         </article>
     </section>
@@ -236,13 +246,13 @@ module.exports = Utils;
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Brick.html">Brick</a></li><li><a href="Player.html">Player</a></li><li><a href="Utils.html">Utils</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Brick.html">Brick</a></li><li><a href="Player.html">Player</a></li><li><a href="TempBrick.html">TempBrick</a></li><li><a href="Utils.html">Utils</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sat Sep 15 2018 23:15:03 GMT-0700 (Pacific Daylight Time)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Mon Sep 17 2018 10:16:59 GMT-0700 (Pacific Daylight Time)
 </footer>
 
 <script> prettyPrint(); </script>
