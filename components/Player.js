@@ -264,12 +264,33 @@ class Player {
                 Brick.placeBrick(brickPos);
             }
 
-            if (evt.keyCode == 38) {
+            if (evt.keyCode == 38 || evt.keyCode == 39 ||
+            evt.keyCode == 37 || evt.keyCode == 40) {
                 var pRot = new BABYLON.Vector3();
                 pRot.copyFrom(_this.getDirection());
                 var tb = _this.tempBrick._mesh.position;
-                tb.x += pRot.x;
-                tb.z += pRot.z;
+                switch (evt.keyCode) {
+                    // Up
+                    case 38:
+                        tb.x += pRot.x;
+                        tb.z += pRot.z;
+                        break;
+                    // Down
+                    case 40:
+                        tb.x -= pRot.x;
+                        tb.z -= pRot.z;
+                        break;
+                    // Left
+                    case 37:
+                        tb.z += pRot.x;
+                        tb.x -= pRot.z;
+                        break;
+                    // Right
+                    case 39:
+                        tb.z -= pRot.x;
+                        tb.x += pRot.z;
+                        break;
+                }
             }
         };
         BABYLON.Tools.RegisterTopRootEvents([{
