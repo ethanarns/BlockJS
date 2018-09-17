@@ -172,78 +172,70 @@ class Player {
         var _this = this;
         // Key downs
         this.scene.actionManager.registerAction(
-            new BABYLON.ExecuteCodeAction(
-                {
-                    trigger: BABYLON.ActionManager.OnKeyDownTrigger,
-                    parameter: 'w'
-                },
-                function() { _this.forwards = _this.speed; }
-            )
+            new BABYLON.ExecuteCodeAction({
+                trigger: BABYLON.ActionManager.OnKeyDownTrigger,
+                parameter: 'w'
+            }, function() {
+                _this.forwards = _this.speed;
+            })
         );
         this.scene.actionManager.registerAction(
-            new BABYLON.ExecuteCodeAction(
-                {
-                    trigger: BABYLON.ActionManager.OnKeyDownTrigger,
-                    parameter: 's'
-                },
-                function() { _this.forwards = -_this.speed; }
-            )
+            new BABYLON.ExecuteCodeAction({
+                trigger: BABYLON.ActionManager.OnKeyDownTrigger,
+                parameter: 's'
+            }, function() {
+                _this.forwards = -_this.speed;
+            })
         );
         this.scene.actionManager.registerAction(
-            new BABYLON.ExecuteCodeAction(
-                {
-                    trigger: BABYLON.ActionManager.OnKeyDownTrigger,
-                    parameter: 'a'
-                },
-                function() { _this.sideways = -_this.speed; }
-            )
+            new BABYLON.ExecuteCodeAction({
+                trigger: BABYLON.ActionManager.OnKeyDownTrigger,
+                parameter: 'a'
+            }, function() {
+                _this.sideways = -_this.speed;
+            })
         );
         this.scene.actionManager.registerAction(
-            new BABYLON.ExecuteCodeAction(
-                {
-                    trigger: BABYLON.ActionManager.OnKeyDownTrigger,
-                    parameter: 'd'
-                },
-                function() { _this.sideways = _this.speed; }
-            )
+            new BABYLON.ExecuteCodeAction({
+                trigger: BABYLON.ActionManager.OnKeyDownTrigger,
+                parameter: 'd'
+            }, function() {
+                _this.sideways = _this.speed;
+            })
         );
 
         // Key ups
         this.scene.actionManager.registerAction(
-            new BABYLON.ExecuteCodeAction(
-                {
-                    trigger: BABYLON.ActionManager.OnKeyUpTrigger,
-                    parameter: 'w'
-                },
-                function() { _this.forwards = 0; }
-            )
+            new BABYLON.ExecuteCodeAction({
+                trigger: BABYLON.ActionManager.OnKeyUpTrigger,
+                parameter: 'w'
+            }, function() {
+                _this.forwards = 0;
+            })
         );
         this.scene.actionManager.registerAction(
-            new BABYLON.ExecuteCodeAction(
-                {
-                    trigger: BABYLON.ActionManager.OnKeyUpTrigger,
-                    parameter: 's'
-                },
-                function() { _this.forwards = 0; }
-            )
+            new BABYLON.ExecuteCodeAction({
+                trigger: BABYLON.ActionManager.OnKeyUpTrigger,
+                parameter: 's'
+            }, function() {
+                _this.forwards = 0;
+            })
         );
         this.scene.actionManager.registerAction(
-            new BABYLON.ExecuteCodeAction(
-                {
-                    trigger: BABYLON.ActionManager.OnKeyUpTrigger,
-                    parameter: 'a'
-                },
-                function() { _this.sideways = 0; }
-            )
+            new BABYLON.ExecuteCodeAction({
+                trigger: BABYLON.ActionManager.OnKeyUpTrigger,
+                parameter: 'a'
+            }, function() {
+                _this.sideways = 0;
+            })
         );
         this.scene.actionManager.registerAction(
-            new BABYLON.ExecuteCodeAction(
-                {
-                    trigger: BABYLON.ActionManager.OnKeyUpTrigger,
-                    parameter: 'd'
-                },
-                function() { _this.sideways = 0; }
-            )
+            new BABYLON.ExecuteCodeAction({
+                trigger: BABYLON.ActionManager.OnKeyUpTrigger,
+                parameter: 'd'
+            }, function() {
+                _this.sideways = 0;
+            })
         );
 
         // There is no event.key for space! Do it via values instead.
@@ -258,7 +250,19 @@ class Player {
                 _this.jumpPressed = false;
             }
         };
-        var onEnterKeyDown = function(evt) {
+        BABYLON.Tools.RegisterTopRootEvents([{
+            name: "keydown",
+            handler: onJumpKeyDown
+        }, {
+            name: "keyup",
+            handler: onJumpKeyUp
+        }]);
+    }
+
+    setupBrickControl() {
+        // Separate one for brick modification
+        var onKeyDown = function(evt) {
+            // enter -> place the brick
             if (evt.keyCode == 13) {
                 var brickPos = new BABYLON.Vector3();
                 brickPos.copyFrom(_this.tempBrick._mesh.position);
@@ -270,13 +274,7 @@ class Player {
         };
         BABYLON.Tools.RegisterTopRootEvents([{
             name: "keydown",
-            handler: onJumpKeyDown
-        }, {
-            name: "keyup",
-            handler: onJumpKeyUp
-        }, {
-            name: "keydown",
-            handler: onEnterKeyDown
+            handler: onKeyDown
         }]);
     }
 

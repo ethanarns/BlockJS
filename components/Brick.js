@@ -40,7 +40,7 @@ class Brick {
         locVec.x += x / 2;
         locVec.y += y / 2;
         locVec.z += z / 2;
-        // Make pivot lower corner
+        // Make pivot lower corner for right-angle rotation
         this._mesh.setPivotMatrix(BABYLON.Matrix.Translation(x/2, y/2, z/2));
         this._mesh.rotation.y = (Math.PI / 180) * rotation;
         this.centerPivot();
@@ -64,8 +64,7 @@ class Brick {
      */
     setColor(color) {
         if (!color.r) {
-            if (isDebugMode)
-                console.log("ERROR: specify a color constant, not string");
+            console.log("ERROR: specify a color constant, not string");
             return;
         }
         this._mesh.material.unfreeze();
@@ -118,10 +117,8 @@ class Brick {
      * @public
      */
     setX(xVal) {
-        this._mesh.unfreezeWorldMatrix();
         xVal = xVal + this._mesh.scaling.x / 2;
         this._mesh.position.x = xVal;
-        //this._mesh.freezeWorldMatrix();
     }
 
     /**
@@ -130,10 +127,8 @@ class Brick {
      * @public
      */
     setY(yVal) {
-        this._mesh.unfreezeWorldMatrix();
         yVal = yVal + this._mesh.scaling.y / 2;
         this._mesh.position.y = yVal;
-        //this._mesh.freezeWorldMatrix();
     }
 
     /**
@@ -142,10 +137,8 @@ class Brick {
      * @public
      */
     setZ(zVal) {
-        this._mesh.unfreezeWorldMatrix();
         zVal = zVal + this._mesh.scaling.z / 2;
         this._mesh.position.z = zVal;
-        //this._mesh.freezeWorldMatrix();
     }
 
     /**
@@ -154,7 +147,6 @@ class Brick {
      * @public
      */
     getPosition() {
-        this._mesh.unfreezeWorldMatrix();
         var pos = new BABYLON.Vector3();
         pos.copyFrom(this._mesh.position);
         //console.log(this._mesh.scaling / 2);
@@ -170,14 +162,12 @@ class Brick {
      */
     setRotation(rVal) {
         let slide = 0;
-        this._mesh.unfreezeWorldMatrix();
         this._mesh.rotation.y = rVal;
         if (slide !== 0) {
             if (isDebugMode)
                 console.log("Sliding: " + slide);
             this._mesh.position.y -= slide;
         }
-        //this._mesh.freezeWorldMatrix();
         return this;
     }
 
@@ -293,7 +283,6 @@ class Brick {
             console.log("Warning: Angles not divisible by 90 degrees will " +
                 "intersection with other bricks and look bad, fix");
         }
-        brick._mesh.unfreezeWorldMatrix();
         if (!this.canPlaceBrick(brick)) {
             console.log("Brick collision detected!");
             brick._mesh.dispose();
@@ -304,8 +293,8 @@ class Brick {
         brickList.push(brick);
         // Wipe then recreate SPS
         Utils.refreshSPS();
-
-        //brick._mesh.freezeWorldMatrix();
+        // This brick should not move after this, so freeze in place
+        brick._mesh.freezeWorldMatrix();
         UI.Audio.clickPlace.play();
         return brick;
     }
@@ -393,7 +382,6 @@ class TempBrick extends Brick {
         //this._mesh.scaling.x *= 1.01;
         //this._mesh.scaling.y *= 1.01;
         //this._mesh.scaling.z *= 1.01;
-        this._mesh.material.unfreeze();
         this._mesh.material.alpha = 0.5;
         this._mesh._visibility = true;
         this._mesh.isVisible = true;
