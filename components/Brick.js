@@ -45,7 +45,7 @@ class Brick {
         this._mesh.rotation.y = (Math.PI / 180) * rotation;
         this.centerPivot();
         this._mesh.computeWorldMatrix();
-        this._mesh.scaling = new BABYLON.Vector3(0.99, 0.99, 0.99);
+        //this._mesh.scaling = new BABYLON.Vector3(0.99, 0.99, 0.99);
 
         
         this._mesh.position = locVec;
@@ -153,7 +153,8 @@ class Brick {
      * @public
      */
     getPosition() {
-        var pos = new BABYLON.Vector3();//= this._mesh.position;
+        this._mesh.unfreezeWorldMatrix();
+        var pos = new BABYLON.Vector3();
         pos.copyFrom(this._mesh.position);
         pos.x = pos.x - this._mesh.scaling.x / 2;
         pos.y = pos.y - this._mesh.scaling.y / 2;
@@ -185,6 +186,18 @@ class Brick {
     centerPivot() {
         var centerPointWorld = this._mesh.getBoundingInfo().boundingBox.centerWorld;
         this._mesh.setPivotPoint(centerPointWorld, BABYLON.Space.WORLD);
+    }
+
+    shrink() {
+        this._mesh.scaling.x = 0.999;
+        this._mesh.scaling.y = 0.999;
+        this._mesh.scaling.y = 0.999;
+    }
+
+    unshrink() {
+        this._mesh.scaling.x = 0.999;
+        this._mesh.scaling.y = 0.999;
+        this._mesh.scaling.y = 0.999;
     }
 
     /**
@@ -234,29 +247,28 @@ class Brick {
      * @static
      * @public
      */
-    static canPlaceBrick(brick) {
+    static canPlaceBrick(brick, deleteOnDone = false) {
+        brick.shrink();
         for (let i = 0; i < brickList.length; i++) {
+            brickList[i].shrink();
             if (brick._mesh.intersectsMesh(brickList[i]._mesh, false) && brick.id !== brickList[i].id) {
                 console.log("Intersection! Cannot place brick.");
+                brickList[i].unshrink();
+                brick.unshrink();
+                if (deleteOnDone) {
+                    brick._mesh.dispose();
+                    brick = null;
+                }
                 return false;
             }
+            brickList[i].unshrink();
+        }
+        brick.unshrink();
+        if (deleteOnDone) {
+            brick._mesh.dispose();
+            brick = null;
         }
         return true;
-    }
-
-    /**
-     * Temporarily creates a 1x1x1 brick to test if an individual location cube is filled
-     * @param {number} x X value to test
-     * @param {number} y Y value to test
-     * @param {number} z Z value to test
-     * @param {BABYLON.Scene} scene Scene to test brick in
-     * @returns {boolean} True if the location is empty, false if Brick already taking up that space
-     * @static
-     * @public
-     */
-    static canPlaceBrickAt(x, y, z, scene) {
-        var testerBrick = new Brick("DELETEME", 1, 1, 1, new BABYLON.Vector3(x, y, z), COLORS.DEFAULT, scene);
-        return this.canPlaceBrick(testerBrick);
     }
 
     /**
