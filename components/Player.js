@@ -291,12 +291,12 @@ class Player {
                         tb.z -= pRot.x;
                         tb.x += pRot.z;
                         break;
-                    // Left bracket (downwards)
+                    // Left bracket (shift downwards)
                     case 219:
                         if (tb.y >= 1.5)
                             tb.y--;
                         break;
-                    // Right bracket (upwards)
+                    // Right bracket (shift upwards)
                     case 221:
                         tb.y++;
                         break;

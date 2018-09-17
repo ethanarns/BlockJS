@@ -394,4 +394,11 @@ class TempBrick extends Brick {
             //console.log(this._mesh.position);
         }
     }
+
+    static rebuild(player, brickSize) {
+        currentBrick = brickSize;
+        player.tempBrick._mesh.dispose();
+        player.tempBrick = null;
+        player.tempBrick = new TempBrick(player);
+    }
 }

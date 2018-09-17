@@ -23,7 +23,8 @@ const COLORS = {
 currentColor = COLORS.DEFAULT;
 
 const BRICKS = {
-    b1x1: new BABYLON.Vector3(1, 1, 1)
+    b1x1: new BABYLON.Vector3(1, 1, 1),
+    b1x2: new BABYLON.Vector3(1, 1, 2)
 }
 currentBrick = BRICKS.b1x1;
 
