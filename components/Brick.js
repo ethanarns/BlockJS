@@ -144,9 +144,9 @@ class Brick {
         var pos = new BABYLON.Vector3();
         pos.copyFrom(this._mesh.position);
         //console.log(this._mesh.scaling / 2);
-        pos.x = pos.x - this._mesh.scaling.x / 2;
-        pos.y = pos.y - this._mesh.scaling.y / 2;
-        pos.z = pos.z - this._mesh.scaling.z / 2;
+        pos.x = pos.x - this.widthX / 2;
+        pos.y = pos.y - this.heightY / 2;
+        pos.z = pos.z - this.depthZ / 2;
         return new BABYLON.Vector3(pos.x, pos.y, pos.z);
     }
 
@@ -336,8 +336,8 @@ class Brick {
         }
         else {
             // Floor ensures the brick will always be on top of the brick, not rounding off the side
-            brickPos.x = Math.floor(brickPos.x) + hitMesh.scaling.x / 2;
-            brickPos.z = Math.floor(brickPos.z) + hitMesh.scaling.z / 2;
+            brickPos.x = Math.floor(brickPos.x) + hitMesh.brickClass.widthX / 2;
+            brickPos.z = Math.floor(brickPos.z) + hitMesh.brickClass.depthZ / 2;
             // This is the position the brick would be if it were exactly on top of the hit brick
             var newY = hitMesh.position.y + hitMesh.scaling.y / 2; // Placed bricks are centered
             // The raycast has hit high on thebrick, likely meaning its at or near the top

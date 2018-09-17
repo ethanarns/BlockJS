@@ -258,9 +258,9 @@ class Player {
             if (evt.keyCode == 13) {
                 var brickPos = new BABYLON.Vector3();
                 brickPos.copyFrom(_this.tempBrick._mesh.position);
-                brickPos.x = brickPos.x - 0.5;
-                brickPos.y = brickPos.y - 0.5;
-                brickPos.z = brickPos.z - 0.5;
+                brickPos.x = brickPos.x - _this.tempBrick.widthX / 2;
+                brickPos.y = brickPos.y - _this.tempBrick.heightY / 2;
+                brickPos.z = brickPos.z - _this.tempBrick.depthZ / 2;
                 Brick.placeBrick(brickPos);
             }
 
