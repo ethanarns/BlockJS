@@ -264,8 +264,12 @@ class Player {
                 Brick.placeBrick(brickPos);
             }
 
-            switch(evt.keyCode) {
-
+            if (evt.keyCode == 38) {
+                var pRot = new BABYLON.Vector3();
+                pRot.copyFrom(_this.getDirection());
+                var tb = _this.tempBrick._mesh.position;
+                tb.x += pRot.x;
+                tb.z += pRot.z;
             }
         };
         BABYLON.Tools.RegisterTopRootEvents([{
