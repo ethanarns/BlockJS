@@ -6,6 +6,7 @@ var SPS;
 var currentColor; // From gui/tools
 var currentRotation = 0; // From gui/tools
 var currentBrick; // From gui/tools
+var pulse = 0;
 
 // Colors/material constants
 const COLORS = {

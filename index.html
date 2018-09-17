@@ -38,13 +38,12 @@
         var scene = Utils.generateScene(engine, false, true);
         var World = Utils.generateWorld();
         var UI = Utils.generateUI();
-        var pulse = 0;
         engine.runRenderLoop(function() {
             scene.render();
             player1.movement();
+
             pulse += 0.1;
             player1.tempBrick._mesh.material.alpha = Math.sin(pulse) / 4 + 0.50;
-            console.log();
         });
         var player1 = new Player("Player1", {}, scene);
         player1.moveTo(0, 15, -20);
