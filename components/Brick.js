@@ -440,27 +440,31 @@ class TempBrick extends Brick {
      */
     rotate() {
         if (this.widthX == this.depthZ) {
-            console.log("Rotating a square is pointless, skipping.");
+            //console.log("Rotating a square is pointless, skipping.");
             return;
         }
-        if (this._mesh.rotation.y == 0) {
-            this._mesh.position.x -= 0.5;
-            this._mesh.position.z -= 0.5;
-        }
-        else if (this._mesh.rotation.y == Math.PI / 2) {
-            this._mesh.position.x -= 0.5;
-            this._mesh.position.z += 0.5;
-        }
-        else if (this._mesh.rotation.y == Math.PI) {
-            this._mesh.position.x += 0.5;
-            this._mesh.position.z += 0.5;
-        }
-        else {
-            this._mesh.position.x += 0.5;
-            this._mesh.position.z -= 0.5;
+        // If even, it'll just rotate around the center, only do odd:
+        if ((this.widthX % 2 == 0 && this.depthZ % 2 != 0) ||
+        (this.depthZ % 2 == 0 && this.widthX % 2 != 0)) {
+            if (this._mesh.rotation.y == 0) {
+                this._mesh.position.x -= 0.5;
+                this._mesh.position.z -= 0.5;
+            }
+            else if (this._mesh.rotation.y == Math.PI / 2) {
+                this._mesh.position.x -= 0.5;
+                this._mesh.position.z += 0.5;
+            }
+            else if (this._mesh.rotation.y == Math.PI) {
+                this._mesh.position.x += 0.5;
+                this._mesh.position.z += 0.5;
+            }
+            else {
+                this._mesh.position.x += 0.5;
+                this._mesh.position.z -= 0.5;
+            }
         }
         currentRotation = (this._mesh.rotation.y + (Math.PI / 2)) % (Math.PI * 2);
-        console.log(currentRotation);
+        // console.log(currentRotation);
         TempBrick.rebuildTemp(this.owner);
     }
 }
