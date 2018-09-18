@@ -160,14 +160,23 @@ class Brick {
 
 
 
-
+    /**
+     * A helper function to check if there is something below the Brick,
+     * helping decide whether or not it will be a floating brick
+     * @return {boolean} True if something solid beneath the brick
+     */
     isObjectBelow() {
+        if (this.getPosition().y <= 0) {
+            // It is on the ground, therefore yes, something is below
+            console.log("On ground");
+            return true;
+        }
         var testBrick = new Brick("DELETEME", this.widthX, this.heightY, this.depthZ,
         new BABYLON.Vector3(this.getPosition().x, this.getPosition().y - 1,
             this.getPosition().z), currentColor, World);
         testBrick._mesh.rotation.y = this._mesh.rotation.y;
         // We now have a duplicate exactly 1 position below
-        console.log(Brick.canPlaceBrick(testBrick, true));
+        return !Brick.canPlaceBrick(testBrick, true);
     }
 
 
@@ -291,6 +300,12 @@ class Brick {
         brick._mesh.rotation.y = currentRotation + 0.0;
         if (!this.canPlaceBrick(brick)) {
             console.log("Brick collision detected!");
+            brick._mesh.dispose();
+            brick = null;
+            return null;
+        }
+        else if (!brick.isObjectBelow()) {
+            console.log("Brick is floating!");
             brick._mesh.dispose();
             brick = null;
             return null;
