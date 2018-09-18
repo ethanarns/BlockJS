@@ -88,6 +88,7 @@ class Player {
         this.rayHelper.attachToMesh(this.camera, new BABYLON.Vector3(0,0,1), new BABYLON.Vector3(0, 0, 0), 100);
 
         this.tempBrick = new TempBrick(this);
+        this.tempBrick.setY(-99);
     }
     /**
      * Add listeners to user's mouse controls

@@ -25,7 +25,6 @@ class Brick {
             );
             material.diffuseColor = color;
         this._mesh = BABYLON.MeshBuilder.CreateBox(name, {width: x, height:y, depth:z}, World.scene);
-        //console.log(this._mesh.rotation.y);
         this.widthX = x;
         this.heightY = y;
         this.depthZ = z;
@@ -35,7 +34,6 @@ class Brick {
         locVec.z += z / 2;
         // Make pivot lower corner for right-angle rotation
         //this._mesh.setPivotMatrix(BABYLON.Matrix.Translation(x/2, y/2, z/2));
-        //this._mesh.rotation.y = 0;//rotation;
         this.centerPivot();
         this._mesh.computeWorldMatrix();
         this._mesh.showBoundingBox = true;
@@ -268,9 +266,7 @@ class Brick {
         var brick = new Brick("Brick", dim.x, dim.y, dim.z,
             new BABYLON.Vector3(loc.x, loc.y, loc.z),
             currentColor, World);
-        //currentRotation = Math.PI / 2;
-        console.log("currentRotation: " + currentRotation);
-        brick._mesh.rotation.y = currentRotation + 0.0;//Math.PI / 2;
+        brick._mesh.rotation.y = currentRotation + 0.0;
         if (!this.canPlaceBrick(brick)) {
             console.log("Brick collision detected!");
             brick._mesh.dispose();
@@ -444,8 +440,13 @@ class TempBrick extends Brick {
      * @public
      */
     rotate() {
-        console.log("Rotating...");
+        if (this._mesh.widthX == this._mesh.depthZ) {
+            //console.log("rotating a square is pointless");
+            return;
+        }
         currentRotation = this._mesh.rotation.y + (Math.PI / 2);
+        this._mesh.position.x -= 0.5;
+        this._mesh.position.z += 0.5;
         TempBrick.rebuildTemp(this.owner);
     }
 }
