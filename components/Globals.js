@@ -25,7 +25,8 @@ currentColor = COLORS.DEFAULT;
 const BRICKS = {
     b1x1: new BABYLON.Vector3(1, 1, 1),
     b1x2: new BABYLON.Vector3(2, 1, 1),
-    b1x3: new BABYLON.Vector3(3, 1, 1)
+    b1x3: new BABYLON.Vector3(3, 1, 1),
+    b1x4: new BABYLON.Vector3(4, 1, 1)
 }
 currentBrick = BRICKS.b1x1;
 
