@@ -391,9 +391,16 @@ class TempBrick extends Brick {
         else {
             var hitPoint = hit.pickedPoint;
             hitPoint = Brick.fixPos(hitPoint, hit.pickedMesh);
-            this.setX(hitPoint.x);
-            this.setY(hitPoint.y);
-            this.setZ(hitPoint.z);
+            if (this._mesh.rotation.y % Math.PI / 2 == 0) {
+                this.setX(hitPoint.x);
+                this.setY(hitPoint.y);
+                this.setZ(hitPoint.z);
+            }
+            else {
+                this.setX(hitPoint.x);
+                this.setY(hitPoint.y);
+                this.setZ(hitPoint.z);
+            }
         }
     }
 
