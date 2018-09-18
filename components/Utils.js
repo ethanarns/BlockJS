@@ -200,6 +200,7 @@ class Utils {
                     MISCSETTINGS.BRICKSHRINK,
                     MISCSETTINGS.BRICKSHRINK
                 )
+                particle.rotation = brick._mesh.rotation;
                 let col = brick._mesh.material.diffuseColor;
                 particle.color = new BABYLON.Color4(col.r, col.g, col.b, 1.0);
             }

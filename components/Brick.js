@@ -26,6 +26,7 @@ class Brick {
             );
             material.diffuseColor = color;
         this._mesh = BABYLON.MeshBuilder.CreateBox(name, {width: x, height:y, depth:z}, World.scene);
+        console.log(this._mesh.rotation.y);
         this.widthX = x;
         this.heightY = y;
         this.depthZ = z;
@@ -35,11 +36,12 @@ class Brick {
         locVec.z += z / 2;
         // Make pivot lower corner for right-angle rotation
         this._mesh.setPivotMatrix(BABYLON.Matrix.Translation(x/2, y/2, z/2));
-        this._mesh.rotation.y = (Math.PI / 180) * rotation;
+        this._mesh.rotation.y = rotation;
         this.centerPivot();
         this._mesh.computeWorldMatrix();
-        //this._mesh.showBoundingBox = true;
-        //this._mesh.showSubMeshesBoundingBox = true;
+        console.log(this._mesh.rotation.y);
+        this._mesh.showBoundingBox = true;
+        this._mesh.showSubMeshesBoundingBox = true;
 
         
         this._mesh.position = locVec;
@@ -47,7 +49,7 @@ class Brick {
         this._mesh.checkCollisions = true;
         this._mesh.material.freeze(); // Color set in particle anyway
         this._mesh.isPickable = true;
-        this._mesh._visibility = false; // kills drawcall without removing pickability
+        //this._mesh._visibility = false; // kills drawcall without removing pickability
     }
 
     /**
@@ -150,27 +152,14 @@ class Brick {
     }
 
     /**
-     * Sets the rotation of the Brick's mesh
-     * @param {number} rVal The rotational value (Radians)
-     */
-    setRotation(rVal) {
-        let slide = 0;
-        this._mesh.rotation.y = rVal;
-        if (slide !== 0) {
-            if (isDebugMode)
-                console.log("Sliding: " + slide);
-            this._mesh.position.y -= slide;
-        }
-        return this;
-    }
-
-    /**
      * Rotates the Brick 90 degrees
      */
     rotate() {
-        console.log("Rotating brick...");
+        console.log("Before rotate(): " + this._mesh.rotation.y);
         var rotation = this._mesh.rotation.y + (Math.PI / 2);
-        this.setRotation(rotation);
+        this._mesh.rotation.y = rotation;
+        currentRotation = rotation;
+        console.log("After rotate(): " + this._mesh.rotation.y);
     }
 
     /**
@@ -290,10 +279,6 @@ class Brick {
         var dim = currentBrick;
         var brick = new Brick("Brick", dim.x, dim.y, dim.z, new BABYLON.Vector3(loc.x, loc.y, loc.z),
             currentColor, World, currentRotation);
-        if (currentRotation % 90 != 0) {
-            console.log("Warning: Angles not divisible by 90 degrees will " +
-                "intersection with other bricks and look bad, fix");
-        }
         if (!this.canPlaceBrick(brick)) {
             console.log("Brick collision detected!");
             brick._mesh.dispose();
@@ -305,7 +290,7 @@ class Brick {
         // Wipe then recreate SPS
         Utils.refreshSPS();
         // This brick should not move after this, so freeze in place
-        brick._mesh.freezeWorldMatrix();
+        //brick._mesh.freezeWorldMatrix();
         UI.Audio.clickPlace.play();
         return brick;
     }
@@ -386,6 +371,7 @@ class TempBrick extends Brick {
     /**
      * Creates a TempBrick
      * @param {Player} owner Player that will own the brick
+     * @constructs
      */
     constructor (owner) {
         if (!owner) {
@@ -428,6 +414,8 @@ class TempBrick extends Brick {
      * Recreates the TempBrick with a new size
      * @param {Player} player Player that owns the TempBrick
      * @param {BABYLON.Vector3} brickSize Size of new TempBrick
+     * @static
+     * @public
      */
     static rebuildTemp(player) {
         var tempPos = new BABYLON.Vector3();
@@ -438,14 +426,20 @@ class TempBrick extends Brick {
         player.tempBrick._mesh.position = tempPos;
     }
 
+    /**
+     * Set the tempBrick's color to newColor
+     * @param {BABYLON.Color3} newColor Color constant from COLORS
+     * @public
+     */
     changeBrickColor(newColor) {
         currentColor = newColor;
         TempBrick.rebuildTemp(this.owner);
     }
 
     /**
-     * Changes the size of the brick
+     * Changes the size of the brick to newSize
      * @param {BABYLON.Vector3} newSize A constant from BRICKS
+     * @public
      */
     changeBrickSize(newSize) {
         currentBrick = newSize;
