@@ -36,16 +36,18 @@ class Brick {
         //this._mesh.setPivotMatrix(BABYLON.Matrix.Translation(x/2, y/2, z/2));
         this.centerPivot();
         this._mesh.computeWorldMatrix();
-        this._mesh.showBoundingBox = true;
-        this._mesh.showSubMeshesBoundingBox = true;
+        if (isDebugMode) {
+            this._mesh.showBoundingBox = true;
+            this._mesh.showSubMeshesBoundingBox = true;
+        }
 
-        
         this._mesh.position = locVec;
         this._mesh.material = material;
         this._mesh.checkCollisions = true;
         this._mesh.material.freeze(); // Color set in particle anyway
         this._mesh.isPickable = true;
-        //this._mesh._visibility = false; // kills drawcall without removing pickability
+        if (!isDebugMode)
+            this._mesh._visibility = false; // kills drawcall without removing pickability
     }
 
     /**
@@ -395,11 +397,11 @@ class TempBrick extends Brick {
             this.setY(hitPoint.y);
             this.setZ(hitPoint.z);
             // Is this NOT divisible by 180 (aka Math.PI in radians)?
-            if (this._mesh.rotation.y / Math.PI % 1 != 0) {
-                this._mesh.position.x -= 1;
+            if (this._mesh.rotation.y % Math.PI != 0) {
                 // Multiple of two mismatch
                 if ((this.widthX % 2 == 0 && this.depthZ % 2 != 0) ||
                 this.widthX % 2 != 0 && this.depthZ % 2 == 0) {
+                    // Slide back onto frame
                     this._mesh.position.x -= 0.5;
                     this._mesh.position.z -= 0.5;
                 }
