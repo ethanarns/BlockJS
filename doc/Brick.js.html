@@ -40,11 +40,10 @@ class Brick {
      * @param {BABYLON.Vector3} locVec Vector3 representing placement location
      * @param {BABYLON.Color3} color Color3 representing Material color, usually a constant
      * @param {object} World World container holding scene and SPS
-     * @param {number} rotation The bricks rotation, if any, in degrees
      * @constructs
      * @public
      */
-    constructor (name, x, y, z, locVec, color, World, rotation = 0) {
+    constructor (name, x, y, z, locVec, color, World) {
         this.id = ++lastId; // Increment THEN return
         var material = new BABYLON.StandardMaterial(name + " Material", World.scene);
             material.emissiveColor = new BABYLON.Color3(
@@ -54,7 +53,6 @@ class Brick {
             );
             material.diffuseColor = color;
         this._mesh = BABYLON.MeshBuilder.CreateBox(name, {width: x, height:y, depth:z}, World.scene);
-        //console.log(this._mesh.rotation.y);
         this.widthX = x;
         this.heightY = y;
         this.depthZ = z;
@@ -63,21 +61,21 @@ class Brick {
         locVec.y += y / 2;
         locVec.z += z / 2;
         // Make pivot lower corner for right-angle rotation
-        this._mesh.setPivotMatrix(BABYLON.Matrix.Translation(x/2, y/2, z/2));
-        this._mesh.rotation.y = rotation;
+        //this._mesh.setPivotMatrix(BABYLON.Matrix.Translation(x/2, y/2, z/2));
         this.centerPivot();
         this._mesh.computeWorldMatrix();
-        //console.log(this._mesh.rotation.y);
-        this._mesh.showBoundingBox = true;
-        this._mesh.showSubMeshesBoundingBox = true;
+        if (isDebugMode) {
+            this._mesh.showBoundingBox = true;
+            this._mesh.showSubMeshesBoundingBox = true;
+        }
 
-        
         this._mesh.position = locVec;
         this._mesh.material = material;
         this._mesh.checkCollisions = true;
         this._mesh.material.freeze(); // Color set in particle anyway
         this._mesh.isPickable = true;
-        //this._mesh._visibility = false; // kills drawcall without removing pickability
+        if (!isDebugMode)
+            this._mesh._visibility = false; // kills drawcall without removing pickability
     }
 
     /**
@@ -180,21 +178,7 @@ class Brick {
     }
 
     /**
-     * Rotates the Brick 90 degrees plus adjustment
-     * @returns {BABYLON.Vector3} The new rotation of mesh
-     * @public
-     */
-    rotate() {
-        //console.log("Before rotate(): " + this._mesh.rotation.y);
-        var rotation = this._mesh.rotation.y + (Math.PI / 2);
-        this._mesh.rotation.y = rotation;
-        currentRotation = rotation;
-        //console.log("After rotate(): " + this._mesh.rotation.y);
-        return rotation;
-    }
-
-    /**
-     * Centers the pivot of the Brick's mesh
+     * Centers the pivot of the Brick's mesh.
      * @public
      */
     centerPivot() {
@@ -203,7 +187,7 @@ class Brick {
     }
 
     /**
-     * Shrinks the mesh just enough to not overlap faces, helper for collision
+     * Shrinks the mesh just enough to not overlap faces, helper for collision.
      * @private
      */
     _shrink() {
@@ -214,7 +198,7 @@ class Brick {
     }
 
     /**
-     * Undoes the shrinking done in shrink()
+     * Undoes the shrinking done in shrink().
      * @private
      * @see {@link _shrink}
      */
@@ -225,7 +209,7 @@ class Brick {
     }
 
     /**
-     * Deletes a brick, targetted by the brick's id number
+     * Deletes a brick, targetted by the brick's id number.
      * @param {number} id id of brick to delete
      * @static
      * @public
@@ -248,7 +232,7 @@ class Brick {
     }
 
     /**
-     * Retrieves a reference to a brick with the spsCloneId of 'id'
+     * Retrieves a reference to a brick with the spsCloneId of 'id'.
      * @param {number} id SPS Particle id to match brick with
      * @returns {Brick} The brick with stated id, null if error
      */
@@ -266,7 +250,8 @@ class Brick {
     }
 
     /**
-     * Given constructed brick, should it be able to be placed? Helper for when creating bricks
+     * Given constructed brick, should it be able to be placed?
+     * Mainly a helper for when creating bricks.
      * @param {Brick} brick The brick to check if can be placed
      * @param {boolean} deleteOnDone Should the brick be deleted upon check completion?
      * @returns {boolean} True if the brick can be placed
@@ -299,8 +284,8 @@ class Brick {
     }
 
     /**
-     * Places a Brick in the scene by cloning a base Brick, no straight constructing
-     * Will get almost all data from player's current state/gui
+     * Places a Brick in the scene by cloning a base Brick, no straight constructing.
+     * Will get almost all data from player's current state/gui.
      * @param {BABYLON.Vector3} loc Location of the Brick to create
      * @returns {Brick} The created brick
      * @static
@@ -308,8 +293,10 @@ class Brick {
      */
     static placeBrick(loc) {
         var dim = currentBrick;
-        var brick = new Brick("Brick", dim.x, dim.y, dim.z, new BABYLON.Vector3(loc.x, loc.y, loc.z),
-            currentColor, World, currentRotation);
+        var brick = new Brick("Brick", dim.x, dim.y, dim.z,
+            new BABYLON.Vector3(loc.x, loc.y, loc.z),
+            currentColor, World);
+        brick._mesh.rotation.y = currentRotation + 0.0;
         if (!this.canPlaceBrick(brick)) {
             console.log("Brick collision detected!");
             brick._mesh.dispose();
@@ -320,8 +307,8 @@ class Brick {
         brickList.push(brick);
         // Wipe then recreate SPS
         Utils.refreshSPS();
-        // This brick should not move after this, so freeze in place
-        //brick._mesh.freezeWorldMatrix();
+        // This brick should not move after this, so freeze in place to save memory
+        brick._mesh.freezeWorldMatrix();
         UI.Audio.clickPlace.play();
         return brick;
     }
@@ -411,13 +398,12 @@ class TempBrick extends Brick {
         }
         super("tempBrick", currentBrick.x, currentBrick.y, currentBrick.z,
             new BABYLON.Vector3(0, 0, 0), currentColor, World, currentRotation);
-
-        this._mesh.material.alpha = 0.5;
         this._mesh.material.unfreeze();
+        this._mesh.material.alpha = 0.5;
         this._mesh._visibility = true;
         this._mesh.isVisible = true;
         this._mesh.checkCollisions = false;
-        this._mesh.brickClass = null;
+        this._mesh.brickClass = this;
         this._mesh.isPickable = false;
         this.owner = owner;
     }
@@ -438,23 +424,34 @@ class TempBrick extends Brick {
             this.setX(hitPoint.x);
             this.setY(hitPoint.y);
             this.setZ(hitPoint.z);
+            // Is this NOT divisible by 180 (aka Math.PI in radians)?
+            if (this._mesh.rotation.y % Math.PI != 0) {
+                // Multiple of two mismatch
+                if ((this.widthX % 2 == 0 &amp;&amp; this.depthZ % 2 != 0) ||
+                this.widthX % 2 != 0 &amp;&amp; this.depthZ % 2 == 0) {
+                    // Slide back onto frame
+                    this._mesh.position.x -= 0.5;
+                    this._mesh.position.z -= 0.5;
+                }
+            }
         }
     }
 
     /**
      * Recreates the TempBrick with a new size
      * @param {Player} player Player that owns the TempBrick
-     * @param {BABYLON.Vector3} brickSize Size of new TempBrick
      * @static
      * @public
      */
     static rebuildTemp(player) {
         var tempPos = new BABYLON.Vector3();
-        tempPos.copyFrom(player.tempBrick.getPosition);
+        tempPos.copyFrom(player.tempBrick._mesh.position);
         player.tempBrick._mesh.dispose();
         player.tempBrick = null;
         player.tempBrick = new TempBrick(player);
+        player.tempBrick._mesh.computeWorldMatrix();
         player.tempBrick._mesh.position = tempPos;
+        player.tempBrick._mesh.rotation.y = currentRotation;
     }
 
     /**
@@ -476,6 +473,40 @@ class TempBrick extends Brick {
         currentBrick = newSize;
         TempBrick.rebuildTemp(this.owner);
     }
+
+    /**
+     * Rotates the Brick 90 degrees plus adjustment.
+     * @public
+     */
+    rotate() {
+        if (this.widthX == this.depthZ) {
+            //console.log("Rotating a square is pointless, skipping.");
+            return;
+        }
+        // If even, it'll just rotate around the center, only do odd:
+        if ((this.widthX % 2 == 0 &amp;&amp; this.depthZ % 2 != 0) ||
+        (this.depthZ % 2 == 0 &amp;&amp; this.widthX % 2 != 0)) {
+            if (this._mesh.rotation.y == 0) {
+                this._mesh.position.x -= 0.5;
+                this._mesh.position.z -= 0.5;
+            }
+            else if (this._mesh.rotation.y == Math.PI / 2) {
+                this._mesh.position.x -= 0.5;
+                this._mesh.position.z += 0.5;
+            }
+            else if (this._mesh.rotation.y == Math.PI) {
+                this._mesh.position.x += 0.5;
+                this._mesh.position.z += 0.5;
+            }
+            else {
+                this._mesh.position.x += 0.5;
+                this._mesh.position.z -= 0.5;
+            }
+        }
+        currentRotation = (this._mesh.rotation.y + (Math.PI / 2)) % (Math.PI * 2);
+        // console.log(currentRotation);
+        TempBrick.rebuildTemp(this.owner);
+    }
 }
 </code></pre>
         </article>
@@ -493,7 +524,7 @@ class TempBrick extends Brick {
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Mon Sep 17 2018 20:35:30 GMT-0700 (Pacific Daylight Time)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Sep 18 2018 00:49:53 GMT-0700 (Pacific Daylight Time)
 </footer>
 
 <script> prettyPrint(); </script>
