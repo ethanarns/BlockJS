@@ -397,10 +397,15 @@ class TempBrick extends Brick {
             console.log(this._mesh.getBoundingInfo().boundingBox.centerWorld);
             var center = this._mesh.getBoundingInfo().boundingBox.centerWorld;
             if (this._mesh.rotation.y / Math.PI % 1 != 0) {
-                // Multiple of two
-                if (this.widthX % 2 == 0) {
-                    console.log("Multiple of two");
-                    this._mesh.position.z += 0.5;
+                console.log("Rotated");
+                this._mesh.position.x -= 1;
+                if (this.widthX % 2 == 0 && this.depthZ % 2 == 0) {
+                    console.log("Multiple of two twice");
+                    // Do nothing
+                }
+                else if (this.widthX % 2 != 0 && this.depthZ % 2 != 0) {
+                    console.log("Not multiple of two twice");
+                    // Do nothing
                 }
             }
             else {
