@@ -269,7 +269,8 @@ class Player {
             // Brick movement
             if (evt.keyCode == 38 || evt.keyCode == 39 ||
             evt.keyCode == 37 || evt.keyCode == 40 || evt.keyCode == 219
-            || evt.keyCode == 221) {
+            || evt.keyCode == 221 || evt.keyCode == 220 ||
+            evt.keyCode == 191) {
                 var pRot = new BABYLON.Vector3();
                 pRot.copyFrom(_this.getDirection());
                 var tb = _this.tempBrick._mesh.position;
@@ -303,11 +304,16 @@ class Player {
                     case 221:
                         tb.y++;
                         break;
+                    // Backslash (rotate)
+                    case 220:
+                        player1.tempBrick.rotate();
+                        break;
+                    // Forward slash ("clear")
+                    case 191:
+                        player1.tempBrick.setY(-99);
+                        //console.log(player1.tempBrick._mesh.position.y);
+                        break;
                 }
-            }
-            // Brick placement
-            if (evt.keyCode == 220) {
-                player1.tempBrick.rotate();
             }
         };
         BABYLON.Tools.RegisterTopRootEvents([{

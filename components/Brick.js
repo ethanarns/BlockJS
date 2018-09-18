@@ -232,6 +232,10 @@ class Brick {
      */
     static canPlaceBrick(brick, deleteOnDone = false) {
         // Only call if brick has not been placed yet and is in the list
+        if (brick._mesh.position.y < -5) {
+            // Well underground, cancel
+            return false;
+        }
         brick._shrink();
         for (let i = 0; i < brickList.length; i++) {
             brickList[i]._shrink();
