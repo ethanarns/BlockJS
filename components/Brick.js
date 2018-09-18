@@ -152,21 +152,7 @@ class Brick {
     }
 
     /**
-     * Rotates the Brick 90 degrees plus adjustment
-     * @returns {BABYLON.Vector3} The new rotation of mesh
-     * @public
-     */
-    rotate() {
-        //console.log("Before rotate(): " + this._mesh.rotation.y);
-        var rotation = this._mesh.rotation.y + (Math.PI / 2);
-        this._mesh.rotation.y = rotation;
-        currentRotation = rotation;
-        //console.log("After rotate(): " + this._mesh.rotation.y);
-        return rotation;
-    }
-
-    /**
-     * Centers the pivot of the Brick's mesh
+     * Centers the pivot of the Brick's mesh.
      * @public
      */
     centerPivot() {
@@ -175,7 +161,7 @@ class Brick {
     }
 
     /**
-     * Shrinks the mesh just enough to not overlap faces, helper for collision
+     * Shrinks the mesh just enough to not overlap faces, helper for collision.
      * @private
      */
     _shrink() {
@@ -186,7 +172,7 @@ class Brick {
     }
 
     /**
-     * Undoes the shrinking done in shrink()
+     * Undoes the shrinking done in shrink().
      * @private
      * @see {@link _shrink}
      */
@@ -197,7 +183,7 @@ class Brick {
     }
 
     /**
-     * Deletes a brick, targetted by the brick's id number
+     * Deletes a brick, targetted by the brick's id number.
      * @param {number} id id of brick to delete
      * @static
      * @public
@@ -220,7 +206,7 @@ class Brick {
     }
 
     /**
-     * Retrieves a reference to a brick with the spsCloneId of 'id'
+     * Retrieves a reference to a brick with the spsCloneId of 'id'.
      * @param {number} id SPS Particle id to match brick with
      * @returns {Brick} The brick with stated id, null if error
      */
@@ -238,7 +224,8 @@ class Brick {
     }
 
     /**
-     * Given constructed brick, should it be able to be placed? Helper for when creating bricks
+     * Given constructed brick, should it be able to be placed?
+     * Mainly a helper for when creating bricks.
      * @param {Brick} brick The brick to check if can be placed
      * @param {boolean} deleteOnDone Should the brick be deleted upon check completion?
      * @returns {boolean} True if the brick can be placed
@@ -271,8 +258,8 @@ class Brick {
     }
 
     /**
-     * Places a Brick in the scene by cloning a base Brick, no straight constructing
-     * Will get almost all data from player's current state/gui
+     * Places a Brick in the scene by cloning a base Brick, no straight constructing.
+     * Will get almost all data from player's current state/gui.
      * @param {BABYLON.Vector3} loc Location of the Brick to create
      * @returns {Brick} The created brick
      * @static
@@ -280,8 +267,9 @@ class Brick {
      */
     static placeBrick(loc) {
         var dim = currentBrick;
-        var brick = new Brick("Brick", dim.x, dim.y, dim.z, new BABYLON.Vector3(loc.x, loc.y, loc.z),
-            currentColor, World, currentRotation);
+        var brick = new Brick("Brick", dim.x, dim.y, dim.z,
+            new BABYLON.Vector3(loc.x, loc.y, loc.z),
+            currentColor, World, 0); //currentRotation);
         if (!this.canPlaceBrick(brick)) {
             console.log("Brick collision detected!");
             brick._mesh.dispose();
@@ -292,8 +280,8 @@ class Brick {
         brickList.push(brick);
         // Wipe then recreate SPS
         Utils.refreshSPS();
-        // This brick should not move after this, so freeze in place
-        //brick._mesh.freezeWorldMatrix();
+        // This brick should not move after this, so freeze in place to save memory
+        brick._mesh.freezeWorldMatrix();
         UI.Audio.clickPlace.play();
         return brick;
     }
@@ -384,8 +372,8 @@ class TempBrick extends Brick {
         super("tempBrick", currentBrick.x, currentBrick.y, currentBrick.z,
             new BABYLON.Vector3(0, 0, 0), currentColor, World, currentRotation);
 
-        this._mesh.material.alpha = 0.5;
         this._mesh.material.unfreeze();
+        this._mesh.material.alpha = 0.5;
         this._mesh._visibility = true;
         this._mesh.isVisible = true;
         this._mesh.checkCollisions = false;
@@ -416,16 +404,16 @@ class TempBrick extends Brick {
     /**
      * Recreates the TempBrick with a new size
      * @param {Player} player Player that owns the TempBrick
-     * @param {BABYLON.Vector3} brickSize Size of new TempBrick
      * @static
      * @public
      */
     static rebuildTemp(player) {
         var tempPos = new BABYLON.Vector3();
-        tempPos.copyFrom(player.tempBrick.getPosition);
+        tempPos.copyFrom(player.tempBrick._mesh.position);
         player.tempBrick._mesh.dispose();
         player.tempBrick = null;
         player.tempBrick = new TempBrick(player);
+        player.tempBrick._mesh.computeWorldMatrix();
         player.tempBrick._mesh.position = tempPos;
     }
 
@@ -446,6 +434,16 @@ class TempBrick extends Brick {
      */
     changeBrickSize(newSize) {
         currentBrick = newSize;
+        TempBrick.rebuildTemp(this.owner);
+    }
+
+    /**
+     * Rotates the Brick 90 degrees plus adjustment.
+     * @public
+     */
+    rotate() {
+        console.log("Rotating...");
+        //currentRotation = this._mesh.rotation + (Math.PI / 2);
         TempBrick.rebuildTemp(this.owner);
     }
 }

@@ -306,7 +306,7 @@ class Player {
             }
             // Brick placement
             if (evt.keyCode == 220) {
-                _this.tempBrick.rotate();
+                player1.tempBrick.rotate();
             }
         };
         BABYLON.Tools.RegisterTopRootEvents([{
