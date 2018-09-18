@@ -41,7 +41,7 @@ class Utils {
      */
     static generateScene(engine, debug = true, noGrid = true) {
         var scene = new BABYLON.Scene(engine);
-            scene.clearColor = COLORS.BGCLEAR;
+            scene.clearColor = new BABYLON.Color3(0.8, 0.8, 0.8);
             scene.gravity = MISCSETTINGS.GRAVITY;
             scene.collisionsEnabled = false;
             scene.preventDefaultOnPointerDown = true;

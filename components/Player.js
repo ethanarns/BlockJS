@@ -311,7 +311,6 @@ class Player {
                     // Forward slash ("clear")
                     case 191:
                         player1.tempBrick.setY(-99);
-                        //console.log(player1.tempBrick._mesh.position.y);
                         break;
                 }
             }

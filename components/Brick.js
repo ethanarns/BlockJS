@@ -19,9 +19,9 @@ class Brick {
         this.id = ++lastId; // Increment THEN return
         var material = new BABYLON.StandardMaterial(name + " Material", World.scene);
             material.emissiveColor = new BABYLON.Color3(
-                color.r / COLORS.EMISSDARKERBY,
-                color.g / COLORS.EMISSDARKERBY,
-                color.b / COLORS.EMISSDARKERBY
+                color.r / MISCSETTINGS.EMISSDARKERBY,
+                color.g / MISCSETTINGS.EMISSDARKERBY,
+                color.b / MISCSETTINGS.EMISSDARKERBY
             );
             material.diffuseColor = color;
         this._mesh = BABYLON.MeshBuilder.CreateBox(name, {width: x, height:y, depth:z}, World.scene);
@@ -62,7 +62,9 @@ class Brick {
         }
         this._mesh.material.unfreeze();
         this._mesh.material.emissiveColor = new BABYLON.Color3 (
-            color.r / EMISSDARKERBY, color.g / EMISSDARKERBY, color.b / EMISSDARKERBY
+            color.r / MISCSETTINGS.EMISSDARKERBY,
+            color.g / MISCSETTINGS.EMISSDARKERBY,
+            color.b / MISCSETTINGS.EMISSDARKERBY
         );
         this._mesh.material.diffuseColor = color;
         this._mesh.material.freeze();
@@ -168,7 +170,6 @@ class Brick {
     isObjectBelow() {
         if (this.getPosition().y <= 0) {
             // It is on the ground, therefore yes, something is below
-            console.log("On ground");
             return true;
         }
         var testBrick = new Brick("DELETEME", this.widthX, this.heightY, this.depthZ,
@@ -265,7 +266,8 @@ class Brick {
         for (let i = 0; i < brickList.length; i++) {
             brickList[i]._shrink();
             if (brick._mesh.intersectsMesh(brickList[i]._mesh, false)) {
-                console.log("Intersection detected with brick [id: " + brickList[i].id + "]");
+                if (isDebugMode)
+                    console.log("Intersection detected with brick [id: " + brickList[i].id + "]");
                 brickList[i]._unshrink();
                 brick._unshrink();
                 if (deleteOnDone) {
@@ -469,6 +471,10 @@ class TempBrick extends Brick {
     changeBrickColor(newColor) {
         currentColor = newColor;
         TempBrick.rebuildTemp(this.owner);
+    }
+
+    nextBrickColor() {
+        var brickColors = Object.keys(COLORS)
     }
 
     /**
