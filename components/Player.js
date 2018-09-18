@@ -254,6 +254,7 @@ class Player {
     _setupBrickControl() {
         var _this = this;
         var onKeyDown = function(evt) {
+            evt.preventDefault();
             // enter -> place the brick
             if (evt.keyCode == 13) {
                 var brickPos = new BABYLON.Vector3();
@@ -264,6 +265,7 @@ class Player {
                 Brick.placeBrick(brickPos);
             }
 
+            // Brick movement
             if (evt.keyCode == 38 || evt.keyCode == 39 ||
             evt.keyCode == 37 || evt.keyCode == 40 || evt.keyCode == 219
             || evt.keyCode == 221) {
@@ -301,6 +303,10 @@ class Player {
                         tb.y++;
                         break;
                 }
+            }
+            // Brick placement
+            if (evt.keyCode == 220) {
+                _this.tempBrick.rotate();
             }
         };
         BABYLON.Tools.RegisterTopRootEvents([{

@@ -151,7 +151,7 @@ class Brick {
 
     /**
      * Sets the rotation of the Brick's mesh
-     * @param {number} rVal The rotational value
+     * @param {number} rVal The rotational value (Radians)
      */
     setRotation(rVal) {
         let slide = 0;
@@ -162,6 +162,15 @@ class Brick {
             this._mesh.position.y -= slide;
         }
         return this;
+    }
+
+    /**
+     * Rotates the Brick 90 degrees
+     */
+    rotate() {
+        console.log("Rotating brick...");
+        var rotation = this._mesh.rotation.y + (Math.PI / 2);
+        this.setRotation(rotation);
     }
 
     /**
@@ -420,10 +429,26 @@ class TempBrick extends Brick {
      * @param {Player} player Player that owns the TempBrick
      * @param {BABYLON.Vector3} brickSize Size of new TempBrick
      */
-    static rebuild(player, brickSize) {
-        currentBrick = brickSize;
+    static rebuildTemp(player) {
+        var tempPos = new BABYLON.Vector3();
+        tempPos.copyFrom(player.tempBrick.getPosition);
         player.tempBrick._mesh.dispose();
         player.tempBrick = null;
         player.tempBrick = new TempBrick(player);
+        player.tempBrick._mesh.position = tempPos;
+    }
+
+    changeBrickColor(newColor) {
+        currentColor = newColor;
+        TempBrick.rebuildTemp(this.owner);
+    }
+
+    /**
+     * Changes the size of the brick
+     * @param {BABYLON.Vector3} newSize A constant from BRICKS
+     */
+    changeBrickSize(newSize) {
+        currentBrick = newSize;
+        TempBrick.rebuildTemp(this.owner);
     }
 }
