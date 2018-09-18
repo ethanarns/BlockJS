@@ -26,7 +26,7 @@ class Brick {
             );
             material.diffuseColor = color;
         this._mesh = BABYLON.MeshBuilder.CreateBox(name, {width: x, height:y, depth:z}, World.scene);
-        console.log(this._mesh.rotation.y);
+        //console.log(this._mesh.rotation.y);
         this.widthX = x;
         this.heightY = y;
         this.depthZ = z;
@@ -39,7 +39,7 @@ class Brick {
         this._mesh.rotation.y = rotation;
         this.centerPivot();
         this._mesh.computeWorldMatrix();
-        console.log(this._mesh.rotation.y);
+        //console.log(this._mesh.rotation.y);
         this._mesh.showBoundingBox = true;
         this._mesh.showSubMeshesBoundingBox = true;
 
@@ -152,14 +152,17 @@ class Brick {
     }
 
     /**
-     * Rotates the Brick 90 degrees
+     * Rotates the Brick 90 degrees plus adjustment
+     * @returns {BABYLON.Vector3} The new rotation of mesh
+     * @public
      */
     rotate() {
-        console.log("Before rotate(): " + this._mesh.rotation.y);
+        //console.log("Before rotate(): " + this._mesh.rotation.y);
         var rotation = this._mesh.rotation.y + (Math.PI / 2);
         this._mesh.rotation.y = rotation;
         currentRotation = rotation;
-        console.log("After rotate(): " + this._mesh.rotation.y);
+        //console.log("After rotate(): " + this._mesh.rotation.y);
+        return rotation;
     }
 
     /**
