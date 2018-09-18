@@ -394,22 +394,15 @@ class TempBrick extends Brick {
             this.setX(hitPoint.x);
             this.setY(hitPoint.y);
             this.setZ(hitPoint.z);
-            console.log(this._mesh.getBoundingInfo().boundingBox.centerWorld);
-            var center = this._mesh.getBoundingInfo().boundingBox.centerWorld;
+            // Is this NOT divisible by 180 (aka Math.PI in radians)?
             if (this._mesh.rotation.y / Math.PI % 1 != 0) {
-                console.log("Rotated");
                 this._mesh.position.x -= 1;
-                if (this.widthX % 2 == 0 && this.depthZ % 2 == 0) {
-                    console.log("Multiple of two twice");
-                    // Do nothing
+                // Multiple of two mismatch
+                if ((this.widthX % 2 == 0 && this.depthZ % 2 != 0) ||
+                this.widthX % 2 != 0 && this.depthZ % 2 == 0) {
+                    this._mesh.position.x -= 0.5;
+                    this._mesh.position.z -= 0.5;
                 }
-                else if (this.widthX % 2 != 0 && this.depthZ % 2 != 0) {
-                    console.log("Not multiple of two twice");
-                    // Do nothing
-                }
-            }
-            else {
-                console.log("Not rotated");
             }
         }
     }
