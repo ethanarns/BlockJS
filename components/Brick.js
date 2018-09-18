@@ -368,7 +368,6 @@ class TempBrick extends Brick {
         }
         super("tempBrick", currentBrick.x, currentBrick.y, currentBrick.z,
             new BABYLON.Vector3(0, 0, 0), currentColor, World, currentRotation);
-
         this._mesh.material.unfreeze();
         this._mesh.material.alpha = 0.5;
         this._mesh._visibility = true;
@@ -440,13 +439,28 @@ class TempBrick extends Brick {
      * @public
      */
     rotate() {
-        if (this._mesh.widthX == this._mesh.depthZ) {
-            //console.log("rotating a square is pointless");
+        if (this.widthX == this.depthZ) {
+            console.log("Rotating a square is pointless, skipping.");
             return;
         }
-        currentRotation = this._mesh.rotation.y + (Math.PI / 2);
-        this._mesh.position.x -= 0.5;
-        this._mesh.position.z += 0.5;
+        if (this._mesh.rotation.y == 0) {
+            this._mesh.position.x -= 0.5;
+            this._mesh.position.z -= 0.5;
+        }
+        else if (this._mesh.rotation.y == Math.PI / 2) {
+            this._mesh.position.x -= 0.5;
+            this._mesh.position.z += 0.5;
+        }
+        else if (this._mesh.rotation.y == Math.PI) {
+            this._mesh.position.x += 0.5;
+            this._mesh.position.z += 0.5;
+        }
+        else {
+            this._mesh.position.x += 0.5;
+            this._mesh.position.z -= 0.5;
+        }
+        currentRotation = (this._mesh.rotation.y + (Math.PI / 2)) % (Math.PI * 2);
+        console.log(currentRotation);
         TempBrick.rebuildTemp(this.owner);
     }
 }
