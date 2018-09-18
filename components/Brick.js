@@ -12,11 +12,10 @@ class Brick {
      * @param {BABYLON.Vector3} locVec Vector3 representing placement location
      * @param {BABYLON.Color3} color Color3 representing Material color, usually a constant
      * @param {object} World World container holding scene and SPS
-     * @param {number} rotation The bricks rotation, if any, in degrees
      * @constructs
      * @public
      */
-    constructor (name, x, y, z, locVec, color, World, rotation = 0) {
+    constructor (name, x, y, z, locVec, color, World) {
         this.id = ++lastId; // Increment THEN return
         var material = new BABYLON.StandardMaterial(name + " Material", World.scene);
             material.emissiveColor = new BABYLON.Color3(
@@ -35,11 +34,10 @@ class Brick {
         locVec.y += y / 2;
         locVec.z += z / 2;
         // Make pivot lower corner for right-angle rotation
-        this._mesh.setPivotMatrix(BABYLON.Matrix.Translation(x/2, y/2, z/2));
-        this._mesh.rotation.y = rotation;
+        //this._mesh.setPivotMatrix(BABYLON.Matrix.Translation(x/2, y/2, z/2));
+        //this._mesh.rotation.y = 0;//rotation;
         this.centerPivot();
         this._mesh.computeWorldMatrix();
-        //console.log(this._mesh.rotation.y);
         this._mesh.showBoundingBox = true;
         this._mesh.showSubMeshesBoundingBox = true;
 
@@ -269,7 +267,10 @@ class Brick {
         var dim = currentBrick;
         var brick = new Brick("Brick", dim.x, dim.y, dim.z,
             new BABYLON.Vector3(loc.x, loc.y, loc.z),
-            currentColor, World, 0); //currentRotation);
+            currentColor, World);
+        //currentRotation = Math.PI / 2;
+        console.log("currentRotation: " + currentRotation);
+        brick._mesh.rotation.y = currentRotation + 0.0;//Math.PI / 2;
         if (!this.canPlaceBrick(brick)) {
             console.log("Brick collision detected!");
             brick._mesh.dispose();
@@ -377,7 +378,7 @@ class TempBrick extends Brick {
         this._mesh._visibility = true;
         this._mesh.isVisible = true;
         this._mesh.checkCollisions = false;
-        this._mesh.brickClass = null;
+        this._mesh.brickClass = this;
         this._mesh.isPickable = false;
         this.owner = owner;
     }
@@ -415,6 +416,7 @@ class TempBrick extends Brick {
         player.tempBrick = new TempBrick(player);
         player.tempBrick._mesh.computeWorldMatrix();
         player.tempBrick._mesh.position = tempPos;
+        player.tempBrick._mesh.rotation.y = currentRotation;
     }
 
     /**
@@ -443,7 +445,7 @@ class TempBrick extends Brick {
      */
     rotate() {
         console.log("Rotating...");
-        //currentRotation = this._mesh.rotation + (Math.PI / 2);
+        currentRotation = this._mesh.rotation.y + (Math.PI / 2);
         TempBrick.rebuildTemp(this.owner);
     }
 }
