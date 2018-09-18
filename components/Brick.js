@@ -158,6 +158,21 @@ class Brick {
         this._mesh.setPivotPoint(centerPointWorld, BABYLON.Space.WORLD);
     }
 
+
+
+
+    isObjectBelow() {
+        var testBrick = new Brick("DELETEME", this.widthX, this.heightY, this.depthZ,
+        new BABYLON.Vector3(this.getPosition().x, this.getPosition().y - 1,
+            this.getPosition().z), currentColor, World);
+        testBrick._mesh.rotation.y = this._mesh.rotation.y;
+        // We now have a duplicate exactly 1 position below
+        console.log(Brick.canPlaceBrick(testBrick, true));
+    }
+
+
+
+
     /**
      * Shrinks the mesh just enough to not overlap faces, helper for collision.
      * @private
@@ -178,6 +193,7 @@ class Brick {
         this._mesh.scaling.x = 1;
         this._mesh.scaling.y = 1;
         this._mesh.scaling.z = 1;
+        this._mesh.computeWorldMatrix();
     }
 
     /**
