@@ -50,6 +50,24 @@ class Brick {
             this._mesh._visibility = false; // kills drawcall without removing pickability
     }
 
+    floorFix() {
+        var corner = new BABYLON.Vector3();
+        corner.copyFrom(this._mesh.getBoundingInfo().minimum); // Kill reference
+        // Not rotated
+        if (this._mesh.rotation.y % (Math.PI) == 0) {
+            corner.x = (corner.x - this._mesh.position.x + this.widthX) * -1;
+            corner.z = (corner.z - this._mesh.position.z + this.depthZ) * -1;
+            this._mesh.position.x -= corner.x - Math.floor(corner.x);
+            this._mesh.position.z -= corner.z - Math.floor(corner.z);
+        }
+        else {
+            corner.z = (corner.z - this._mesh.position.x + this.depthZ) * -1;
+            corner.x = (corner.x - this._mesh.position.z + this.widthX) * -1;
+            this._mesh.position.z -= corner.x - Math.floor(corner.x);
+            this._mesh.position.x -= corner.z - Math.floor(corner.z);
+        }
+    }
+
     /**
      * Sets the material color of the Brick mesh
      * @param {BABYLON.Color3} color Color to set the Brick's Mesh to
@@ -452,7 +470,7 @@ class TempBrick extends Brick {
      * @static
      * @public
      */
-    static rebuildTemp(player) {
+    static rebuildTemp(player, fixSize = false) {
         var tempPos = new BABYLON.Vector3();
         tempPos.copyFrom(player.tempBrick._mesh.position);
         player.tempBrick._mesh.dispose();
@@ -461,6 +479,24 @@ class TempBrick extends Brick {
         player.tempBrick._mesh.computeWorldMatrix();
         player.tempBrick._mesh.position = tempPos;
         player.tempBrick._mesh.rotation.y = currentRotation;
+        if (fixSize) {
+            var bounding = player.tempBrick._mesh._boundingInfo;
+            // Is divisble by 180 degrees evenly?
+            if (player.tempBrick._mesh.rotation.y % (Math.PI) == 0) {
+                console.log("Not rotated")
+                var divX = (bounding.minimum.x + player.tempBrick._mesh.position.x) % 1;
+                if (divX != 0) {
+                    player.tempBrick._mesh.position.x -= 0.5;
+                }
+                var divZ = (bounding.minimum.z + player.tempBrick._mesh.position.z) % 1;
+                if (divZ != 0) {
+                    player.tempBrick._mesh.position.z -= 0.5;
+                }
+            }
+            else {
+
+            }
+        }
     }
 
     /**
@@ -500,7 +536,7 @@ class TempBrick extends Brick {
      */
     changeBrickSize(newSize) {
         currentBrick = newSize;
-        TempBrick.rebuildTemp(this.owner);
+        TempBrick.rebuildTemp(this.owner, true);
     }
 
     /**
@@ -518,7 +554,7 @@ class TempBrick extends Brick {
         if (newIndex < 0)
             newIndex += bList.length;
         currentBrick = bList[newIndex];
-        TempBrick.rebuildTemp(this.owner);
+        TempBrick.rebuildTemp(this.owner, true);
     }
 
     /**

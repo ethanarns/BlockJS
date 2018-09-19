@@ -27,12 +27,7 @@ class Player {
         this.floating = false;
         this.vertVel = 1.0;
         this.scene = scene;
-        if (optionObject) {
-            // Option object exists!
-            if (optionObject.isAlive !== undefined && optionObject.isAlive !== null) {
-                this.alive = optionObject.isAlive;
-            }
-        }
+
         this.root = BABYLON.MeshBuilder.CreateSphere("PlayerRoot", {
             height: this.height,
             width:this.width,
@@ -89,6 +84,16 @@ class Player {
 
         this.tempBrick = new TempBrick(this);
         this.tempBrick.setY(-99);
+
+        if (optionObject) {
+            // Option object exists!
+            if (optionObject.isAlive !== undefined && optionObject.isAlive !== null) {
+                this.alive = optionObject.isAlive;
+            }
+            if (optionObject.spawnPoint !== undefined && optionObject.spawnPoint !== null) {
+                this.root.position = optionObject.spawnPoint;
+            }
+        }
     }
     /**
      * Add listeners to user's mouse controls

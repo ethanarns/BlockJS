@@ -26,7 +26,7 @@
         // Primary game running utilities
         var canvas = document.getElementById("render-canvas");
         var engine = new BABYLON.Engine(canvas);
-        var scene = Utils.generateScene(engine, false, false);
+        var scene = Utils.generateScene(engine, true, false);
         var World = Utils.generateWorld();
         var UI = Utils.generateUI();
         engine.runRenderLoop(function() {
@@ -36,9 +36,7 @@
             pulse += 0.1;
             player1.tempBrick._mesh.material.alpha = Math.sin(pulse) / 4 + 0.50;
         });
-        var player1 = new Player("Player1", {}, scene);
-        player1.moveTo(0, 15, -20);
-        player1.tempBrick.changeBrickColor(COLORS["RED"]);
+        var player1 = new Player("Player1", { spawnPoint: new BABYLON.Vector3(0, 15, -20) }, scene);
     </script>
 </body>
 </html>
