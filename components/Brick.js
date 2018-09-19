@@ -50,6 +50,10 @@ class Brick {
             this._mesh._visibility = false; // kills drawcall without removing pickability
     }
 
+    /**
+     * Slides the low corner of the mesh down to whole number location,
+     * conforming the brick to the grid
+     */
     floorFix() {
         var corner = new BABYLON.Vector3();
         corner.copyFrom(this._mesh.getBoundingInfo().minimum); // Kill reference
@@ -451,16 +455,7 @@ class TempBrick extends Brick {
             this.setX(hitPoint.x);
             this.setY(hitPoint.y);
             this.setZ(hitPoint.z);
-            // Is this NOT divisible by 180 (aka Math.PI in radians)?
-            if (this._mesh.rotation.y % Math.PI != 0) {
-                // Multiple of two mismatch
-                if ((this.widthX % 2 == 0 && this.depthZ % 2 != 0) ||
-                this.widthX % 2 != 0 && this.depthZ % 2 == 0) {
-                    // Slide back onto frame
-                    this._mesh.position.x -= 0.5;
-                    this._mesh.position.z -= 0.5;
-                }
-            }
+            this.floorFix();
         }
     }
 
