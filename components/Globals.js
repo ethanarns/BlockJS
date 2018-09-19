@@ -37,8 +37,8 @@ currentBrick = BRICKS.b1x1;
 
 const PLAYERDEFAULTS = {
     SENSITIVITY: 0.005,
-    HEIGHT: 5 / 2,
-    WIDTH: 1,
+    HEIGHT: 2.4,
+    WIDTH: 0.9,
     SPEED: 0.12,
     VELOCITY: 0.1,
     MAXVELOCITY: 1.5,
