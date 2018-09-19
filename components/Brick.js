@@ -479,24 +479,7 @@ class TempBrick extends Brick {
         player.tempBrick._mesh.computeWorldMatrix();
         player.tempBrick._mesh.position = tempPos;
         player.tempBrick._mesh.rotation.y = currentRotation;
-        if (fixSize) {
-            var bounding = player.tempBrick._mesh._boundingInfo;
-            // Is divisble by 180 degrees evenly?
-            if (player.tempBrick._mesh.rotation.y % (Math.PI) == 0) {
-                console.log("Not rotated")
-                var divX = (bounding.minimum.x + player.tempBrick._mesh.position.x) % 1;
-                if (divX != 0) {
-                    player.tempBrick._mesh.position.x -= 0.5;
-                }
-                var divZ = (bounding.minimum.z + player.tempBrick._mesh.position.z) % 1;
-                if (divZ != 0) {
-                    player.tempBrick._mesh.position.z -= 0.5;
-                }
-            }
-            else {
-
-            }
-        }
+        player.tempBrick.floorFix();
     }
 
     /**
