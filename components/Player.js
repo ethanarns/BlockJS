@@ -256,25 +256,22 @@ class Player {
         var _this = this;
         var onKeyDown = function(evt) {
             evt.preventDefault();
-            // enter -> place the brick
-            if (evt.keyCode == 13) {
-                var brickPos = new BABYLON.Vector3();
-                brickPos.copyFrom(_this.tempBrick._mesh.position);
-                brickPos.x = brickPos.x - _this.tempBrick.widthX / 2;
-                brickPos.y = brickPos.y - _this.tempBrick.heightY / 2;
-                brickPos.z = brickPos.z - _this.tempBrick.depthZ / 2;
-                Brick.placeBrick(brickPos);
-            }
 
             // Brick movement
-            if (evt.keyCode == 38 || evt.keyCode == 39 ||
-            evt.keyCode == 37 || evt.keyCode == 40 || evt.keyCode == 219
-            || evt.keyCode == 221 || evt.keyCode == 220 ||
-            evt.keyCode == 191) {
+            if (evt.keyCode > 0) {
                 var pRot = new BABYLON.Vector3();
                 pRot.copyFrom(_this.getDirection());
                 var tb = _this.tempBrick._mesh.position;
                 switch (evt.keyCode) {
+                    // Enter (place brick)
+                    case 13:
+                        var brickPos = new BABYLON.Vector3();
+                        brickPos.copyFrom(_this.tempBrick._mesh.position);
+                        brickPos.x = brickPos.x - _this.tempBrick.widthX / 2;
+                        brickPos.y = brickPos.y - _this.tempBrick.heightY / 2;
+                        brickPos.z = brickPos.z - _this.tempBrick.depthZ / 2;
+                        Brick.placeBrick(brickPos);
+                        break;
                     // Up
                     case 38:
                         tb.x += pRot.x;
@@ -311,6 +308,14 @@ class Player {
                     // Forward slash ("clear")
                     case 191:
                         player1.tempBrick.setY(-99);
+                        break;
+                    // Single Quote (next color)
+                    case 222:
+                        player1.tempBrick.nextBrickColor();
+                        break;
+                    // Semicolor (previous color)
+                    case 59:
+                        player1.tempBrick.nextBrickColor(true);
                         break;
                 }
             }
