@@ -307,11 +307,11 @@ class Player {
                         tb.y++;
                         break;
                     // Backslash (rotate)
-                    case 220:
+                    case 191:
                         player1.tempBrick.rotate();
                         break;
                     // Forward slash ("clear")
-                    case 191:
+                    case 220:
                         player1.tempBrick.setY(-99);
                         break;
                     // Single Quote (next color)
