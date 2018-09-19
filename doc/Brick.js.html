@@ -47,9 +47,9 @@ class Brick {
         this.id = ++lastId; // Increment THEN return
         var material = new BABYLON.StandardMaterial(name + " Material", World.scene);
             material.emissiveColor = new BABYLON.Color3(
-                color.r / COLORS.EMISSDARKERBY,
-                color.g / COLORS.EMISSDARKERBY,
-                color.b / COLORS.EMISSDARKERBY
+                color.r / MISCSETTINGS.EMISSDARKERBY,
+                color.g / MISCSETTINGS.EMISSDARKERBY,
+                color.b / MISCSETTINGS.EMISSDARKERBY
             );
             material.diffuseColor = color;
         this._mesh = BABYLON.MeshBuilder.CreateBox(name, {width: x, height:y, depth:z}, World.scene);
@@ -90,7 +90,9 @@ class Brick {
         }
         this._mesh.material.unfreeze();
         this._mesh.material.emissiveColor = new BABYLON.Color3 (
-            color.r / EMISSDARKERBY, color.g / EMISSDARKERBY, color.b / EMISSDARKERBY
+            color.r / MISCSETTINGS.EMISSDARKERBY,
+            color.g / MISCSETTINGS.EMISSDARKERBY,
+            color.b / MISCSETTINGS.EMISSDARKERBY
         );
         this._mesh.material.diffuseColor = color;
         this._mesh.material.freeze();
@@ -186,6 +188,29 @@ class Brick {
         this._mesh.setPivotPoint(centerPointWorld, BABYLON.Space.WORLD);
     }
 
+
+
+    /**
+     * A helper function to check if there is something below the Brick,
+     * helping decide whether or not it will be a floating brick
+     * @return {boolean} True if something solid beneath the brick
+     */
+    isObjectBelow() {
+        if (this.getPosition().y &lt;= 0) {
+            // It is on the ground, therefore yes, something is below
+            return true;
+        }
+        var testBrick = new Brick("DELETEME", this.widthX, this.heightY, this.depthZ,
+        new BABYLON.Vector3(this.getPosition().x, this.getPosition().y - 1,
+            this.getPosition().z), currentColor, World);
+        testBrick._mesh.rotation.y = this._mesh.rotation.y;
+        // We now have a duplicate exactly 1 position below
+        return !Brick.canPlaceBrick(testBrick, true);
+    }
+
+
+
+
     /**
      * Shrinks the mesh just enough to not overlap faces, helper for collision.
      * @private
@@ -206,6 +231,7 @@ class Brick {
         this._mesh.scaling.x = 1;
         this._mesh.scaling.y = 1;
         this._mesh.scaling.z = 1;
+        this._mesh.computeWorldMatrix();
     }
 
     /**
@@ -260,11 +286,16 @@ class Brick {
      */
     static canPlaceBrick(brick, deleteOnDone = false) {
         // Only call if brick has not been placed yet and is in the list
+        if (brick._mesh.position.y &lt; -5) {
+            // Well underground, cancel
+            return false;
+        }
         brick._shrink();
         for (let i = 0; i &lt; brickList.length; i++) {
             brickList[i]._shrink();
             if (brick._mesh.intersectsMesh(brickList[i]._mesh, false)) {
-                console.log("Intersection detected with brick [id: " + brickList[i].id + "]");
+                if (isDebugMode)
+                    console.log("Intersection detected with brick [id: " + brickList[i].id + "]");
                 brickList[i]._unshrink();
                 brick._unshrink();
                 if (deleteOnDone) {
@@ -299,6 +330,12 @@ class Brick {
         brick._mesh.rotation.y = currentRotation + 0.0;
         if (!this.canPlaceBrick(brick)) {
             console.log("Brick collision detected!");
+            brick._mesh.dispose();
+            brick = null;
+            return null;
+        }
+        else if (!brick.isObjectBelow()) {
+            console.log("Brick is floating!");
             brick._mesh.dispose();
             brick = null;
             return null;
@@ -457,11 +494,33 @@ class TempBrick extends Brick {
     /**
      * Set the tempBrick's color to newColor
      * @param {BABYLON.Color3} newColor Color constant from COLORS
+     * @returns {tempBrick} The brick itself, for chaining purposes
      * @public
      */
     changeBrickColor(newColor) {
         currentColor = newColor;
         TempBrick.rebuildTemp(this.owner);
+        return this;
+    }
+
+    /**
+     * Shifts the color to the next in the array; can also go backwards
+     * @param {boolean} backwards If true, the brick color will shift back
+     * @returns {TempBrick} The brick itself, for chaining purposes 
+     * @public
+     */
+    nextBrickColor(backwards = false) {
+        var colorList = Object.values(COLORS);
+        var newIndex;
+        if (backwards)
+            newIndex = --currentColorIndex % colorList.length;
+        else
+            newIndex = ++currentColorIndex % colorList.length;
+        if (newIndex &lt; 0)
+            newIndex += colorList.length;
+        currentColor = colorList[newIndex];
+        TempBrick.rebuildTemp(this.owner);
+        return this;
     }
 
     /**
@@ -524,7 +583,7 @@ class TempBrick extends Brick {
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Sep 18 2018 00:49:53 GMT-0700 (Pacific Daylight Time)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Sep 18 2018 17:13:27 GMT-0700 (Pacific Daylight Time)
 </footer>
 
 <script> prettyPrint(); </script>

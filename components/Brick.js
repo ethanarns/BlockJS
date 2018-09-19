@@ -466,15 +466,33 @@ class TempBrick extends Brick {
     /**
      * Set the tempBrick's color to newColor
      * @param {BABYLON.Color3} newColor Color constant from COLORS
+     * @returns {tempBrick} The brick itself, for chaining purposes
      * @public
      */
     changeBrickColor(newColor) {
         currentColor = newColor;
         TempBrick.rebuildTemp(this.owner);
+        return this;
     }
 
-    nextBrickColor() {
-        var brickColors = Object.keys(COLORS)
+    /**
+     * Shifts the color to the next in the array; can also go backwards
+     * @param {boolean} backwards If true, the brick color will shift back
+     * @returns {TempBrick} The brick itself, for chaining purposes 
+     * @public
+     */
+    nextBrickColor(backwards = false) {
+        var colorList = Object.values(COLORS);
+        var newIndex;
+        if (backwards)
+            newIndex = --currentColorIndex % colorList.length;
+        else
+            newIndex = ++currentColorIndex % colorList.length;
+        if (newIndex < 0)
+            newIndex += colorList.length;
+        currentColor = colorList[newIndex];
+        TempBrick.rebuildTemp(this.owner);
+        return this;
     }
 
     /**

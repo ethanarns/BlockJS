@@ -147,7 +147,7 @@ Gets all of its information from tool/gui global variables</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Brick.js.html">Brick.js</a>, <a href="Brick.js.html#line360">line 360</a>
+        <a href="Brick.js.html">Brick.js</a>, <a href="Brick.js.html#line397">line 397</a>
     </li></ul></dd>
     
 
@@ -313,7 +313,7 @@ Gets all of its information from tool/gui global variables</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Brick.js.html">Brick.js</a>, <a href="Brick.js.html#line418">line 418</a>
+        <a href="Brick.js.html">Brick.js</a>, <a href="Brick.js.html#line455">line 455</a>
     </li></ul></dd>
     
 
@@ -404,7 +404,7 @@ Gets all of its information from tool/gui global variables</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Brick.js.html">Brick.js</a>, <a href="Brick.js.html#line156">line 156</a>
+        <a href="Brick.js.html">Brick.js</a>, <a href="Brick.js.html#line158">line 158</a>
     </li></ul></dd>
     
 
@@ -438,7 +438,7 @@ Gets all of its information from tool/gui global variables</div>
     
 
     
-    <h4 class="name" id="changeBrickColor"><span class="type-signature"></span>changeBrickColor<span class="signature">(newColor)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="changeBrickColor"><span class="type-signature"></span>changeBrickColor<span class="signature">(newColor)</span><span class="type-signature"> &rarr; {tempBrick}</span></h4>
     
 
     
@@ -539,7 +539,7 @@ Gets all of its information from tool/gui global variables</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Brick.js.html">Brick.js</a>, <a href="Brick.js.html#line434">line 434</a>
+        <a href="Brick.js.html">Brick.js</a>, <a href="Brick.js.html#line472">line 472</a>
     </li></ul></dd>
     
 
@@ -562,6 +562,28 @@ Gets all of its information from tool/gui global variables</div>
 
 
 
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    The brick itself, for chaining purposes
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">tempBrick</span>
+
+
+    </dd>
+</dl>
+
+    
 
 
 
@@ -674,7 +696,7 @@ Gets all of its information from tool/gui global variables</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Brick.js.html">Brick.js</a>, <a href="Brick.js.html#line444">line 444</a>
+        <a href="Brick.js.html">Brick.js</a>, <a href="Brick.js.html#line503">line 503</a>
     </li></ul></dd>
     
 
@@ -765,7 +787,7 @@ Gets all of its information from tool/gui global variables</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Brick.js.html">Brick.js</a>, <a href="Brick.js.html#line103">line 103</a>
+        <a href="Brick.js.html">Brick.js</a>, <a href="Brick.js.html#line105">line 105</a>
     </li></ul></dd>
     
 
@@ -878,7 +900,7 @@ Gets all of its information from tool/gui global variables</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Brick.js.html">Brick.js</a>, <a href="Brick.js.html#line94">line 94</a>
+        <a href="Brick.js.html">Brick.js</a>, <a href="Brick.js.html#line96">line 96</a>
     </li></ul></dd>
     
 
@@ -991,7 +1013,7 @@ Gets all of its information from tool/gui global variables</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Brick.js.html">Brick.js</a>, <a href="Brick.js.html#line77">line 77</a>
+        <a href="Brick.js.html">Brick.js</a>, <a href="Brick.js.html#line79">line 79</a>
     </li></ul></dd>
     
 
@@ -1104,7 +1126,7 @@ Gets all of its information from tool/gui global variables</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Brick.js.html">Brick.js</a>, <a href="Brick.js.html#line142">line 142</a>
+        <a href="Brick.js.html">Brick.js</a>, <a href="Brick.js.html#line144">line 144</a>
     </li></ul></dd>
     
 
@@ -1143,6 +1165,120 @@ Gets all of its information from tool/gui global variables</div>
     <dd>
         
 <span class="param-type">number</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="isObjectBelow"><span class="type-signature"></span>isObjectBelow<span class="signature">()</span><span class="type-signature"> &rarr; {boolean}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    A helper function to check if there is something below the Brick,
+helping decide whether or not it will be a floating brick
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+    <dt class="inherited-from">Inherited From:</dt>
+    <dd class="inherited-from"><ul class="dummy"><li>
+        <a href="Brick.html#isObjectBelow">Brick#isObjectBelow</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Brick.js.html">Brick.js</a>, <a href="Brick.js.html#line170">line 170</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    True if something solid beneath the brick
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">boolean</span>
 
 
     </dd>
@@ -1213,7 +1349,7 @@ to a constrained location
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Brick.js.html">Brick.js</a>, <a href="Brick.js.html#line388">line 388</a>
+        <a href="Brick.js.html">Brick.js</a>, <a href="Brick.js.html#line425">line 425</a>
     </li></ul></dd>
     
 
@@ -1236,6 +1372,171 @@ to a constrained location
 
 
 
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="nextBrickColor"><span class="type-signature"></span>nextBrickColor<span class="signature">(backwards)</span><span class="type-signature"> &rarr; {<a href="TempBrick.html">TempBrick</a>}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Shifts the color to the next in the array; can also go backwards
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>backwards</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+
+            
+                <td class="default">
+                
+                    false
+                
+                </td>
+            
+
+            <td class="description last">If true, the brick color will shift back</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Brick.js.html">Brick.js</a>, <a href="Brick.js.html#line484">line 484</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    The brick itself, for chaining purposes
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type"><a href="TempBrick.html">TempBrick</a></span>
+
+
+    </dd>
+</dl>
+
+    
 
 
 
@@ -1299,7 +1600,7 @@ to a constrained location
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Brick.js.html">Brick.js</a>, <a href="Brick.js.html#line453">line 453</a>
+        <a href="Brick.js.html">Brick.js</a>, <a href="Brick.js.html#line512">line 512</a>
     </li></ul></dd>
     
 
@@ -1579,7 +1880,7 @@ to a constrained location
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Brick.js.html">Brick.js</a>, <a href="Brick.js.html#line85">line 85</a>
+        <a href="Brick.js.html">Brick.js</a>, <a href="Brick.js.html#line87">line 87</a>
     </li></ul></dd>
     
 
@@ -1719,7 +2020,7 @@ to a constrained location
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Brick.js.html">Brick.js</a>, <a href="Brick.js.html#line112">line 112</a>
+        <a href="Brick.js.html">Brick.js</a>, <a href="Brick.js.html#line114">line 114</a>
     </li></ul></dd>
     
 
@@ -1859,7 +2160,7 @@ to a constrained location
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Brick.js.html">Brick.js</a>, <a href="Brick.js.html#line122">line 122</a>
+        <a href="Brick.js.html">Brick.js</a>, <a href="Brick.js.html#line124">line 124</a>
     </li></ul></dd>
     
 
@@ -1999,7 +2300,7 @@ to a constrained location
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Brick.js.html">Brick.js</a>, <a href="Brick.js.html#line132">line 132</a>
+        <a href="Brick.js.html">Brick.js</a>, <a href="Brick.js.html#line134">line 134</a>
     </li></ul></dd>
     
 
@@ -2049,7 +2350,7 @@ to a constrained location
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Sep 18 2018 00:49:53 GMT-0700 (Pacific Daylight Time)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Sep 18 2018 17:13:27 GMT-0700 (Pacific Daylight Time)
 </footer>
 
 <script> prettyPrint(); </script>
