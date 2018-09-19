@@ -330,6 +330,14 @@ class Player {
                     case 188:
                         player1.tempBrick.nextBrickSize(true);
                         break;
+                    // I (show/hide instructions)
+                    case 73:
+                        if (UI.text.notRenderable) {
+                            UI.text.notRenderable = false;
+                        }
+                        else {
+                            UI.text.notRenderable = true;
+                        }
                 }
             }
         };
