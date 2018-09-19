@@ -478,7 +478,6 @@ class TempBrick extends Brick {
     /**
      * Shifts the color to the next in the array; can also go backwards
      * @param {boolean} backwards If true, the brick color will shift back
-     * @returns {TempBrick} The brick itself, for chaining purposes 
      * @public
      */
     nextBrickColor(backwards = false) {
@@ -492,7 +491,6 @@ class TempBrick extends Brick {
             newIndex += colorList.length;
         currentColor = colorList[newIndex];
         TempBrick.rebuildTemp(this.owner);
-        return this;
     }
 
     /**
@@ -502,6 +500,24 @@ class TempBrick extends Brick {
      */
     changeBrickSize(newSize) {
         currentBrick = newSize;
+        TempBrick.rebuildTemp(this.owner);
+    }
+
+    /**
+     * Shifts the size to the next in the array; can also go backwards
+     * @param {boolean} backwards If true, the brick sizewill shift back
+     * @public
+     */
+    nextBrickSize(backwards = false) {
+        var bList = Object.values(BRICKS);
+        var newIndex;
+        if (backwards)
+            newIndex = --currentBrickIndex % bList.length;
+        else
+            newIndex = ++currentBrickIndex % bList.length;
+        if (newIndex < 0)
+            newIndex += bList.length;
+        currentBrick = bList[newIndex];
         TempBrick.rebuildTemp(this.owner);
     }
 

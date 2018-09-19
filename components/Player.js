@@ -317,6 +317,14 @@ class Player {
                     case 59:
                         player1.tempBrick.nextBrickColor(true);
                         break;
+                    // Period (next brick size)
+                    case 190:
+                        player1.tempBrick.nextBrickSize();
+                        break;
+                    // Comma (previous brick size)
+                    case 188:
+                        player1.tempBrick.nextBrickSize(true);
+                        break;
                 }
             }
         };
