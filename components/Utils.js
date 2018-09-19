@@ -23,7 +23,9 @@ class Utils {
         world.ground = ground;
         world.lights = {};
         world.lights.mainLight = new BABYLON.PointLight("light", new BABYLON.Vector3(10, 10, 0), scene);
-        //world.lights.hemiLight = new BABYLON.HemisphericLight("HemiLight", new BABYLON.Vector3(0, 1, 0), scene);
+        world.lights.hemiLight = new BABYLON.HemisphericLight("HemiLight", new BABYLON.Vector3(0, 1, 0), scene);
+        world.lights.mainLight.intensity = 0.5;
+        world.lights.hemiLight.intensity = 0.5;
         world.scene = scene; // Might look good in references
         SPS = new BABYLON.SolidParticleSystem("SPS", scene);
         return world; // Return reference to it
@@ -74,8 +76,8 @@ class Utils {
      */
     static generateUI() {
         var UI = {};
-        // Graphics
         UI.advancedTexture = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("myUI");
+        // Crosshairs
         UI.crosshair2 = new BABYLON.GUI.Ellipse();
         UI.crosshair2.height = "12px";
         UI.crosshair2.name = "Crosshairs Outline";
@@ -90,6 +92,16 @@ class Utils {
         UI.crosshair1.color = "White";
         UI.crosshair1.thickness = 2;
         UI.advancedTexture.addControl(UI.crosshair1);
+        // Instructions
+        UI.text = new BABYLON.GUI.TextBlock();
+        UI.text.text = "Controls:\nMove player: WASD\nMove bricks: Arrow keys" +
+        "\nShow template brick: Click\nPlace brick: Enter\nChange brick: < and >" + 
+        "\nChange color: ; and '\nRotate brick: /\nHide template brick: \\" +
+        "\nJump: Spacebar";
+        UI.text.fontSize = 18;
+        UI.text.color = "White";
+        UI.text.textHorizontalAlignment = BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT;
+        UI.advancedTexture.addControl(UI.text);
         // Audio
         UI.Audio = {};
         UI.Audio.jumpSound = new BABYLON.Sound("jumpSound", "./audio/jump.wav", scene);

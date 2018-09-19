@@ -46,7 +46,7 @@ const PLAYERDEFAULTS = {
 }
 
 const MISCSETTINGS = {
-    FLOOR_WIDTH: 100,
+    FLOOR_WIDTH: 1000,
     MAX_BRICKS: 5000,
     GRAVITY: new BABYLON.Vector3(0, -9.8, 0),
     BRICKSHRINK: 0.999,
