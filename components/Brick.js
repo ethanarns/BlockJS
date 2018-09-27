@@ -248,7 +248,7 @@ class Brick {
             colorR: col.r,
             colorG: col.g,
             colorB: col.b,
-            rot: brick._mesh.rotation.y + 0
+            rot: this._mesh.rotation.y + 0
         };
         return result;
     }
@@ -364,6 +364,41 @@ class Brick {
         var brick = new Brick("Brick", dim.x, dim.y, dim.z,
             new BABYLON.Vector3(loc.x, loc.y, loc.z), currentColor, World);
         brick._mesh.rotation.y = currentRotation + 0.0;
+        if (!this.canPlaceBrick(brick)) {
+            console.log("Brick collision detected.");
+            brick._mesh.dispose();
+            brick = null;
+            return null;
+        }
+        // Must do this separately since isObjectBelow calls canPlaceBrick()
+        if (!brick.isObjectBelow()) {
+            console.log("Brick floating detected.");
+            brick._mesh.dispose();
+            brick = null;
+            return null;
+        }
+
+        brickList.push(brick);
+        // Wipe then recreate SPS
+        Utils.refreshSPS();
+        // This brick should not move after this, so freeze in place to save memory
+        brick._mesh.freezeWorldMatrix();
+        UI.Audio.clickPlace.play();
+        return brick;
+    }
+
+    /**
+     * Places a brick constructed from JSON data
+     * @param {object} data JSON object containing brick data
+     * @returns {object} Brick created, if fails null
+     * @public
+     * @static
+     */
+    static placeBrickFromData(data) {
+        var brick = new Brick(data.name, data.widthX, data.heightY, data.depthZ,
+            new BABYLON.Vector3(data.x, data.y, data.z),
+            new BABYLON.Color3(data.colorR, data.colorG, data.colorB), World);
+        brick._mesh.rotation.y = data.rot + 0.0;
         if (!this.canPlaceBrick(brick)) {
             console.log("Brick collision detected.");
             brick._mesh.dispose();
