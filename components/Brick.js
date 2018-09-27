@@ -365,14 +365,14 @@ class Brick {
             new BABYLON.Vector3(loc.x, loc.y, loc.z), currentColor, World);
         brick._mesh.rotation.y = currentRotation + 0.0;
         if (!this.canPlaceBrick(brick)) {
-            console.log("Brick collision detected.");
+            //console.log("Brick collision detected.");
             brick._mesh.dispose();
             brick = null;
             return null;
         }
         // Must do this separately since isObjectBelow calls canPlaceBrick()
         if (!brick.isObjectBelow()) {
-            console.log("Brick floating detected.");
+            //console.log("Brick floating detected.");
             brick._mesh.dispose();
             brick = null;
             return null;
