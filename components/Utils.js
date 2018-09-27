@@ -47,10 +47,12 @@ class Utils {
             scene.gravity = MISCSETTINGS.GRAVITY;
             scene.collisionsEnabled = false;
             scene.preventDefaultOnPointerDown = true;
-        // Prevent stretching
+
+        // Prevent stretching when altering window dimensions
         window.addEventListener("resize", function () { 
             engine.resize();
         });
+
         if (debug) {
             console.log("%c[!] Debug mode enabled, " +
                 "set generateScene() flag 'debug' to false to disable at runtime", "color: orange");
@@ -60,10 +62,12 @@ class Utils {
             }
         }
         else {
+            // These are recommended, but will break debugLayer
             document.getElementsByTagName("html")[0].style.fontSize = 0;
             document.getElementsByTagName("body")[0].style.fontSize = 0;
             document.getElementsByTagName("canvas")[0].style.fontSize = 0;
         }
+        
         isDebugMode = debug;
         return scene; // Return reference to it
     }

@@ -280,8 +280,20 @@ class Brick {
      */
     static canPlaceBrick(brick, deleteOnDone = false) {
         // Only call if brick has not been placed yet and is in the list
-        if (brick._mesh.position.y < -5) {
-            // Well underground, cancel
+        if (brick._mesh.position.y < 0) {
+            // Underground, cancel
+            if (deleteOnDone) {
+                brick._mesh.dispose();
+                brick = null;
+            }
+            return false;
+        }
+        if (!brick.isObjectBelow()) {
+            console.log("Brick is floating!");
+            if (deleteOnDone) {
+                brick._mesh.dispose();
+                brick = null;
+            }
             return false;
         }
         brick._shrink();
@@ -324,12 +336,6 @@ class Brick {
         brick._mesh.rotation.y = currentRotation + 0.0;
         if (!this.canPlaceBrick(brick)) {
             console.log("Brick collision detected!");
-            brick._mesh.dispose();
-            brick = null;
-            return null;
-        }
-        else if (!brick.isObjectBelow()) {
-            console.log("Brick is floating!");
             brick._mesh.dispose();
             brick = null;
             return null;

@@ -40,6 +40,33 @@
             player1.tempBrick._mesh.material.alpha = Math.sin(pulse) / 4 + 0.50;
         });
         var player1 = new Player("Player1", { spawnPoint: new BABYLON.Vector3(0, 15, -20) }, scene);
+
+        QUnit.test("Initial test", function(assert) {
+            assert.ok(scene, "Scene created successfully")
+            assert.ok(isDebugMode, "Debug mode activated by generateScene()")
+            assert.notOk(scene.debugLayer._inspector, "Debug layer disabled");
+            assert.ok(UI, "UI created")
+            assert.ok(UI.advancedTexture, "Advanced Texture loaded");
+            assert.ok(UI.Audio.jumpSound, "Sounds loaded properly");
+        });
+
+        QUnit.test("Player test", function(assert) {
+            player1.moveTo(1, 2, 3);
+            assert.equal(1, player1.root.position.x, "Player moves to set position");
+        });
+
+        QUnit.test("Brick test", function(assert) {
+            // Note setting of position below ground
+            var testBrick = new Brick("TestBrick", 1, 1, 1,
+                new BABYLON.Vector3(0, -1, 0), currentColor, World);
+            assert.ok(testBrick, "Brick created successfully");
+            assert.notOk(Brick.canPlaceBrick(testBrick, false), "TestBrick cannot be placed underground");
+            testBrick._mesh.position.y = 0;
+            assert.ok(Brick.canPlaceBrick(testBrick, false), "TestBrick can be placed on the ground");
+            testBrick._mesh.position.y = 1;
+            assert.notOk(testBrick.isObjectBelow(), "TestBrick cannot be placed floating");
+            console.log(testBrick);
+        });
         
     </script>
 </body>
