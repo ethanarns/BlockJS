@@ -1,8 +1,8 @@
 {
   "name": "blockjs",
   "version": "1.0.0",
-  "description": "Offline and unit testing for BlockJS",
-  "main": "unit.js",
+  "description": "Server for BlockJS",
+  "main": "server.js",
   "directories": {
     "doc": "doc"
   },
