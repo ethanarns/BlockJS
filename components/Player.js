@@ -408,7 +408,7 @@ class Player {
      * @public
      */
     moveTo(x, y, z) {
-        this.root.position = new BABYLON.Vector3(x, y, z)
+        this.root.position.copyFrom(new BABYLON.Vector3(x, y, z));
     }
 
     /**
