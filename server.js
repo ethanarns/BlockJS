@@ -2,14 +2,6 @@ const path = require('path');
 const express = require('express');
 const app = express();
 
-const { Pool } = require('pg');
-const pool = new Pool();
-
-pool.on('error', (err, client) => {
-    console.error('Unexpected error on idle client', err);
-    process.exit(-1);
-});
-
 const PORT = 3001;
 
 app.use("/libs", express.static(path.join(__dirname, 'libs')));
