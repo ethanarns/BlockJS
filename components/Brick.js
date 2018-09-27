@@ -229,6 +229,30 @@ class Brick {
     }
 
     /**
+     * Spits out a SQL-friendly data set of the brick
+     * @public
+     */
+    export() {
+        var pos = new BABYLON.Vector3();
+        pos.copyFrom(this.getPosition());
+        var col = new BABYLON.Color3();
+        col.copyFrom(this._mesh.material.diffuseColor);
+        var result = {
+            name: this.getName(),
+            widthX: this.widthX + 0,
+            heightY: this.heightY + 0,
+            depthZ: this.depthZ + 0,
+            x: pos.x,
+            y: pos.y,
+            z: pos.z,
+            colorR: col.r,
+            colorG: col.g,
+            colorB: col.b
+        };
+        return result;
+    }
+
+    /**
      * Deletes a brick, targetted by the brick's id number.
      * @param {number} id id of brick to delete
      * @static
@@ -248,6 +272,19 @@ class Brick {
             console.log("No brick found with that id");
             return;
         }
+        Utils.refreshSPS();
+    }
+
+    /**
+     * Deletes all bricks
+     * @public
+     */
+    static deleteAllBricks() {
+        for (let i = 0; i < brickList.length; i++) {
+            brickList[i]._mesh.dispose();
+            brickList[i] = null;
+        }
+        brickList = [];
         Utils.refreshSPS();
     }
 
