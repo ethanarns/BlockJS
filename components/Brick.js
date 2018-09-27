@@ -570,7 +570,9 @@ class TempBrick extends Brick {
     }
 }
 
+/* Uncomment if using Node
 module.exports = {
     Brick: Brick,
     TempBrick: TempBrick
 }
+*/

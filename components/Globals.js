@@ -53,6 +53,7 @@ const MISCSETTINGS = {
     EMISSDARKERBY: 3
 }
 
+/* Uncomment if using Node
 module.exports = {
     brickList: brickList,
     lastId: lastId,
@@ -69,3 +70,4 @@ module.exports = {
     MISCSETTINGS: MISCSETTINGS,
     PLAYERDEFAULTS: PLAYERDEFAULTS
 }
+*/
