@@ -569,3 +569,8 @@ class TempBrick extends Brick {
         TempBrick.rebuildTemp(this.owner);
     }
 }
+
+module.exports = {
+    Brick: Brick,
+    TempBrick: TempBrick
+}

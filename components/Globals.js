@@ -52,3 +52,20 @@ const MISCSETTINGS = {
     BRICKSHRINK: 0.999,
     EMISSDARKERBY: 3
 }
+
+module.exports = {
+    brickList: brickList,
+    lastId: lastId,
+    isDebugMode: isDebugMode,
+    SPS: SPS,
+    currentColor: currentColor,
+    currentColorIndex: currentColorIndex,
+    currentRotation: currentRotation,
+    currentBrick: currentBrick,
+    currentBrickIndex: currentBrickIndex,
+    pulse: pulse,
+    COLORS: COLORS,
+    BRICKS: BRICKS,
+    MISCSETTINGS: MISCSETTINGS,
+    PLAYERDEFAULTS: PLAYERDEFAULTS
+}

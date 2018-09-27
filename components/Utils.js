@@ -223,3 +223,7 @@ class Utils {
         SPS.isAlwaysVisible = true;
     }
 }
+
+module.exports = {
+    Utils: Utils
+}
