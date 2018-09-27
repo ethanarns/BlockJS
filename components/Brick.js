@@ -238,7 +238,7 @@ class Brick {
         var col = new BABYLON.Color3();
         col.copyFrom(this._mesh.material.diffuseColor);
         var result = {
-            name: this.getName(),
+            name: this.getName() + "",
             widthX: this.widthX + 0,
             heightY: this.heightY + 0,
             depthZ: this.depthZ + 0,
@@ -247,7 +247,8 @@ class Brick {
             z: pos.z,
             colorR: col.r,
             colorG: col.g,
-            colorB: col.b
+            colorB: col.b,
+            rot: brick._mesh.rotation.y + 0
         };
         return result;
     }
@@ -325,14 +326,7 @@ class Brick {
             }
             return false;
         }
-        if (!brick.isObjectBelow()) {
-            // Floating, cancel
-            if (deleteOnDone) {
-                brick._mesh.dispose();
-                brick = null;
-            }
-            return false;
-        }
+
         brick._shrink();
         for (let i = 0; i < brickList.length; i++) {
             brickList[i]._shrink();
@@ -371,7 +365,14 @@ class Brick {
             new BABYLON.Vector3(loc.x, loc.y, loc.z), currentColor, World);
         brick._mesh.rotation.y = currentRotation + 0.0;
         if (!this.canPlaceBrick(brick)) {
-            console.log("Brick collision detected!");
+            console.log("Brick collision detected.");
+            brick._mesh.dispose();
+            brick = null;
+            return null;
+        }
+        // Must do this separately since isObjectBelow calls canPlaceBrick()
+        if (!brick.isObjectBelow()) {
+            console.log("Brick floating detected.");
             brick._mesh.dispose();
             brick = null;
             return null;
