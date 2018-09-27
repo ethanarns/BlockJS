@@ -125,7 +125,9 @@ class Player {
         document.addEventListener('mousemove', onMouseMove, false);
 
         var onAnyClick = function(event) {
-            event.preventDefault();
+            if (!isDebugMode) {
+                event.preventDefault();
+            }
             _this.rayFromCamera();
         }
         document.addEventListener('click', onAnyClick, false);
@@ -260,8 +262,9 @@ class Player {
     _setupBrickControl() {
         var _this = this;
         var onKeyDown = function(evt) {
-            evt.preventDefault();
-
+            if (!isDebugMode) {
+                evt.preventDefault();
+            }
             // Brick movement
             if (evt.keyCode > 0) {
                 var pRot = new BABYLON.Vector3();

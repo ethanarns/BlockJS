@@ -41,7 +41,7 @@ class Utils {
      * @public
      * @static
      */
-    static generateScene(engine, debug = true, noGrid = true) {
+    static generateScene(engine, debug = true, showGrid = false) {
         var scene = new BABYLON.Scene(engine);
             scene.clearColor = new BABYLON.Color3(0.8, 0.8, 0.8);
             scene.gravity = MISCSETTINGS.GRAVITY;
@@ -55,7 +55,7 @@ class Utils {
             console.log("%c[!] Debug mode enabled, " +
                 "set generateScene() flag 'debug' to false to disable at runtime", "color: orange");
             scene.debugLayer.show();
-            if (!noGrid) {
+            if (showGrid) {
                 Utils.drawGrid();
             }
         }
