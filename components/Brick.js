@@ -289,7 +289,7 @@ class Brick {
             return false;
         }
         if (!brick.isObjectBelow()) {
-            console.log("Brick is floating!");
+            // Floating, cancel
             if (deleteOnDone) {
                 brick._mesh.dispose();
                 brick = null;
@@ -331,8 +331,7 @@ class Brick {
     static placeBrick(loc) {
         var dim = currentBrick;
         var brick = new Brick("Brick", dim.x, dim.y, dim.z,
-            new BABYLON.Vector3(loc.x, loc.y, loc.z),
-            currentColor, World);
+            new BABYLON.Vector3(loc.x, loc.y, loc.z), currentColor, World);
         brick._mesh.rotation.y = currentRotation + 0.0;
         if (!this.canPlaceBrick(brick)) {
             console.log("Brick collision detected!");

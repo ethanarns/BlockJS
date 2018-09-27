@@ -61,11 +61,13 @@
                 new BABYLON.Vector3(0, -1, 0), currentColor, World);
             assert.ok(testBrick, "Brick created successfully");
             assert.notOk(Brick.canPlaceBrick(testBrick, false), "TestBrick cannot be placed underground");
-            testBrick._mesh.position.y = 0;
-            assert.ok(Brick.canPlaceBrick(testBrick, false), "TestBrick can be placed on the ground");
             testBrick._mesh.position.y = 1;
             assert.notOk(testBrick.isObjectBelow(), "TestBrick cannot be placed floating");
-            console.log(testBrick);
+            testBrick._mesh.position.y = 0;
+            assert.ok(Brick.canPlaceBrick(testBrick, true), "TestBrick can be placed on the ground");
+            assert.ok(testBrick._mesh._isDisposed, "TestBrick resources deleted when second parameter of canPlaceBrick() true");
+            var newBrick = Brick.placeBrick(new BABYLON.Vector3(0, 0, 0));
+            assert.ok(newBrick, "Brick placed with placeBrick() valid");
         });
         
     </script>
