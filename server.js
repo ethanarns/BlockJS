@@ -22,14 +22,11 @@ app.use("/audio", express.static(path.join(__dirname, "audio")));
 app.get("/", async function(req, res) {
     var saveResult = await db.query('SELECT * FROM saves');
     var ip = getIp(req);
-    //console.log(ip);
-    //console.log(saveResult.rows);
     res.sendFile(path.join(__dirname, 'index.html'));
 });
 
 app.post("/save", async function(req, res) {
     var ip = getIp(req);
-    //console.log(req.body);
     var jsonResult = req.body;
     // Overwrite old save
     var deleteResult = await db.query('DELETE FROM saves WHERE ip = $1', [ip]);
@@ -41,7 +38,6 @@ app.get("/load", async function(req, res) {
     var ip = getIp(req);
     var loadResult = await db.query('SELECT blocks FROM saves WHERE ip = $1', [ip]);
     var jsonResult = loadResult.rows[0].blocks.save;
-    //console.log(jsonResult);
     res.json(jsonResult);
 })
 
