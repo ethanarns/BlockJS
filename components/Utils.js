@@ -248,7 +248,19 @@ class Utils {
     static loadFromServer() {
         $.get("/load", function(data) {
             for (var i = 0; i < data.length; i++) {
-                console.log(data[i]);
+                var brickData = data[i];
+                brickData.x = Number(brickData.x);
+                brickData.y = Number(brickData.y);
+                brickData.z = Number(brickData.z);
+                brickData.widthX = Number(brickData.widthX);
+                brickData.heightY = Number(brickData.heightY);
+                brickData.depthZ = Number(brickData.depthZ);
+                brickData.rot = Number(brickData.rot);
+                brickData.colorR = Number(brickData.colorR);
+                brickData.colorG = Number(brickData.colorG);
+                brickData.colorB = Number(brickData.colorB);
+                console.log(brickData);
+                Brick.placeBrickFromData(brickData);
             }
         });
     }

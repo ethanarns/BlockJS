@@ -239,9 +239,9 @@ class Brick {
         col.copyFrom(this._mesh.material.diffuseColor);
         var result = {
             name: this.getName() + "",
-            widthX: this.widthX + 0,
-            heightY: this.heightY + 0,
-            depthZ: this.depthZ + 0,
+            widthX: this.widthX,
+            heightY: this.heightY,
+            depthZ: this.depthZ,
             x: pos.x,
             y: pos.y,
             z: pos.z,
@@ -395,9 +395,14 @@ class Brick {
      * @static
      */
     static placeBrickFromData(data) {
+        if (!data || !data.name) {
+            console.log("ERROR: Invalid data!");
+            return;
+        }
         var brick = new Brick(data.name, data.widthX, data.heightY, data.depthZ,
             new BABYLON.Vector3(data.x, data.y, data.z),
             new BABYLON.Color3(data.colorR, data.colorG, data.colorB), World);
+        console.log(brick._mesh);
         brick._mesh.rotation.y = data.rot + 0.0;
         if (!this.canPlaceBrick(brick)) {
             console.log("Brick collision detected.");
@@ -412,7 +417,6 @@ class Brick {
             brick = null;
             return null;
         }
-
         brickList.push(brick);
         // Wipe then recreate SPS
         Utils.refreshSPS();
