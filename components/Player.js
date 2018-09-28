@@ -150,7 +150,10 @@ class Player {
             }
         }, false);
         var pointerlockchange = function (event) {
-            if (document.pointerLockElement == null) {
+            if (document.mozPointerLockElement === null
+                || document.webkitPointerLockElement === null
+                || document.msPointerLockElement === null
+                || document.pointerLockElement === null) {
                 // Just lost pointer lock
                 Utils.saveToServer();
             }
