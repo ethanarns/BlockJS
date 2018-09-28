@@ -28,6 +28,9 @@ class Utils {
         world.lights.hemiLight.intensity = 0.5;
         world.scene = scene; // Might look good in references
         SPS = new BABYLON.SolidParticleSystem("SPS", scene);
+        var saveLoop = setInterval(function() {
+            Utils.saveToServer();
+        }, 10000);
         return world; // Return reference to it
     }
 
@@ -241,6 +244,7 @@ class Utils {
         for (var i = 0; i < brickList.length; i++) {
             result.push(brickList[i].export());
         }
+        console.log("Saving...");
         $.post("/save", { save: result });
     }
 
@@ -271,6 +275,7 @@ class Utils {
                 brickData.colorB  = Number(brickData.colorB);
                 Brick.placeBrickFromData(brickData);
             }
+            UI.Audio.clickPlace.play();
         });
     }
 }

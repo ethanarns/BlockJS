@@ -9,6 +9,7 @@ var currentRotation = 0; // From gui/tools
 var currentBrick; // From gui/tools
 var currentBrickIndex = 0;
 var pulse = 0;
+var saveLoop;
 
 // Colors/material constants
 const COLORS = {
