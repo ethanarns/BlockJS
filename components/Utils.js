@@ -116,6 +116,7 @@ class Utils {
         UI.Audio = {};
         UI.Audio.jumpSound = new BABYLON.Sound("jumpSound", "./audio/jump.wav", scene);
         UI.Audio.clickPlace = new BABYLON.Sound("clickPlace", "./audio/clickPlace.wav", scene);
+        UI.Audio.clickRemove = new BABYLON.Sound("clickRenive", "./audio/clickRemove.wav", scene);
 
         return UI;
     }
@@ -239,14 +240,18 @@ class Utils {
      */
     static saveToServer() {
         if (brickList.length < 1) {
-            console.log("No bricks to save.");
+            if (isDebugMode) {
+                console.log("No bricks to save.");
+            }
             return;
         }
         var result = [];
         for (var i = 0; i < brickList.length; i++) {
             result.push(brickList[i].export());
         }
-        console.log("Saving...");
+        if (isDebugMode) {
+            console.log("Saving...");
+        }
         $.post("/save", { save: result });
     }
 

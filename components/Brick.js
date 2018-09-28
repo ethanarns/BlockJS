@@ -281,12 +281,18 @@ class Brick {
      * @public
      */
     static deleteAllBricks() {
+        if (brickList.length == 0) {
+            // No bricks to delete
+            return;
+        }
         for (let i = 0; i < brickList.length; i++) {
             brickList[i]._mesh.dispose();
             brickList[i] = null;
         }
         brickList = [];
         Utils.refreshSPS();
+        UI.Audio.clickRemove.play();
+        setTimeout(() => {UI.Audio.clickRemove.play()}, 200);
     }
 
     /**

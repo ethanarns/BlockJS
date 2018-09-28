@@ -453,6 +453,7 @@ class Player {
         }
         else {
             Brick.deleteBrickById(hit.pickedMesh.brickClass.id);
+            UI.Audio.clickRemove.play();
         }
     }
 }
