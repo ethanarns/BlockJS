@@ -34,11 +34,15 @@ app.post("/save", async function(req, res) {
     // Overwrite old save
     var deleteResult = await db.query('DELETE FROM saves WHERE ip = $1', [ip]);
     var saveResult = await db.query('INSERT INTO saves (ip, blocks) VALUES ($1, $2)', [ip, jsonResult]);
-    res.end();
+    res.send("Fuk");
 });
 
 app.get("/load", async function(req, res) {
-    
+    var ip = getIp(req);
+    var loadResult = await db.query('SELECT blocks FROM saves WHERE ip = $1', [ip]);
+    var jsonResult = loadResult.rows[0].blocks.save;
+    //console.log(jsonResult);
+    res.json(jsonResult);
 })
 
 var server = app.listen(PORT, function() {
