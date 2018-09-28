@@ -185,7 +185,8 @@ class Utils {
             SPS.dispose();
         }
         catch (error) {
-            console.log("SPS does not contain existing meshes, cannot dispose.");
+            if(isDebugMode)
+                console.log("SPS does not contain existing meshes, cannot dispose.");
         }
         SPS = null;
         SPS = new BABYLON.SolidParticleSystem("SPS", scene);

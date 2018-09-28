@@ -128,7 +128,7 @@ class Player {
             if (!isDebugMode) {
                 event.preventDefault();
             }
-            _this.rayFromCamera();
+            _this.rayFromCameraMove();
         }
         document.addEventListener('click', onAnyClick, false);
     }
@@ -341,6 +341,10 @@ class Player {
                         else {
                             UI.text.notRenderable = true;
                         }
+                    // Backspace
+                    case 8:
+                        player1.rayFromCameraDelete();
+                        break;
                 }
             }
         };
@@ -412,10 +416,10 @@ class Player {
     }
 
     /**
-     * Fires a raycast from the camera in order to adjust scene
+     * Fires a raycast from the camera in order to adjust tempbrick location
      * @public
      */
-    rayFromCamera() {
+    rayFromCameraMove() {
         var hit = scene.pickWithRay(this.rayHelper.ray);
         if (!hit.pickedMesh) {
                 //console.log("No mesh hit by player raycast!");
@@ -423,6 +427,21 @@ class Player {
         }
         else {
             this.tempBrick.moveToRay();
+        }
+    }
+
+    /**
+     * Fires a raycast from the camera in order to delete a brick
+     * @public
+     */
+    rayFromCameraDelete() {
+        var hit = scene.pickWithRay(this.rayHelper.ray);
+        if (!hit.pickedMesh || !hit.pickedMesh.brickClass) {
+                //console.log("No Brick hit by player raycast!");
+            return;
+        }
+        else {
+            Brick.deleteBrickById(hit.pickedMesh.brickClass.id);
         }
     }
 }

@@ -412,7 +412,7 @@ class Brick {
         }
         // Must do this separately since isObjectBelow calls canPlaceBrick()
         if (!brick.isObjectBelow()) {
-            console.log("Brick floating detected.");
+            //console.log("Brick floating detected.");
             brick._mesh.dispose();
             brick = null;
             return null;
