@@ -226,6 +226,19 @@ class Utils {
         SPS.setParticles();
         SPS.isAlwaysVisible = true;
     }
+
+    /**
+     * POSTs to the server a JSON object consisting of all the Bricks' data
+     * @public
+     * @static
+     */
+    static saveToServer() {
+        var result = [];
+        for (var i = 0; i < brickList.length; i++) {
+            result.push(brickList[i].export());
+        }
+        $.post("/save", {save: result});
+    }
 }
 
 /* Uncomment if using Node
