@@ -247,6 +247,7 @@ class Utils {
      */
     static loadFromServer() {
         $.get("/load", function(data) {
+            Brick.deleteAllBricks();
             for (var i = 0; i < data.length; i++) {
                 var brickData = data[i];
                 brickData.x = Number(brickData.x);
@@ -259,7 +260,6 @@ class Utils {
                 brickData.colorR = Number(brickData.colorR);
                 brickData.colorG = Number(brickData.colorG);
                 brickData.colorB = Number(brickData.colorB);
-                console.log(brickData);
                 Brick.placeBrickFromData(brickData);
             }
         });
