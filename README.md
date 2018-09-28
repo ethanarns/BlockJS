@@ -6,7 +6,7 @@ Features:
 * Walk around and physically interact with blocks
 * Multi-color, different scale blocks
 * Auto-saving builds to a PostgreSQL database, loads up on reconnect
-* [Has detailed documentation because why not?](https://htmlpreview.github.io/?https://github.com/ethanarns/BlockJS/blob/master/doc/index.html).
+* [Has detailed documentation because why not?](https://htmlpreview.github.io/?https://github.com/ethanarns/BlockJS/blob/master/doc/index.html)
 
 ---
 
