@@ -151,11 +151,12 @@ class Player {
         }, false);
         var pointerlockchange = function (event) {
             if (document.mozPointerLockElement === null
-                || document.webkitPointerLockElement === null
-                || document.msPointerLockElement === null
-                || document.pointerLockElement === null) {
+             || document.webkitPointerLockElement === null
+             || document.msPointerLockElement === null
+             || document.pointerLockElement === null) {
                 // Just lost pointer lock
                 Utils.saveToServer();
+                console.log("Saving...");
             }
             _this.controlEnabled = (
                 document.mozPointerLockElement === canvas

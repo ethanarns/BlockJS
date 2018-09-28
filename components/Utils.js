@@ -239,12 +239,6 @@ class Utils {
      * @static
      */
     static saveToServer() {
-        if (brickList.length < 1) {
-            if (isDebugMode) {
-                console.log("No bricks to save.");
-            }
-            return;
-        }
         var result = [];
         for (var i = 0; i < brickList.length; i++) {
             result.push(brickList[i].export());

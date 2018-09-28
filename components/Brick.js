@@ -293,7 +293,7 @@ class Brick {
         Utils.refreshSPS();
         UI.Audio.clickRemove.play();
         setTimeout(() => { UI.Audio.clickRemove.play() }, 200);
-        // In case of an "oh shit" moment
+        // In case of an accidental press "oh shit" moment
         setTimeout(() => { Utils.saveToServer() }, 5000);
     }
 
