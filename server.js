@@ -29,7 +29,7 @@ app.get("/", async function(req, res) {
 
 app.post("/save", async function(req, res) {
     var ip = getIp(req);
-    console.log(req.body);
+    //console.log(req.body);
     var jsonResult = req.body;
     // Overwrite old save
     var deleteResult = await db.query('DELETE FROM saves WHERE ip = $1', [ip]);

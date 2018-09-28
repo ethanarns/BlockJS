@@ -233,6 +233,10 @@ class Utils {
      * @static
      */
     static saveToServer() {
+        if (brickList.length < 1) {
+            console.log("No bricks to save.");
+            return;
+        }
         var result = [];
         for (var i = 0; i < brickList.length; i++) {
             result.push(brickList[i].export());
@@ -247,19 +251,24 @@ class Utils {
      */
     static loadFromServer() {
         $.get("/load", function(data) {
+            if (!data || data.length == 0) {
+                console.log("No save data retrieved!");
+                return;
+            }
             Brick.deleteAllBricks();
             for (var i = 0; i < data.length; i++) {
                 var brickData = data[i];
-                brickData.x = Number(brickData.x);
-                brickData.y = Number(brickData.y);
-                brickData.z = Number(brickData.z);
-                brickData.widthX = Number(brickData.widthX);
+                // All data is retrieved as strings, fix
+                brickData.x       = Number(brickData.x);
+                brickData.y       = Number(brickData.y);
+                brickData.z       = Number(brickData.z);
+                brickData.widthX  = Number(brickData.widthX);
                 brickData.heightY = Number(brickData.heightY);
-                brickData.depthZ = Number(brickData.depthZ);
-                brickData.rot = Number(brickData.rot);
-                brickData.colorR = Number(brickData.colorR);
-                brickData.colorG = Number(brickData.colorG);
-                brickData.colorB = Number(brickData.colorB);
+                brickData.depthZ  = Number(brickData.depthZ);
+                brickData.rot     = Number(brickData.rot);
+                brickData.colorR  = Number(brickData.colorR);
+                brickData.colorG  = Number(brickData.colorG);
+                brickData.colorB  = Number(brickData.colorB);
                 Brick.placeBrickFromData(brickData);
             }
         });

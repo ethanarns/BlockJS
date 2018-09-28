@@ -402,7 +402,7 @@ class Brick {
         var brick = new Brick(data.name, data.widthX, data.heightY, data.depthZ,
             new BABYLON.Vector3(data.x, data.y, data.z),
             new BABYLON.Color3(data.colorR, data.colorG, data.colorB), World);
-        console.log(brick._mesh);
+        //console.log(brick._mesh);
         brick._mesh.rotation.y = data.rot + 0.0;
         if (!this.canPlaceBrick(brick)) {
             console.log("Brick collision detected.");
@@ -422,7 +422,7 @@ class Brick {
         Utils.refreshSPS();
         // This brick should not move after this, so freeze in place to save memory
         brick._mesh.freezeWorldMatrix();
-        UI.Audio.clickPlace.play();
+        // Skip sound, since it'll all be at once
         return brick;
     }
 
