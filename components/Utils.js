@@ -280,9 +280,3 @@ class Utils {
         });
     }
 }
-
-/* Uncomment if using Node
-module.exports = {
-    Utils: Utils
-}
-*/

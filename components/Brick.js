@@ -293,8 +293,6 @@ class Brick {
         Utils.refreshSPS();
         UI.Audio.clickRemove.play();
         setTimeout(() => { UI.Audio.clickRemove.play() }, 200);
-        // In case of an accidental press "oh shit" moment
-        setTimeout(() => { Utils.saveToServer() }, 5000);
     }
 
     /**
@@ -305,13 +303,10 @@ class Brick {
     static getByParticleId(id) {
         // console.log("Searching for brick with spsCloneId " + id + "...");
         for (let i = 0; i < brickList.length; i++) {
-            // console.log("Here's one: " + brickList[i].spsCloneId);
             if (brickList[i].spsCloneId === id) {
-                // console.log("Found one!")
                 return brickList[i];
             }
         }
-        // console.log("None found...");
         return null;
     }
 
@@ -659,10 +654,3 @@ class TempBrick extends Brick {
         TempBrick.rebuildTemp(this.owner);
     }
 }
-
-/* Uncomment if using Node
-module.exports = {
-    Brick: Brick,
-    TempBrick: TempBrick
-}
-*/

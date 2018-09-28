@@ -458,9 +458,3 @@ class Player {
         }
     }
 }
-
-/* Uncomment if using Node
-module.exports = {
-    Player: Player
-}
-*/
