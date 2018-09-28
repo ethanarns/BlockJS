@@ -31,8 +31,15 @@ app.post("/save", async function(req, res) {
     var ip = getIp(req);
     console.log(req.body);
     var jsonResult = req.body;
+    // Overwrite old save
+    var deleteResult = await db.query('DELETE FROM saves WHERE ip = $1', [ip]);
     var saveResult = await db.query('INSERT INTO saves (ip, blocks) VALUES ($1, $2)', [ip, jsonResult]);
+    res.end();
 });
+
+app.get("/load", async function(req, res) {
+    
+})
 
 var server = app.listen(PORT, function() {
     console.log("Listening on port " + server.address().port);

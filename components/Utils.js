@@ -237,7 +237,18 @@ class Utils {
         for (var i = 0; i < brickList.length; i++) {
             result.push(brickList[i].export());
         }
-        $.post("/save", {save: result});
+        $.post("/save", { save: result });
+    }
+
+    /**
+     * Sends a GET request to the server, looking for save data
+     * @public
+     * @static
+     */
+    static loadFromServer() {
+        $.get("/load", function(data) {
+            console.log(data);
+        });
     }
 }
 
