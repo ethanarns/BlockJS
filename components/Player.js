@@ -150,6 +150,10 @@ class Player {
             }
         }, false);
         var pointerlockchange = function (event) {
+            if (document.pointerLockElement == null) {
+                // Just lost pointer lock
+                Utils.saveToServer();
+            }
             _this.controlEnabled = (
                 document.mozPointerLockElement === canvas
                 || document.webkitPointerLockElement === canvas
@@ -344,6 +348,10 @@ class Player {
                     // Backspace
                     case 8:
                         player1.rayFromCameraDelete();
+                        break;
+                    // U (clear all bricks)
+                    case 85:
+                        Brick.deleteAllBricks();
                         break;
                 }
             }

@@ -1,10 +1,11 @@
 # BlockJS
 A simple online block building game.
 
-Planned features:
+Features:
+* Place and delete stacking blocks
+* Walk around and physically interact with blocks
 * Multi-color, different scale blocks
-* Painting blocks after placing
-* Saving builds to a database, loads up again if on same IP
+* Auto-saving builds to a database, loads up on reconnect
 
 ---
 

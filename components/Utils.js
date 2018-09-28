@@ -104,7 +104,8 @@ class Utils {
         UI.text.text = "Controls:\nMove player: WASD\nMove bricks: Arrow keys" +
         "\nShow template brick: Click\nPlace brick: Enter\nChange brick: < and >" + 
         "\nChange color: ; and '\nRotate brick: /\nHide template brick: \\" +
-        "\nJump: Spacebar\nToggle this: I";
+        "\nJump: Spacebar\nDelete aimed brick: Backspace\nClear all bricks: U" +
+        "\nToggle this: I";
         UI.text.fontSize = 18;
         UI.text.alpha = 0.8;
         UI.text.left = 20;
