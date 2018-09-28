@@ -292,7 +292,9 @@ class Brick {
         brickList = [];
         Utils.refreshSPS();
         UI.Audio.clickRemove.play();
-        setTimeout(() => {UI.Audio.clickRemove.play()}, 200);
+        setTimeout(() => { UI.Audio.clickRemove.play() }, 200);
+        // In case of an "oh shit" moment
+        setTimeout(() => { Utils.saveToServer() }, 5000);
     }
 
     /**
