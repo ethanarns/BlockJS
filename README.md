@@ -5,7 +5,7 @@ Features:
 * Place and delete stacking blocks
 * Walk around and physically interact with blocks
 * Multi-color, different scale blocks
-* Auto-saving builds to a database, loads up on reconnect
+* Auto-saving builds to a PostgreSQL database, loads up on reconnect
 
 ---
 
