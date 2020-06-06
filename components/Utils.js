@@ -240,6 +240,7 @@ class Utils {
      * @static
      */
     static saveToServer() {
+        return;
         var result = [];
         for (var i = 0; i < brickList.length; i++) {
             result.push(brickList[i].export());
@@ -256,6 +257,7 @@ class Utils {
      * @static
      */
     static loadFromServer() {
+        return;
         $.get("/load", function(data) {
             if (!data || data.length == 0) {
                 console.log("No save data retrieved!");
