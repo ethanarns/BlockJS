@@ -1,4 +1,4 @@
-const db = require("./db");
+// const db = require("./db");
 
 const express = require('express');
 const app = express();
@@ -20,26 +20,26 @@ app.use("/components", express.static(path.join(__dirname, "components")));
 app.use("/audio", express.static(path.join(__dirname, "audio")));
 
 app.get("/", async function(req, res) {
-    var saveResult = await db.query('SELECT * FROM saves');
-    var ip = getIp(req);
+    // var saveResult = await db.query('SELECT * FROM saves');
+    // var ip = getIp(req);
     res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-app.post("/save", async function(req, res) {
-    var ip = getIp(req);
-    var jsonResult = req.body;
-    // Overwrite old save
-    var deleteResult = await db.query('DELETE FROM saves WHERE ip = $1', [ip]);
-    var saveResult = await db.query('INSERT INTO saves (ip, blocks) VALUES ($1, $2)', [ip, jsonResult]);
-    res.send("Success");
-});
+// app.post("/save", async function(req, res) {
+//     var ip = getIp(req);
+//     var jsonResult = req.body;
+//     // Overwrite old save
+//     var deleteResult = await db.query('DELETE FROM saves WHERE ip = $1', [ip]);
+//     var saveResult = await db.query('INSERT INTO saves (ip, blocks) VALUES ($1, $2)', [ip, jsonResult]);
+//     res.send("Success");
+// });
 
-app.get("/load", async function(req, res) {
-    var ip = getIp(req);
-    var loadResult = await db.query('SELECT blocks FROM saves WHERE ip = $1', [ip]);
-    var jsonResult = loadResult.rows[0].blocks.save;
-    res.json(jsonResult);
-})
+// app.get("/load", async function(req, res) {
+//     var ip = getIp(req);
+//     var loadResult = await db.query('SELECT blocks FROM saves WHERE ip = $1', [ip]);
+//     var jsonResult = loadResult.rows[0].blocks.save;
+//     res.json(jsonResult);
+// })
 
 var server = app.listen(PORT, function() {
     console.log("Listening on port " + server.address().port);
