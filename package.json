@@ -9,7 +9,6 @@
   "dependencies": {
     "babylonjs": "^3.2.0",
     "body-parser": "^1.18.3",
-    "chai": "^4.1.2",
     "cookie-parser": "^1.4.3",
     "create-html": "^4.1.0",
     "dotenv": "^6.0.0",
@@ -18,7 +17,6 @@
     "jsdoc": "^3.6.4",
     "jsdom": "^12.0.0",
     "path": "^0.12.7",
-    "pg": "^7.4.3",
     "validator": "^10.8.0"
   },
   "devDependencies": {},
