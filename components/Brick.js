@@ -2,6 +2,7 @@
  * Class representing a Block with an attached mesh, as well as static helper methods
  * @author Ethan Arns <contact@ethanarns.com>
  */
+
 class Brick {
     /**
      * Create a Brick
@@ -182,8 +183,6 @@ class Brick {
         this._mesh.setPivotPoint(centerPointWorld, BABYLON.Space.WORLD);
     }
 
-
-
     /**
      * A helper function to check if there is something below the Brick,
      * helping decide whether or not it will be a floating brick
@@ -201,9 +200,6 @@ class Brick {
         // We now have a duplicate exactly 1 position below
         return !Brick.canPlaceBrick(testBrick, true);
     }
-
-
-
 
     /**
      * Shrinks the mesh just enough to not overlap faces, helper for collision.

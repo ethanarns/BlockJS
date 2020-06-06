@@ -2,6 +2,7 @@
  * Class representing a player, who will traverse this strange place
  * @author Ethan Arns <contact@ethanarns.com>
  */
+
 class Player {
     /**
      * Create a Player
@@ -95,6 +96,7 @@ class Player {
             }
         }
     }
+
     /**
      * Add listeners to user's mouse controls
      * @private

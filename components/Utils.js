@@ -3,6 +3,7 @@
  * @author Ethan Arns <contact@ethanarns.com>
  * @hideconstructor
  */
+
 class Utils {
     /**
      * Create the world space, returns container object
